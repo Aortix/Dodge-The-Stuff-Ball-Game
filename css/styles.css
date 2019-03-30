@@ -1,0 +1,17 @@
+html {
+}
+
+body {
+}
+
+.main-container {
+  text-align: center;
+}
+
+#title {
+  background-color: blue;
+}
+
+#canvas {
+  border: 1px solid black;
+}

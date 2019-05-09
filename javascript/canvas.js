@@ -1,16 +1,83 @@
-import Circle from "./circle.js";
+class Canvas {
+  constructor(xcord, ycord, width, height, bgColor, time, canvasContext) {
+    this.xcord = xcord;
+    this.ycord = ycord;
+    this.width = width;
+    this.height = height;
+    this.bgColor = bgColor;
+    this.time = time;
+    this.canvasContext = canvasContext;
 
-let circle1 = new Circle(60, 60);
+    this.createCanvas();
+  }
 
-let h1Click = document.getElementById("title");
-h1Click.addEventListener("click", e => {
-  console.log(circle1.currWidth, circle1.currHeight);
-});
+  get getCurrentXcord() {
+    return this.xcord;
+  }
 
-const canvas = document.getElementById("canvas");
-const canvasContext = canvas.getContext("2d");
+  get getCurrentYcord() {
+    return this.ycord;
+  }
 
-canvasContext.fillStyle = "green";
-canvasContext.fillRect(0, 0, 300, 200);
+  get getCurrentWidth() {
+    return this.width;
+  }
 
-circle1.drawCircle(canvasContext, "blue", 60, 60);
+  get getCurrentHeight() {
+    return this.height;
+  }
+
+  get getBgColor() {
+    return this.bgColor;
+  }
+
+  get getTime() {
+    return this.time;
+  }
+
+  get getCanvasContext() {
+    return this.canvasContext;
+  }
+
+  set setCurrentXcord(xcord) {
+    return (this.xcord = xcord);
+  }
+
+  set setCurrentYcord(ycord) {
+    return (this.ycord = ycord);
+  }
+
+  set setCurrentWidth(width) {
+    return (this.width = width);
+  }
+
+  set setCurrentHeight(height) {
+    return (this.height = height);
+  }
+
+  set setBgColor(bgColor) {
+    return (this.bgColor = bgColor);
+  }
+
+  set setTime(time) {
+    return (this.time = time);
+  }
+
+  set setCanvasContext(canvasContext) {
+    return (this.canvasContext = canvasContext);
+  }
+
+  createCanvas = () => {
+    document.getElementById("canvas").style.width = this.width + "px";
+    document.getElementById("canvas").style.height = this.height + "px";
+    this.canvasContext.fillStyle = this.bgColor;
+    this.canvasContext.fillRect(
+      this.xcord,
+      this.ycord,
+      this.width,
+      this.height
+    );
+  };
+}
+
+export default Canvas;

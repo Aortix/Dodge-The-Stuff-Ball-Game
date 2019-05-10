@@ -10,6 +10,7 @@ class PlayerShape extends CreateShapes {
     endAngle,
     speed,
     time,
+    hit,
     bgColor,
     strokeColor,
     canvasContext
@@ -23,6 +24,7 @@ class PlayerShape extends CreateShapes {
       endAngle,
       speed,
       time,
+      hit,
       bgColor,
       strokeColor,
       canvasContext
@@ -41,7 +43,22 @@ class PlayerShape extends CreateShapes {
       this.startAngle,
       this.endAngle
     );
+
+    for (let i = this.startAngle; i < this.endAngle; i += 10) {
+      this.location.push({
+        x: Math.round((this.widthOrRadius / 2) * Math.cos(i) + this.xcord),
+        y: Math.round((this.widthOrRadius / 2) * Math.sin(i) + this.ycord)
+      });
+    }
     this.canvasContext.stroke();
+  };
+
+  movePlayerShape = () => {
+    this.xcord += this.speed;
+  };
+
+  clearPlayerShape = () => {
+    this.location.length = 0;
   };
 }
 

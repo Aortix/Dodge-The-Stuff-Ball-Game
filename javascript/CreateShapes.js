@@ -1,5 +1,5 @@
 class CreateShapes {
-  //11 Parameters so far
+  //12 Parameters so far
   constructor(
     xcord = 0,
     ycord = 0,
@@ -9,6 +9,7 @@ class CreateShapes {
     endAngle = 0,
     speed = 5,
     time = 0,
+    hit = 0,
     bgColor = "white",
     strokeColor = "black",
     canvasContext
@@ -21,9 +22,11 @@ class CreateShapes {
     this.endAngle = endAngle;
     this.speed = speed;
     this.time = time;
+    this.hit = hit;
     this.bgColor = bgColor;
     this.strokeColor = strokeColor;
     this.canvasContext = canvasContext;
+    this.location = [];
   }
 
   get getCurrentXcord() {
@@ -58,6 +61,9 @@ class CreateShapes {
     return this.time;
   }
 
+  get getCurrentHit() {
+    return this.hit;
+  }
   get getCurrentBgColor() {
     return this.bgColor;
   }
@@ -70,6 +76,9 @@ class CreateShapes {
     return this.canvasContext;
   }
 
+  get getCurrentLocation() {
+    return this.location;
+  }
   set setCurrentXcord(xcord) {
     return (this.xcord = xcord);
   }
@@ -101,6 +110,10 @@ class CreateShapes {
     return (this.time = time);
   }
 
+  set setCurrentHit(hit) {
+    return (this.hit = hit);
+  }
+
   set setCurrentBgColor(bgColor) {
     return (this.bgColor = bgColor);
   }
@@ -112,6 +125,10 @@ class CreateShapes {
   set setCurrentCanvasContext(canvasContext) {
     return (this.canvasContext = canvasContext);
   }
+
+  /*set setCurrentLocation(location) {
+    return (this.location = Array.from(location));
+  }*/
 
   drawShape = () => {
     this.canvasContext.fillStyle = this.bgColor;

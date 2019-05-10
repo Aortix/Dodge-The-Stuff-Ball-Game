@@ -1,17 +1,26 @@
-class mainShape {
+class CreateShapes {
+  //11 Parameters so far
   constructor(
     xcord = 0,
     ycord = 0,
-    width = 40,
+    widthOrRadius = 40,
     height = 40,
+    startAngle = 0,
+    endAngle = 0,
     speed = 5,
-    bgColor,
-    strokeColor,
+    time = 0,
+    bgColor = "white",
+    strokeColor = "black",
     canvasContext
   ) {
-    (this.xcord = xcord), (this.ycord = ycord), (this.width = width);
+    (this.xcord = xcord),
+      (this.ycord = ycord),
+      (this.widthOrRadius = widthOrRadius);
     this.height = height;
+    this.startAngle = startAngle;
+    this.endAngle = endAngle;
     this.speed = speed;
+    this.time = time;
     this.bgColor = bgColor;
     this.strokeColor = strokeColor;
     this.canvasContext = canvasContext;
@@ -25,16 +34,28 @@ class mainShape {
     return this.ycord;
   }
 
-  get getCurrentWidth() {
-    return this.width;
+  get getCurrentWidthOrRadius() {
+    return this.widthOrRadius;
   }
 
   get getCurrentHeight() {
     return this.height;
   }
 
+  get getCurrentStartAngle() {
+    return this.startAngle;
+  }
+
+  get getCurrentEndAngle() {
+    return this.endAngle;
+  }
+
   get getCurrentSpeed() {
     return this.speed;
+  }
+
+  get getCurrentTime() {
+    return this.time;
   }
 
   get getCurrentBgColor() {
@@ -56,23 +77,35 @@ class mainShape {
   set setCurrentYcord(ycord) {
     return (this.ycord = ycord);
   }
-  set setWidth(width) {
-    return (this.width = width);
+  set setCurrentWidthOrRadius(widthOrRadius) {
+    return (this.widthOrRadius = widthOrRadius);
   }
 
-  set setHeight(height) {
+  set setCurrentHeight(height) {
     return (this.height = height);
   }
 
-  set setSpeed(speed) {
+  set setCurrentStartAngle(startAngle) {
+    return (this.startAngle = startAngle);
+  }
+
+  set setCurrentEndAngle(endAngle) {
+    return (this.endAngle = endAngle);
+  }
+
+  set setCurrentSpeed(speed) {
     return (this.speed = speed);
   }
 
-  set setBgColor(bgColor) {
+  set setCurrentTime(time) {
+    return (this.time = time);
+  }
+
+  set setCurrentBgColor(bgColor) {
     return (this.bgColor = bgColor);
   }
 
-  set setStrokeColor(strokeColor) {
+  set setCurrentStrokeColor(strokeColor) {
     return (this.strokeColor = strokeColor);
   }
 
@@ -86,4 +119,4 @@ class mainShape {
   };
 }
 
-export default mainShape;
+export default CreateShapes;

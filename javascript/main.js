@@ -3,9 +3,15 @@ import PlayerShape from "./PlayerShape.js";
 import Rectangle from "./Enemies/Rectangle.js";
 import keyboardKeys from "./keyboardKeys.js";
 
+const modes = {
+  0: "Start Menu",
+  1: "Playing",
+  2: "Game Over"
+};
+
 const firstCanvas = document.getElementById("canvas").getContext("2d");
 
-let canvas1 = new Canvas(0, 0, 800, 450, "orange", 0, firstCanvas);
+let canvas1 = new Canvas(0, 0, 800, 450, "orange", 0, firstCanvas, 0);
 console.log(canvas1.getCurrentWidth);
 console.log(canvas1.getCurrentHeight);
 console.log(canvas1.getCurrentTime);
@@ -22,12 +28,13 @@ let playerShape1 = new PlayerShape(
   0,
   "black",
   "green",
-  firstCanvas
+  firstCanvas,
+  0
 );
 
 let rectangle1 = new Rectangle(
   canvas1.getCurrentWidth,
-  100,
+  95,
   30,
   20,
   0,
@@ -50,6 +57,8 @@ window.onkeydown = e => {
       return (playerShape1.xcord += 10);
     case "ArrowDown":
       return (playerShape1.ycord += 10);
+      case "Enter": 
+      return window.requestAnimationFrame(playingTheGame);
     default:
       console.log("Random button clicked");
   }
@@ -95,7 +104,7 @@ const playingTheGame = timestamp => {
   playerShape1.drawPlayerShape();
   rectangle1.drawRectangle();
 
-  playerShape1.movePlayerShape();
+  //playerShape1.movePlayerShape();
   rectangle1.moveRectangle();
 
   if (
@@ -106,6 +115,8 @@ const playingTheGame = timestamp => {
   ) {
     console.log("Does this get called?");
     playerShape1.hit = 1;
+    canvas1.getCurrentCanvasContext.restore();
+    //canvas1.drawCanvas();
   }
 
   if (timestamp < 3800 && playerShape1.getCurrentHit !== 1) {

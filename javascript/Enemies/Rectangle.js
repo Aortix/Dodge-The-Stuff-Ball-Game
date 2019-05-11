@@ -42,12 +42,13 @@ class Rectangle extends CreateShapes {
     for (
       let i = this.xcord;
       i > this.xcord - this.widthOrRadius;
-      i -= this.widthOrRadius / 6
+      i -= this.widthOrRadius / 25
     )
       this.location.push({
-        x: Math.round(i),
+        x: Math.floor(i),
         y: this.ycord
       });
+    this.location.push({x: this.xcord - this.widthOrRadius, y: this.ycord});
     this.canvasContext.lineTo(
       this.xcord - this.widthOrRadius,
       this.ycord + this.height
@@ -55,32 +56,34 @@ class Rectangle extends CreateShapes {
     for (
       let i = this.ycord;
       i < this.ycord + this.height;
-      i += this.height / 6
+      i += this.height / 15
     ) {
       this.location.push({
         x: this.xcord - this.widthOrRadius,
-        y: Math.round(i)
+        y: Math.floor(i)
       });
     }
+    this.location.push({x: this.xcord - this.widthOrRadius, y: this.ycord + this.height});
     this.canvasContext.lineTo(this.xcord, this.ycord + this.height);
     for (
       let i = this.xcord - this.widthOrRadius;
       i < this.xcord;
-      i += this.widthOrRadius / 6
+      i += this.widthOrRadius / 25
     ) {
       this.location.push({
-        x: Math.round(i),
+        x: Math.floor(i),
         y: this.ycord + this.height
       });
     }
+    this.location.push({x: this.xcord, y: this.ycord + this.height});
     for (
       let i = this.ycord + this.height;
       i > this.ycord;
-      i -= this.height / 6
+      i -= this.height / 15
     ) {
       this.location.push({
         x: this.xcord,
-        y: Math.round(i)
+        y: Math.floor(i)
       });
     }
     this.canvasContext.lineTo(this.xcord, this.ycord);

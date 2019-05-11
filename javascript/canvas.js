@@ -1,5 +1,5 @@
 class Canvas {
-  constructor(xcord, ycord, width, height, bgColor, time, canvasContext) {
+  constructor(xcord, ycord, width, height, bgColor, time, canvasContext, mode) {
     this.xcord = xcord;
     this.ycord = ycord;
     this.width = width;
@@ -7,6 +7,7 @@ class Canvas {
     this.bgColor = bgColor;
     this.time = time;
     this.canvasContext = canvasContext;
+    this.mode = mode;
 
     this.createCanvas();
   }
@@ -39,6 +40,10 @@ class Canvas {
     return this.canvasContext;
   }
 
+  get getCurrentMode() {
+    return this.mode;
+  }
+
   set setCurrentXcord(xcord) {
     return (this.xcord = xcord);
   }
@@ -65,6 +70,10 @@ class Canvas {
 
   set setCurrentCanvasContext(canvasContext) {
     return (this.canvasContext = canvasContext);
+  }
+
+  set setCurrentMode(mode) {
+    return this.mode = mode;
   }
 
   createCanvas = () => {

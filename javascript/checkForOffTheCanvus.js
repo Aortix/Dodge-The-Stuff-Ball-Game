@@ -4,6 +4,10 @@ const checkForOffTheCanvus = (enemyObjects) => {
             i = enemyObjects.length;
             return true;
         }
+        else if (enemyObjects[i].y <= -10) {
+            i = enemyObjects.length;
+            return true;
+        }
     }
 }
 

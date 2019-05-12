@@ -1,28 +1,31 @@
 <!DOCTYPE html>
 
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Dodge everything!</title>
-    <meta name="author" content="Stephen" />
-    <meta
-      name="description"
-      content="Game where you dodge the items flying at you!"
-    />
 
-    <link rel="stylesheet" href="./css/styles.css" />
-  </head>
-  <body>
-    <div class="main-container">
+<head>
+  <meta charset="utf-8" />
+  <title>Dodge everything!</title>
+  <meta name="author" content="Stephen" />
+  <meta name="description" content="Game where you dodge the items flying at you!" />
+
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+
+<body>
+  <div class="main-container">
     <canvas id="canvas"></canvas>
     <div class="test">
-    <h2 class="menu-options menu-title">Start Menu</h2>
-    <p class="menu-options menu-play_game">Play Game</p>
+      <h2 id="game_over-title" class="game_over-options">Game Over</h2>
+      <p id="game_over-retry" class="game_over-options">Retry</p>
+      <p id="game_over-menu" class="game_over-options">Menu</p>
+      <h2 class="menu-options menu-title">Start Menu</h2>
+      <p class="menu-options menu-play_game">Play Game</p>
     </div>
-    </div>
-    <script type="module" src="./javascript/Canvas.js"></script>
-    <script type="module" src="./javascript/CreateShapes.js"></script>
-    <script type="module" src="./javascript/PlayerShape.js"></script>
-    <script type="module" src="./javascript/Main.js"></script>
-  </body>
+  </div>
+  <script type="module" src="./javascript/Canvas.js"></script>
+  <script type="module" src="./javascript/CreateShapes.js"></script>
+  <script type="module" src="./javascript/PlayerShape.js"></script>
+  <script type="module" src="./javascript/Main.js"></script>
+</body>
+
 </html>

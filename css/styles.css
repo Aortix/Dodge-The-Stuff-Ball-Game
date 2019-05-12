@@ -1,5 +1,4 @@
-html {
-}
+html {}
 
 body {
   background-color: #000000;
@@ -30,7 +29,40 @@ body {
 }
 
 .menu-play_game {
-  top: 160px;
+  left: calc(50% - 115px);
+  width: 200px;
+  position: absolute;
+  z-index: 2;
+  cursor: pointer;
+  border: 1px solid white;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.game_over-options {
+  display: none;
+}
+
+#game_over-title {
+  width: 100%;
+  position: absolute;
+  z-index: 2;
+  color: white;
+  font-weight: 300;
+}
+
+#game_over-retry {
+  left: calc(50% - 115px);
+  width: 200px;
+  position: absolute;
+  z-index: 2;
+  cursor: pointer;
+  border: 1px solid white;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+#game_over-menu {
   left: calc(50% - 115px);
   width: 200px;
   position: absolute;

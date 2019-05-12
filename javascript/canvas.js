@@ -1,13 +1,15 @@
 class Canvas {
-  constructor(xcord, ycord, width, height, bgColor, time, canvasContext, mode) {
+  constructor(xcord, ycord, width, height, bgColor, time, canvasId, mode) {
     this.xcord = xcord;
     this.ycord = ycord;
     this.width = width;
     this.height = height;
     this.bgColor = bgColor;
     this.time = time;
-    this.canvasContext = canvasContext;
+    this.canvasId = canvasId;
     this.mode = mode;
+
+    this.canvasContext = document.getElementById(canvasId).getContext("2d");
 
     this.createCanvas();
   }
@@ -34,6 +36,10 @@ class Canvas {
 
   get getCurrentTime() {
     return this.time;
+  }
+
+  get getCurrentCanvasId() {
+    return this.canvasId;
   }
 
   get getCurrentCanvasContext() {
@@ -68,6 +74,10 @@ class Canvas {
     return (this.time = time);
   }
 
+  set setCurrentCanvasId(canvasId) {
+    return this.canvasId = canvasId;
+  }
+
   set setCurrentCanvasContext(canvasContext) {
     return (this.canvasContext = canvasContext);
   }
@@ -77,8 +87,8 @@ class Canvas {
   }
 
   createCanvas = () => {
-    document.getElementById("canvas").setAttribute("width", this.width);
-    document.getElementById("canvas").setAttribute("height", this.height);
+    document.getElementById(this.canvasId).setAttribute("width", this.width);
+    document.getElementById(this.canvasId).setAttribute("height", this.height);
     this.canvasContext.fillStyle = this.bgColor;
     this.canvasContext.fillRect(
       this.xcord,

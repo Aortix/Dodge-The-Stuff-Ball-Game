@@ -2,16 +2,41 @@ html {
 }
 
 body {
+  background-color: #000000;
+  color: white;
+  font-size: 35px;
 }
 
 .main-container {
+  position: relative;
   text-align: center;
-}
-
-#title {
-  background-color: blue;
 }
 
 #canvas {
   border: 1px solid black;
+}
+
+.menu {
+  box-shadow: 0px 0px 1px;
+  opacity: 0.2;
+}
+
+.menu-title {
+  width: 100%;
+  position: absolute;
+  z-index: 2;
+  color: white;
+  font-weight: 300;
+}
+
+.menu-play_game {
+  top: 160px;
+  left: calc(50% - 115px);
+  width: 200px;
+  position: absolute;
+  z-index: 2;
+  cursor: pointer;
+  border: 1px solid white;
+  padding-left: 15px;
+  padding-right: 15px;
 }

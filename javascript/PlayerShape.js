@@ -30,6 +30,7 @@ class PlayerShape extends CreateShapes {
       canvasContext
     );
 
+    this.addKeyboardCommands();
     this.drawPlayerShape();
   }
 
@@ -60,6 +61,23 @@ class PlayerShape extends CreateShapes {
   clearPlayerShape = () => {
     this.location.length = 0;
   };
+  
+  addKeyboardCommands = () => {
+    window.addEventListener("keydown", (e) => {
+      switch (e.key) {
+        //case "ArrowLeft":
+          //return (this.xcord -= 10);
+        case "ArrowUp":
+          return (this.ycord -= 10);
+        //case "ArrowRight":
+          //return (this.xcord += 10);
+        case "ArrowDown":
+          return (this.ycord += 10);
+        default:
+          console.log("Random button clicked");
+      }
+    })
+  }
 }
 
 export default PlayerShape;

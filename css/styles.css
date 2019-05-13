@@ -72,3 +72,23 @@ body {
   padding-left: 15px;
   padding-right: 15px;
 }
+
+.game_paused-options {
+  display: none;
+}
+
+#game_paused-title {
+  width: 100%;
+  position: absolute;
+  z-index: 2;
+  color: white;
+  font-weight: 300;
+}
+
+#game_paused-icon {
+  width: 100%;
+  position: absolute;
+  z-index: 2;
+  color: white;
+  font-weight: 300;
+}

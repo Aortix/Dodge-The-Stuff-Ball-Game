@@ -9,18 +9,24 @@ const playingTheGame = canvas => {
   let playGameButton = document.querySelector(".menu-play_game");
   let retryButton = document.getElementById("game_over-retry");
   let menuButton = document.getElementById("game_over-menu");
+  let pauseButton = document.getElementById("game_paused-icon");
   let menuItemsToDisable = Array.from(document.querySelectorAll(".menu-options"));
   let gameOverItemsToEnable = Array.from(document.querySelectorAll(".game_over-options"));
+  let pausedItemsToEnable = Array.from(document.querySelectorAll(".game_paused-options"));
 
   const playGameButtonFunction = () => {
     document.getElementById(canvas.getCurrentCanvasId).classList.toggle("menu");
     menuItemsToDisable.forEach(items => {
       return items.style.setProperty("display", "none");
     });
+    pausedItemsToEnable.forEach(items => {
+      return items.style.setProperty("display", "block");
+    })
     canvas.mode = 1;
     playGameButton.removeEventListener("click", playGameButtonFunction, false)
     retryButton.removeEventListener("click", retryButtonFunction, false);
     menuButton.removeEventListener("click", menuButtonFunction, false)
+    pauseButton.removeEventListener("click", pauseButtonFunction, false);
     playingTheGame(canvas);
   }
 
@@ -29,10 +35,14 @@ const playingTheGame = canvas => {
     gameOverItemsToEnable.forEach(items => {
       return items.style.setProperty("display", "none");
     });
+    pausedItemsToEnable.forEach(items => {
+      return items.style.setProperty("display", "block");
+    })
     canvas.mode = 1;
     playGameButton.removeEventListener("click", playGameButtonFunction, false)
     retryButton.removeEventListener("click", retryButtonFunction, false);
-    menuButton.removeEventListener("click", menuButtonFunction, false)
+    menuButton.removeEventListener("click", menuButtonFunction, false);
+    pauseButton.removeEventListener("click", pauseButtonFunction, false);
     playingTheGame(canvas);
   }
 
@@ -44,10 +54,36 @@ const playingTheGame = canvas => {
     menuItemsToDisable.forEach(items => {
       return items.style.setProperty("display", "block");
     });
+    pausedItemsToEnable.forEach(items => {
+      return items.style.setProperty("display", "none");
+    })
     canvas.mode = 0;
     menuButton.removeEventListener("click", menuButtonFunction, false)
     playGameButton.removeEventListener("click", playGameButtonFunction, false)
     retryButton.removeEventListener("click", retryButtonFunction, false);
+    pauseButton.removeEventListener("click", pauseButtonFunction, false);
+    playingTheGame(canvas);
+  }
+
+  const pauseButtonFunction = () => {
+    document.getElementById(canvas.getCurrentCanvasId).classList.toggle("menu");
+    if (canvas.getCurrentMode === 3) {
+      pausedItemsToEnable.forEach(items => {
+        console.log("Set canvas to 1");
+        return items.style.setProperty("display", "none");
+      })
+      canvas.mode = 1;
+    } else {
+      console.log("Set canvas to 3");
+      pausedItemsToEnable.forEach(items => {
+        return items.style.setProperty("display", "block");
+      })
+      canvas.mode = 3;
+    }
+    menuButton.removeEventListener("click", menuButtonFunction, false)
+    playGameButton.removeEventListener("click", playGameButtonFunction, false)
+    retryButton.removeEventListener("click", retryButtonFunction, false);
+    pauseButton.removeEventListener("click", pauseButtonFunction, false);
     playingTheGame(canvas);
   }
 
@@ -65,6 +101,7 @@ const playingTheGame = canvas => {
       console.log('Game Screen');
       //Game Running
       //Create the player, for now this is up to the developer - might extend to user later on
+      pauseButton.addEventListener("click", pauseButtonFunction, false);
       let newPlayer = new PlayerShape(canvas.getCurrentXcord + 20, canvas.getCurrentYcord + 20,
         10,
         0,
@@ -97,6 +134,11 @@ const playingTheGame = canvas => {
 
       //Function for actually running the game
       const runningTheGame = (timestamp) => {
+        if (canvas.getCurrentMode === 3) {
+          for (let i = 0; i < enemyRectangles.length; i++) {
+            enemyRectangles[i].speed = 0;
+          }
+        }
         if (start === null) {
           start = timestamp;
         }
@@ -171,6 +213,10 @@ const playingTheGame = canvas => {
       retryButton.addEventListener("click", retryButtonFunction, false)
       menuButton.style.setProperty("top", `${canvas.getCurrentHeight/1.5}px`);
       menuButton.addEventListener("click", menuButtonFunction, false)
+      break;
+    case 3:
+      //Paused Screen
+      console.log('Paused');
       break;
     default:
       break;

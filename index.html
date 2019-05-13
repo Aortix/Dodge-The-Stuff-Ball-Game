@@ -8,6 +8,8 @@
   <meta name="author" content="Stephen" />
   <meta name="description" content="Game where you dodge the items flying at you!" />
 
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+    integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   <link rel="stylesheet" href="./css/styles.css" />
 </head>
 
@@ -15,6 +17,10 @@
   <div class="main-container">
     <canvas id="canvas"></canvas>
     <div class="test">
+      <div class="game_paused-options">
+        <h2 id="game_paused-title">Paused</h2>
+        <i id="game_paused-icon" class="far fa-pause-circle"></i>
+      </div>
       <h2 id="game_over-title" class="game_over-options">Game Over</h2>
       <p id="game_over-retry" class="game_over-options">Retry</p>
       <p id="game_over-menu" class="game_over-options">Menu</p>

@@ -165,6 +165,18 @@ const playingTheGame = canvas => {
       //Function for actually running the game
       const runningTheGame = timestamp => {
         if (canvas.getCurrentMode === 1) {
+          if (
+            newPlayer.getCurrentYcord - newPlayer.getCurrentWidthOrRadius <=
+            canvas.getCurrentYcord
+          ) {
+            newPlayer.ycord += newPlayer.getCurrentSpeed;
+          } else if (
+            newPlayer.getCurrentYcord + newPlayer.getCurrentWidthOrRadius >=
+            canvas.getCurrentHeight
+          ) {
+            newPlayer.ycord -= newPlayer.getCurrentSpeed;
+          }
+
           if (diff !== null) {
             console.log("This also should be getting called.");
             diff = null;

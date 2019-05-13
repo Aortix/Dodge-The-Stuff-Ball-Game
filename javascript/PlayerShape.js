@@ -61,23 +61,25 @@ class PlayerShape extends CreateShapes {
   clearPlayerShape = () => {
     this.location.length = 0;
   };
-  
+
   addKeyboardCommands = () => {
-    window.addEventListener("keydown", (e) => {
-      switch (e.key) {
-        //case "ArrowLeft":
-          //return (this.xcord -= 10);
-        case "ArrowUp":
-          return (this.ycord -= 10);
-        //case "ArrowRight":
-          //return (this.xcord += 10);
-        case "ArrowDown":
-          return (this.ycord += 10);
-        default:
-          console.log("Random button clicked");
-      }
-    })
-  }
+    window.addEventListener("keydown", this.keyboardCommands, false);
+  };
+
+  removeKeyboardCommands = () => {
+    window.removeEventListener("keydown", this.keyboardCommands, false);
+  };
+
+  keyboardCommands = function(e) {
+    switch (e.key) {
+      case "ArrowUp":
+        return (this.ycord -= this.speed);
+      case "ArrowDown":
+        return (this.ycord += this.speed);
+      default:
+        console.log("Random button clicked");
+    }
+  }.bind(this);
 }
 
 export default PlayerShape;

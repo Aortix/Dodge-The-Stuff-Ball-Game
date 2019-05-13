@@ -6,45 +6,47 @@ import checkForOffTheCanvas from "./checkForOffTheCanvus.js";
 const playingTheGame = canvas => {
   //To "reset" the timestamp used in window.requestAnimationFrame
   let start = null;
+  let diff = null;
   let playGameButton = document.querySelector(".menu-play_game");
   let retryButton = document.getElementById("game_over-retry");
   let menuButton = document.getElementById("game_over-menu");
   let pauseButton = document.getElementById("game_paused-icon");
-  let menuItemsToDisable = Array.from(document.querySelectorAll(".menu-options"));
-  let gameOverItemsToEnable = Array.from(document.querySelectorAll(".game_over-options"));
-  let pausedItemsToEnable = Array.from(document.querySelectorAll(".game_paused-options"));
+  let pauseTitle = document.getElementById("game_paused-title");
+
+  let menuItemsToDisable = Array.from(
+    document.querySelectorAll(".menu-options")
+  );
+  let gameOverItemsToEnable = Array.from(
+    document.querySelectorAll(".game_over-options")
+  );
 
   const playGameButtonFunction = () => {
     document.getElementById(canvas.getCurrentCanvasId).classList.toggle("menu");
     menuItemsToDisable.forEach(items => {
       return items.style.setProperty("display", "none");
     });
-    pausedItemsToEnable.forEach(items => {
-      return items.style.setProperty("display", "block");
-    })
+    pauseButton.style.setProperty("display", "block");
     canvas.mode = 1;
-    playGameButton.removeEventListener("click", playGameButtonFunction, false)
+    playGameButton.removeEventListener("click", playGameButtonFunction, false);
     retryButton.removeEventListener("click", retryButtonFunction, false);
-    menuButton.removeEventListener("click", menuButtonFunction, false)
+    menuButton.removeEventListener("click", menuButtonFunction, false);
     pauseButton.removeEventListener("click", pauseButtonFunction, false);
     playingTheGame(canvas);
-  }
+  };
 
   const retryButtonFunction = () => {
     document.getElementById(canvas.getCurrentCanvasId).classList.toggle("menu");
     gameOverItemsToEnable.forEach(items => {
       return items.style.setProperty("display", "none");
     });
-    pausedItemsToEnable.forEach(items => {
-      return items.style.setProperty("display", "block");
-    })
+    pauseButton.style.setProperty("display", "block");
     canvas.mode = 1;
-    playGameButton.removeEventListener("click", playGameButtonFunction, false)
+    playGameButton.removeEventListener("click", playGameButtonFunction, false);
     retryButton.removeEventListener("click", retryButtonFunction, false);
     menuButton.removeEventListener("click", menuButtonFunction, false);
     pauseButton.removeEventListener("click", pauseButtonFunction, false);
     playingTheGame(canvas);
-  }
+  };
 
   const menuButtonFunction = () => {
     document.getElementById(canvas.getCurrentCanvasId).classList.toggle("menu");
@@ -54,55 +56,71 @@ const playingTheGame = canvas => {
     menuItemsToDisable.forEach(items => {
       return items.style.setProperty("display", "block");
     });
-    pausedItemsToEnable.forEach(items => {
-      return items.style.setProperty("display", "none");
-    })
     canvas.mode = 0;
-    menuButton.removeEventListener("click", menuButtonFunction, false)
-    playGameButton.removeEventListener("click", playGameButtonFunction, false)
+    menuButton.removeEventListener("click", menuButtonFunction, false);
+    playGameButton.removeEventListener("click", playGameButtonFunction, false);
     retryButton.removeEventListener("click", retryButtonFunction, false);
     pauseButton.removeEventListener("click", pauseButtonFunction, false);
     playingTheGame(canvas);
-  }
+  };
 
   const pauseButtonFunction = () => {
+    console.log("Risky");
     document.getElementById(canvas.getCurrentCanvasId).classList.toggle("menu");
     if (canvas.getCurrentMode === 3) {
-      pausedItemsToEnable.forEach(items => {
-        console.log("Set canvas to 1");
-        return items.style.setProperty("display", "none");
-      })
+      console.log("Set canvas to 1");
+      pauseTitle.style.setProperty("display", "none");
       canvas.mode = 1;
     } else {
       console.log("Set canvas to 3");
-      pausedItemsToEnable.forEach(items => {
-        return items.style.setProperty("display", "block");
-      })
+      pauseTitle.style.setProperty("display", "block");
       canvas.mode = 3;
     }
-    menuButton.removeEventListener("click", menuButtonFunction, false)
-    playGameButton.removeEventListener("click", playGameButtonFunction, false)
+    menuButton.removeEventListener("click", menuButtonFunction, false);
+    playGameButton.removeEventListener("click", playGameButtonFunction, false);
     retryButton.removeEventListener("click", retryButtonFunction, false);
     pauseButton.removeEventListener("click", pauseButtonFunction, false);
-    playingTheGame(canvas);
-  }
+  };
 
   //Determines the state of the application based off the mode the canvas is in
   switch (canvas.getCurrentMode) {
     case 0:
-      console.log('Start Menu');
+      console.log("Start Menu");
       //Creating the Start Menu
-      document.getElementById(canvas.getCurrentCanvasId).classList.toggle("menu");
-      document.querySelector(".menu-title").style.setProperty("top", `${canvas.getCurrentHeight/4}px`);
-      playGameButton.style.setProperty("top", `${canvas.getCurrentHeight/2}px`);
-      playGameButton.addEventListener("click", playGameButtonFunction, false)
+      document
+        .getElementById(canvas.getCurrentCanvasId)
+        .classList.toggle("menu");
+      document
+        .querySelector(".menu-title")
+        .style.setProperty("top", `${canvas.getCurrentHeight / 4}px`);
+      playGameButton.style.setProperty(
+        "top",
+        `${canvas.getCurrentHeight / 2}px`
+      );
+      playGameButton.addEventListener("click", playGameButtonFunction, false);
       break;
     case 1:
-      console.log('Game Screen');
+      console.log("Game Screen");
+      document
+        .getElementById("game_paused-title")
+        .style.setProperty("top", `${canvas.getCurrentHeight / 4}px`);
+      document
+        .getElementById("game_paused-icon")
+        .style.setProperty(
+          "top",
+          `${canvas.getCurrentYcord + window.innerHeight / 100}px`
+        );
+      document
+        .getElementById("game_paused-icon")
+        .style.setProperty(
+          "left",
+          `${window.innerWidth / 2.12 + canvas.getCurrentWidth / 2}px`
+        );
       //Game Running
       //Create the player, for now this is up to the developer - might extend to user later on
-      pauseButton.addEventListener("click", pauseButtonFunction, false);
-      let newPlayer = new PlayerShape(canvas.getCurrentXcord + 20, canvas.getCurrentYcord + 20,
+      let newPlayer = new PlayerShape(
+        canvas.getCurrentXcord + 20,
+        canvas.getCurrentYcord + 20,
         10,
         0,
         0,
@@ -112,111 +130,168 @@ const playingTheGame = canvas => {
         0,
         "white",
         "white",
-        canvas.getCurrentCanvasContext)
+        canvas.getCurrentCanvasContext
+      );
 
       //Create enemies
       let enemyRectangles = [];
       let rectangleAmount = Math.floor(Math.random() * (5 - 3) + 3);
 
       for (let i = 0; i < rectangleAmount; i++) {
-        enemyRectangles.push(new Rectangle(canvas.getCurrentWidth - 20, Math.floor(Math.random() * (canvas.getCurrentHeight - 20) + 20),
-          Math.floor(Math.random() * (40 - 20) + 20),
-          Math.floor(Math.random() * (40 - 20) + 20),
-          0,
-          0,
-          Math.floor(Math.random() * (5 - 2) + 2),
-          0,
-          0,
-          "white",
-          "white",
-          canvas.getCurrentCanvasContext))
+        enemyRectangles.push(
+          new Rectangle(
+            canvas.getCurrentWidth - 20,
+            Math.floor(Math.random() * (canvas.getCurrentHeight - 20) + 20),
+            Math.floor(Math.random() * (40 - 20) + 20),
+            Math.floor(Math.random() * (40 - 20) + 20),
+            0,
+            0,
+            Math.floor(Math.random() * (5 - 2) + 2),
+            0,
+            0,
+            "white",
+            "white",
+            canvas.getCurrentCanvasContext
+          )
+        );
       }
 
+      let rectangleSpeeds = [];
+      for (let i = 0; i < enemyRectangles.length; i++) {
+        rectangleSpeeds.push(enemyRectangles[i].getCurrentSpeed);
+      }
+      let newPlayerSpeed = newPlayer.getCurrentSpeed;
+
       //Function for actually running the game
-      const runningTheGame = (timestamp) => {
-        if (canvas.getCurrentMode === 3) {
-          for (let i = 0; i < enemyRectangles.length; i++) {
-            enemyRectangles[i].speed = 0;
+      const runningTheGame = timestamp => {
+        if (canvas.getCurrentMode === 1) {
+          if (diff !== null) {
+            console.log("This also should be getting called.");
+            diff = null;
           }
-        }
-        if (start === null) {
-          start = timestamp;
-        }
-        //Clear everything
-        newPlayer.clearPlayerShape();
-        for (let i = 0; i < enemyRectangles.length; i++) {
-          enemyRectangles[i].clearRectangle();
-        }
-        canvas.clearCanvas();
 
-        //Redraw everything
-        canvas.drawCanvas();
-        newPlayer.drawPlayerShape();
-        for (let i = 0; i < enemyRectangles.length; i++) {
-          enemyRectangles[i].drawRectangle();
-        }
-
-        //Move enemies
-        for (let i = 0; i < enemyRectangles.length; i++) {
-          enemyRectangles[i].moveRectangle();
-        }
-
-        //Check for collisions
-        for (let i = 0; i < enemyRectangles.length; i++) {
-          if (
-            checkForCollisions(
-              newPlayer.getCurrentLocation,
-              enemyRectangles[i].getCurrentLocation
-            ) === true
-          ) {
-            newPlayer.hit = 1;
+          if (start == null) {
             start = timestamp;
           }
-          //Check for enemy objects going off the canvas
-          else if (checkForOffTheCanvas(enemyRectangles[i].getCurrentLocation) === true) {
-            enemyRectangles[i].xcord = canvas.getCurrentWidth + Math.floor(Math.random() * (20 - 10) + 10);
-            enemyRectangles[i].ycord = Math.floor(Math.random() * (canvas.getCurrentHeight + canvas.getCurrentYcord) + canvas.getCurrentYcord);
-            enemyRectangles[i].speed = Math.floor(Math.random() * (5 - 2) + 2);
+
+          for (let i = 0; i < enemyRectangles.length; i++) {
+            if (enemyRectangles[i].getCurrentSpeed === 0) {
+              enemyRectangles[i].speed = rectangleSpeeds[i];
+            }
           }
-        }
 
-        //Continue running the game
-        if (timestamp - start < 7000 && newPlayer.getCurrentHit !== 1) {
-          window.requestAnimationFrame(runningTheGame);
-        }
+          if (newPlayer.getCurrentSpeed === 0) {
+            newPlayer.speed = newPlayerSpeed;
+          }
 
-        //End the game
-        if (timestamp - start >= 7000 || newPlayer.getCurrentHit === 1) {
+          pauseButton.addEventListener("click", pauseButtonFunction, false);
+
+          //Clear everything
+          newPlayer.clearPlayerShape();
           for (let i = 0; i < enemyRectangles.length; i++) {
             enemyRectangles[i].clearRectangle();
           }
-          newPlayer.clearPlayerShape();
-          newPlayer.hit = 0;
-          canvas.mode = 2;
+          canvas.clearCanvas();
 
-          playingTheGame(canvas);
+          //Redraw everything
+          canvas.drawCanvas();
+          newPlayer.drawPlayerShape();
+          for (let i = 0; i < enemyRectangles.length; i++) {
+            enemyRectangles[i].drawRectangle();
+          }
+
+          //Move enemies
+          for (let i = 0; i < enemyRectangles.length; i++) {
+            enemyRectangles[i].moveRectangle();
+          }
+
+          //Check for collisions
+          for (let i = 0; i < enemyRectangles.length; i++) {
+            if (
+              checkForCollisions(
+                newPlayer.getCurrentLocation,
+                enemyRectangles[i].getCurrentLocation
+              ) === true
+            ) {
+              newPlayer.hit = 1;
+            }
+            //Check for enemy objects going off the canvas
+            else if (
+              checkForOffTheCanvas(enemyRectangles[i].getCurrentLocation) ===
+              true
+            ) {
+              enemyRectangles[i].xcord =
+                canvas.getCurrentWidth +
+                Math.floor(Math.random() * (20 - 10) + 10);
+              enemyRectangles[i].ycord = Math.floor(
+                Math.random() *
+                  (canvas.getCurrentHeight + canvas.getCurrentYcord) +
+                  canvas.getCurrentYcord
+              );
+              enemyRectangles[i].speed = Math.floor(
+                Math.random() * (5 - 2) + 2
+              );
+            }
+          }
+
+          //Continue running the game
+          if (timestamp - start < 7000 && newPlayer.getCurrentHit !== 1) {
+            window.requestAnimationFrame(runningTheGame);
+          }
+
+          //End the game
+          if (timestamp - start >= 7000 || newPlayer.getCurrentHit === 1) {
+            console.log("Did this get called?");
+            for (let i = 0; i < enemyRectangles.length; i++) {
+              enemyRectangles[i].clearRectangle();
+            }
+            newPlayer.clearPlayerShape();
+            pauseButton.removeEventListener(
+              "click",
+              pauseButtonFunction,
+              false
+            );
+            start = null;
+            newPlayer.hit = 0;
+            canvas.mode = 2;
+            pauseButton.style.setProperty("display", "none");
+
+            playingTheGame(canvas);
+          }
+        } else if (canvas.getCurrentMode === 3) {
+          if (diff === null) {
+            console.log("This should be getting called.");
+            diff = timestamp - start;
+          }
+          start = timestamp - diff;
+          for (let i = 0; i < enemyRectangles.length; i++) {
+            enemyRectangles[i].speed = 0;
+          }
+          newPlayer.speed = 0;
+          pauseButton.addEventListener("click", pauseButtonFunction, false);
+          window.requestAnimationFrame(runningTheGame);
         }
-      }
+      };
 
       window.requestAnimationFrame(runningTheGame);
 
       break;
     case 2:
       //Game Over Screen
-      console.log('Game over');
-      document.getElementById(canvas.getCurrentCanvasId).classList.toggle("menu");
+      console.log("Game over");
+      document
+        .getElementById(canvas.getCurrentCanvasId)
+        .classList.toggle("menu");
       gameOverItemsToEnable.forEach(items => {
         return items.style.setProperty("display", "block");
       });
-      document.getElementById("game_over-title").style.setProperty("top", `${canvas.getCurrentHeight/4}px`)
-      retryButton.style.setProperty("top", `${canvas.getCurrentHeight/2}px`);
-      retryButton.addEventListener("click", retryButtonFunction, false)
-      menuButton.style.setProperty("top", `${canvas.getCurrentHeight/1.5}px`);
-      menuButton.addEventListener("click", menuButtonFunction, false)
-      break;
-    case 3:
-      //Paused Screen
-      console.log('Paused');
+      document
+        .getElementById("game_over-title")
+        .style.setProperty("top", `${canvas.getCurrentHeight / 4}px`);
+      retryButton.style.setProperty("top", `${canvas.getCurrentHeight / 2}px`);
+      retryButton.addEventListener("click", retryButtonFunction, false);
+      menuButton.style.setProperty("top", `${canvas.getCurrentHeight / 1.5}px`);
+      menuButton.addEventListener("click", menuButtonFunction, false);
       break;
     default:
       break;

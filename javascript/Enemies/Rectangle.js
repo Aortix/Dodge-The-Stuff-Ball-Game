@@ -34,10 +34,13 @@ class Rectangle extends CreateShapes {
   }
 
   drawRectangle = () => {
+    //Calling CreateShapes method
     this.drawShape();
     this.canvasContext.beginPath();
+
     this.canvasContext.moveTo(this.xcord, this.ycord);
     this.location.push({ x: this.xcord, y: this.ycord });
+
     this.canvasContext.lineTo(this.xcord - this.widthOrRadius, this.ycord);
     for (
       let i = this.xcord;
@@ -48,7 +51,8 @@ class Rectangle extends CreateShapes {
         x: Math.floor(i),
         y: this.ycord
       });
-    this.location.push({x: this.xcord - this.widthOrRadius, y: this.ycord});
+    this.location.push({ x: this.xcord - this.widthOrRadius, y: this.ycord });
+
     this.canvasContext.lineTo(
       this.xcord - this.widthOrRadius,
       this.ycord + this.height
@@ -63,7 +67,11 @@ class Rectangle extends CreateShapes {
         y: Math.floor(i)
       });
     }
-    this.location.push({x: this.xcord - this.widthOrRadius, y: this.ycord + this.height});
+    this.location.push({
+      x: this.xcord - this.widthOrRadius,
+      y: this.ycord + this.height
+    });
+
     this.canvasContext.lineTo(this.xcord, this.ycord + this.height);
     for (
       let i = this.xcord - this.widthOrRadius;
@@ -75,7 +83,8 @@ class Rectangle extends CreateShapes {
         y: this.ycord + this.height
       });
     }
-    this.location.push({x: this.xcord, y: this.ycord + this.height});
+    this.location.push({ x: this.xcord, y: this.ycord + this.height });
+
     for (
       let i = this.ycord + this.height;
       i > this.ycord;
@@ -87,15 +96,12 @@ class Rectangle extends CreateShapes {
       });
     }
     this.canvasContext.lineTo(this.xcord, this.ycord);
+
     this.canvasContext.stroke();
   };
 
   moveRectangle = () => {
     this.xcord -= this.speed;
-  };
-
-  clearRectangle = () => {
-    this.location.length = 0;
   };
 }
 

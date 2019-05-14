@@ -26,6 +26,9 @@ class CreateShapes {
     this.bgColor = bgColor;
     this.strokeColor = strokeColor;
     this.canvasContext = canvasContext;
+
+    //Location is an array of the coordinates of whatever shape is being created; these coordinates will allow for
+    //collision detection with the player object.
     this.location = [];
   }
 
@@ -126,13 +129,13 @@ class CreateShapes {
     return (this.canvasContext = canvasContext);
   }
 
-  /*set setCurrentLocation(location) {
-    return (this.location = Array.from(location));
-  }*/
-
   drawShape = () => {
     this.canvasContext.fillStyle = this.bgColor;
     this.canvasContext.strokeStyle = this.strokeColor;
+  };
+
+  clearObject = () => {
+    this.location.length = 0;
   };
 }
 

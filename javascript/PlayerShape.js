@@ -58,10 +58,6 @@ class PlayerShape extends CreateShapes {
     this.xcord += this.speed;
   };
 
-  clearPlayerShape = () => {
-    this.location.length = 0;
-  };
-
   addKeyboardCommands = () => {
     window.addEventListener("keydown", this.keyboardCommands, false);
   };
@@ -77,7 +73,7 @@ class PlayerShape extends CreateShapes {
       case "ArrowDown":
         return (this.ycord += this.speed);
       default:
-        console.log("Random button clicked");
+        break;
     }
   }.bind(this);
 }

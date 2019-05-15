@@ -137,6 +137,22 @@ class CreateShapes {
   clearObject = () => {
     this.location.length = 0;
   };
+
+  deleteObject = () => {
+    delete this.xcord;
+    delete this.ycord;
+    delete this.widthOrRadius;
+    delete this.height;
+    delete this.startAngle;
+    delete this.endAngle;
+    delete this.speed;
+    delete this.time;
+    delete this.hit;
+    delete this.bgColor;
+    delete this.strokeColor;
+    delete this.canvasContext;
+    delete this.location;
+  };
 }
 
 export default CreateShapes;

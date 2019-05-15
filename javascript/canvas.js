@@ -75,7 +75,7 @@ class Canvas {
   }
 
   set setCurrentCanvasId(canvasId) {
-    return this.canvasId = canvasId;
+    return (this.canvasId = canvasId);
   }
 
   set setCurrentCanvasContext(canvasContext) {
@@ -83,19 +83,16 @@ class Canvas {
   }
 
   set setCurrentMode(mode) {
-    return this.mode = mode;
+    return (this.mode = mode);
   }
 
   createCanvas = () => {
     document.getElementById(this.canvasId).setAttribute("width", this.width);
     document.getElementById(this.canvasId).setAttribute("height", this.height);
+    document.getElementById(this.canvasId).style.top = `${this.ycord}px`;
+    document.getElementById(this.canvasId).style.left = `${this.xcord}px`;
     this.canvasContext.fillStyle = this.bgColor;
-    this.canvasContext.fillRect(
-      this.xcord,
-      this.ycord,
-      this.width,
-      this.height
-    );
+    this.canvasContext.fillRect(0, 0, this.width, this.height);
   };
 
   drawCanvas = () => {

@@ -3,44 +3,95 @@ import playingTheGame from "./playingTheGame.js";
 import globalObject from "./globalObject.js";
 
 //Parameters: x-cordinate, y-cordinate, width, height, background-color, time amassed, canvas id, mode
-let canvas = new Canvas(0, 0, 900, 400, "gray", 0, "canvas", 0);
+let canvas = new Canvas(0, 0, 1300, 600, "gray", 0, "canvas", 0);
 
-document
-  .querySelector(".menu-title")
-  .style.setProperty("top", `${canvas.getCurrentHeight / 4}px`);
+//Block the arrow keys from scrolling on the window scrollbar
+window.addEventListener("keydown", e => {
+  switch (e.key) {
+    case "ArrowUp":
+      e.preventDefault();
+      break;
+    case "ArrowDown":
+      e.preventDefault();
+      break;
+    default:
+  }
+});
+
+//Setting the menu title and buttons positions (mode 0)
+globalObject.menuTitle.style.setProperty(
+  "top",
+  `${canvas.getCurrentYcord + canvas.getCurrentHeight / 4 - 50}px`
+);
 globalObject.playGameButton.style.setProperty(
   "top",
-  `${canvas.getCurrentHeight / 2}px`
+  `${canvas.getCurrentYcord + canvas.getCurrentHeight / 3}px`
 );
-document
-  .getElementById("game_paused-title")
-  .style.setProperty("top", `${canvas.getCurrentHeight / 4}px`);
-document
-  .getElementById("game_paused-icon")
-  .style.setProperty(
-    "top",
-    `${canvas.getCurrentYcord + window.innerHeight / 100}px`
-  );
+globalObject.menuTitle.style.setProperty(
+  "margin-left",
+  `${canvas.getCurrentXcord / 2}px`
+);
+globalObject.playGameButton.style.setProperty(
+  "margin-left",
+  `${canvas.getCurrentXcord / 2}px`
+);
+
+//Setting the pause icon and paused title positions
+globalObject.gamePausedTitle.style.setProperty(
+  "top",
+  `${canvas.getCurrentYcord + canvas.getCurrentHeight / 4}px`
+);
+globalObject.gamePausedTitle.style.setProperty(
+  "margin-left",
+  `${canvas.getCurrentXcord / 2}px`
+);
+globalObject.pauseButton.style.setProperty(
+  "top",
+  `${canvas.getCurrentYcord + 3}px`
+);
+
+globalObject.pauseButton.style.setProperty(
+  "left",
+  `${window.innerWidth -
+    (window.innerWidth - (canvas.getCurrentWidth - 100)) +
+    window.innerWidth / 2 -
+    (canvas.getCurrentWidth - 100) / 2}px`
+);
 
 window.onresize = () => {
-  document
-    .getElementById("game_paused-icon")
-    .style.setProperty(
-      "left",
-      `${window.innerWidth -
-        (window.innerWidth - (canvas.getCurrentWidth - 100)) +
-        window.innerWidth / 2 -
-        (canvas.getCurrentWidth - 100) / 2}px`
-    );
-};
-document
-  .getElementById("game_paused-icon")
-  .style.setProperty(
+  globalObject.pauseButton.style.setProperty(
     "left",
     `${window.innerWidth -
       (window.innerWidth - (canvas.getCurrentWidth - 100)) +
       window.innerWidth / 2 -
       (canvas.getCurrentWidth - 100) / 2}px`
   );
+};
+
+//Setting the game over title and buttons (mode 2)
+globalObject.gameOverTitle.style.setProperty(
+  "top",
+  `${canvas.getCurrentYcord + canvas.getCurrentHeight / 4 - 50}px`
+);
+globalObject.retryButton.style.setProperty(
+  "top",
+  `${canvas.getCurrentYcord + canvas.getCurrentHeight / 3}px`
+);
+globalObject.menuButton.style.setProperty(
+  "top",
+  `${canvas.getCurrentYcord + canvas.getCurrentHeight / 2.2}px`
+);
+globalObject.gameOverTitle.style.setProperty(
+  "margin-left",
+  `${canvas.getCurrentXcord / 2}px`
+);
+globalObject.retryButton.style.setProperty(
+  "margin-left",
+  `${canvas.getCurrentXcord / 2}px`
+);
+globalObject.menuButton.style.setProperty(
+  "margin-left",
+  `${canvas.getCurrentXcord / 2}px`
+);
 
 playingTheGame(canvas);

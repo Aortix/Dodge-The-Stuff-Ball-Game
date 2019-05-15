@@ -9,7 +9,10 @@ export const globalObject = {
   menuItemsToDisable: Array.from(document.querySelectorAll(".menu-options")),
   gameOverItemsToEnable: Array.from(
     document.querySelectorAll(".game_over-options")
-  )
+  ),
+  menuTitle: document.querySelector(".menu-title"),
+  gamePausedTitle: document.getElementById("game_paused-title"),
+  gameOverTitle: document.getElementById("game_over-title")
 };
 
 export default globalObject;

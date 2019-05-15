@@ -1,19 +1,23 @@
 html {
+  height: 100vh;
 }
 
 body {
   background-color: #000000;
   color: white;
   font-size: 35px;
+  min-height: 100%;
+  overflow: visible;
 }
 
 .main-container {
   position: relative;
   text-align: center;
+  height: inherit;
 }
 
 #canvas {
-  border: 1px solid black;
+  border: 1px solid white;
 }
 
 .menu {

@@ -64,8 +64,8 @@ export const playingTheGame = canvas => {
       break;
     case 1:
       console.log("Game Screen");
-      globalObject.playGameButton.removeEventListener("click", pGBF, false);
       //Game Running
+
       //Create the player, for now this is up to the developer - might extend to user later on
       let newPlayer = new PlayerShape(
         canvas.getCurrentXcord + 20,
@@ -85,7 +85,6 @@ export const playingTheGame = canvas => {
       //Create enemies
       let enemyRectangles = [];
       let rectangleAmount = Math.floor(Math.random() * (5 - 3) + 3);
-
       for (let i = 0; i < rectangleAmount; i++) {
         enemyRectangles.push(
           new Rectangle(
@@ -106,8 +105,8 @@ export const playingTheGame = canvas => {
       }
 
       let newWall = new Wall(
-        canvas.getCurrentWidth - 20,
-        Math.floor(Math.random() * (canvas.getCurrentHeight - 20) + 20),
+        canvas.getCurrentWidth + 5,
+        Math.floor(Math.random() * (canvas.getCurrentHeight - 5) + 5),
         Math.floor(Math.random() * (20 - 10) + 10),
         Math.floor(Math.random() * (120 - 80) + 60),
         0,
@@ -120,6 +119,8 @@ export const playingTheGame = canvas => {
         canvas.getCurrentCanvasContext
       );
 
+      //Get initial speeds of enemies - this will be used when you unpause (speed is set to 0 for a pause) the game to
+      //return the speed values
       let newWallSpeed = newWall.getCurrentSpeed;
       let rectangleSpeeds = [];
       for (let i = 0; i < enemyRectangles.length; i++) {
@@ -128,9 +129,14 @@ export const playingTheGame = canvas => {
       let newPlayerSpeed = newPlayer.getCurrentSpeed;
 
       let offCampusTracker = null;
+
       //Function for actually running the game
       const runningTheGame = timestamp => {
         if (canvas.getCurrentMode === 1) {
+          //So paused button can be clicked on
+          globalObject.pauseButton.addEventListener("click", pBF, false);
+
+          //Stops player from going out of the canvas
           if (
             newPlayer.getCurrentYcord - newPlayer.getCurrentWidthOrRadius <=
             canvas.getCurrentYcord
@@ -151,6 +157,7 @@ export const playingTheGame = canvas => {
             start = timestamp;
           }
 
+          //Reapplies speeds if game was unpaused
           for (let i = 0; i < enemyRectangles.length; i++) {
             if (enemyRectangles[i].getCurrentSpeed === 0) {
               enemyRectangles[i].speed = rectangleSpeeds[i];
@@ -164,8 +171,6 @@ export const playingTheGame = canvas => {
           if (newWall.getCurrentSpeed === 0) {
             newWall.speed = newWallSpeed;
           }
-
-          globalObject.pauseButton.addEventListener("click", pBF, false);
 
           //Clear everything
           newPlayer.clearObject();
@@ -195,19 +200,32 @@ export const playingTheGame = canvas => {
               checkForCollisions(
                 newPlayer.getCurrentLocation,
                 enemyRectangles[i].getCurrentLocation
-              ) === true ||
-              checkForCollisions(
-                newPlayer.getCurrentLocation,
-                newWall.getCurrentLocation
               ) === true
             ) {
               newPlayer.hit = 1;
             }
+          }
 
-            //Check for enemy objects going off the canvas
-            else if (
-              checkForOffTheCanvas(enemyRectangles[i].getCurrentLocation) ===
-              true
+          if (
+            checkForCollisions(
+              newPlayer.getCurrentLocation,
+              newWall.getCurrentLocation
+            ) === true &&
+            newPlayer.hit !== 1
+          ) {
+            newPlayer.hit = 1;
+          }
+
+          //Check for enemy objects going off the canvas
+          for (let i = 0; i < enemyRectangles.length; i++) {
+            if (
+              checkForOffTheCanvas(
+                enemyRectangles[i].getCurrentLocation,
+                canvas.getCurrentXcord,
+                canvas.getCurrentYcord,
+                canvas.getCurrentWidth,
+                canvas.getCurrentHeight
+              ) === true
             ) {
               if (offCampusTracker !== null) {
                 offCampusTracker.i === 1
@@ -238,39 +256,42 @@ export const playingTheGame = canvas => {
               enemyRectangles[i].speed = Math.floor(
                 Math.random() * (5 - 2) + 2
               );
-            } else if (checkForOffTheCanvas(newWall.getCurrentLocation)) {
-              newWall.xcord =
-                canvas.getCurrentWidth +
-                Math.floor(Math.random() * (20 - 10) + 10);
-              newWall.ycord = Math.floor(
-                Math.random() *
-                  (canvas.getCurrentHeight + canvas.getCurrentYcord) +
-                  canvas.getCurrentYcord
-              );
-              newWall.speed = Math.floor(Math.random() * (5 - 2) + 2);
             }
           }
 
-          //Continue running the game
-          if (timestamp - start < 12000 && newPlayer.getCurrentHit !== 1) {
-            window.requestAnimationFrame(runningTheGame);
+          if (checkForOffTheCanvas(newWall.getCurrentLocation)) {
+            newWall.xcord =
+              canvas.getCurrentWidth +
+              Math.floor(Math.random() * (20 - 10) + 10);
+            newWall.ycord = Math.floor(
+              Math.random() *
+                (canvas.getCurrentHeight + canvas.getCurrentYcord) +
+                canvas.getCurrentYcord
+            );
+            newWall.speed = Math.floor(Math.random() * (5 - 2) + 2);
           }
+        }
 
-          //End the game
-          if (timestamp - start >= 12000 || newPlayer.getCurrentHit === 1) {
-            for (let i = 0; i < enemyRectangles.length; i++) {
-              enemyRectangles[i].clearObject();
-            }
-            newPlayer.clearObject();
-            newWall.clearObject();
-            globalObject.pauseButton.removeEventListener("click", pBF, false);
-            start = null;
-            newPlayer.hit = 0;
-            canvas.mode = 2;
-            globalObject.pauseButton.style.setProperty("display", "none");
+        //Continue running the game
+        if (timestamp - start < 12000 && newPlayer.getCurrentHit !== 1) {
+          window.requestAnimationFrame(runningTheGame);
+        }
 
-            playingTheGame(canvas);
+        //End the game
+        if (timestamp - start >= 12000 || newPlayer.getCurrentHit === 1) {
+          for (let i = 0; i < enemyRectangles.length; i++) {
+            enemyRectangles[i].deleteObject();
           }
+          newPlayer.deleteObject();
+          newWall.deleteObject();
+
+          globalObject.pauseButton.removeEventListener("click", pBF, false);
+          start = null;
+          newPlayer.hit = 0;
+          canvas.mode = 2;
+          globalObject.pauseButton.style.setProperty("display", "none");
+
+          playingTheGame(canvas);
         } else if (canvas.getCurrentMode === 3) {
           if (diff === null) {
             diff = timestamp - start;
@@ -298,18 +319,7 @@ export const playingTheGame = canvas => {
       globalObject.gameOverItemsToEnable.forEach(items => {
         return items.style.setProperty("display", "block");
       });
-      document
-        .getElementById("game_over-title")
-        .style.setProperty("top", `${canvas.getCurrentHeight / 4}px`);
-      globalObject.retryButton.style.setProperty(
-        "top",
-        `${canvas.getCurrentHeight / 2}px`
-      );
       globalObject.retryButton.addEventListener("click", rBF, false);
-      globalObject.menuButton.style.setProperty(
-        "top",
-        `${canvas.getCurrentHeight / 1.5}px`
-      );
       globalObject.menuButton.addEventListener("click", mBF, false);
       break;
     default:

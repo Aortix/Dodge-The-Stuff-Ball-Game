@@ -38,6 +38,7 @@ class Rectangle extends CreateShapes {
     this.drawShape();
     this.canvasContext.beginPath();
 
+    //Origin (x,y) is the upper right of the rectangle
     this.canvasContext.moveTo(this.xcord, this.ycord);
     this.location.push({ x: this.xcord, y: this.ycord });
 

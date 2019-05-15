@@ -3,7 +3,7 @@ import playingTheGame from "./playingTheGame.js";
 import globalObject from "./globalObject.js";
 
 //Parameters: x-cordinate, y-cordinate, width, height, background-color, time amassed, canvas id, mode
-let canvas = new Canvas(0, 0, 1300, 600, "gray", 0, "canvas", 0);
+let canvas = new Canvas(0, 0, 800, 400, "gray", 0, "canvas", 0);
 
 //Block the arrow keys from scrolling on the window scrollbar
 window.addEventListener("keydown", e => {
@@ -36,7 +36,7 @@ globalObject.playGameButton.style.setProperty(
   `${canvas.getCurrentXcord / 2}px`
 );
 
-//Setting the pause icon and paused title positions
+//Setting the pause icon and paused title positions (mode 3)
 globalObject.gamePausedTitle.style.setProperty(
   "top",
   `${canvas.getCurrentYcord + canvas.getCurrentHeight / 4}px`

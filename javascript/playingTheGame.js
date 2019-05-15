@@ -2,7 +2,7 @@ import PlayerShape from "./PlayerShape.js";
 import Rectangle from "./Enemies/Rectangle.js";
 import Wall from "./Enemies/Wall.js";
 import checkForCollisions from "./checkForCollisions.js";
-import checkForOffTheCanvas from "./checkForOffTheCanvus.js";
+import checkForOffTheCanvas from "./checkForOffTheCanvas.js";
 
 import {
   playGameButtonFunction,
@@ -84,12 +84,17 @@ export const playingTheGame = canvas => {
 
       //Create enemies
       let enemyRectangles = [];
-      let rectangleAmount = Math.floor(Math.random() * (5 - 3) + 3);
+      let rectangleAmount = Math.floor(Math.random() * 3 + 3);
       for (let i = 0; i < rectangleAmount; i++) {
         enemyRectangles.push(
           new Rectangle(
             canvas.getCurrentWidth - 20,
-            Math.floor(Math.random() * (canvas.getCurrentHeight - 20) + 20),
+            Math.floor(
+              Math.random() *
+                (canvas.getCurrentHeight -
+                  Math.floor(Math.random() * (40 - 20) + 20)) +
+                Math.floor(Math.random() * (40 - 20) + 20)
+            ),
             Math.floor(Math.random() * (40 - 20) + 20),
             Math.floor(Math.random() * (40 - 20) + 20),
             0,
@@ -128,7 +133,7 @@ export const playingTheGame = canvas => {
       }
       let newPlayerSpeed = newPlayer.getCurrentSpeed;
 
-      let offCampusTracker = null;
+      let offCanvasTracker = null;
 
       //Function for actually running the game
       const runningTheGame = timestamp => {
@@ -147,6 +152,16 @@ export const playingTheGame = canvas => {
             canvas.getCurrentHeight
           ) {
             newPlayer.ycord -= newPlayer.getCurrentSpeed;
+          } else if (
+            newPlayer.getCurrentXcord - newPlayer.getCurrentWidthOrRadius <=
+            canvas.getCurrentXcord
+          ) {
+            newPlayer.xcord += newPlayer.getCurrentSpeed;
+          } else if (
+            newPlayer.getCurrentXcord + newPlayer.getCurrentWidthOrRadius >=
+            canvas.getCurrentWidth
+          ) {
+            newPlayer.xcord += newPlayer.getCurrentSpeed;
           }
 
           if (diff !== null) {
@@ -156,6 +171,11 @@ export const playingTheGame = canvas => {
           if (start == null) {
             start = timestamp;
           }
+
+          document.getElementById("time").innerHTML = (
+            (timestamp - start) /
+            1000
+          ).toPrecision(4);
 
           //Reapplies speeds if game was unpaused
           for (let i = 0; i < enemyRectangles.length; i++) {
@@ -221,77 +241,128 @@ export const playingTheGame = canvas => {
             if (
               checkForOffTheCanvas(
                 enemyRectangles[i].getCurrentLocation,
+                enemyRectangles[i].getCurrentWidthOrRadius,
+                enemyRectangles[i].getCurrentHeight,
                 canvas.getCurrentXcord,
                 canvas.getCurrentYcord,
                 canvas.getCurrentWidth,
                 canvas.getCurrentHeight
-              ) === true
+              ) == true
             ) {
-              if (offCampusTracker !== null) {
-                offCampusTracker.i === 1
-                  ? (enemyRectangles[i].ycord = Math.floor(
-                      Math.random() *
-                        (offCampusTracker.y + offCampusTracker.h) +
-                        canvas.getCurrentYcord
-                    ))
-                  : (enemyRectangles[i].ycord = Math.floor(
-                      Math.random() * canvas.getCurrentHeight +
-                        offCampusTracker.y +
-                        offCampusTracker.h
-                    ));
+              if (offCanvasTracker !== null) {
+                offCanvasTracker.y = enemyRectangles[i].getCurrentYcord;
+                if (offCanvasTracker.p === 1) {
+                  enemyRectangles[i].ycord = newPlayer.getCurrentLocation[0].y;
+                  offCanvasTracker.p = 0;
+                } else {
+                  offCanvasTracker.i === 1
+                    ? (enemyRectangles[i].ycord = Math.floor(
+                        Math.random() *
+                          (offCanvasTracker.y +
+                            offCanvasTracker.h -
+                            (canvas.getCurrentYcord +
+                              enemyRectangles[i].getCurrentHeight)) +
+                          canvas.getCurrentYcord +
+                          enemyRectangles[i].getCurrentHeight
+                      ))
+                    : (enemyRectangles[i].ycord = Math.floor(
+                        Math.random() *
+                          (canvas.getCurrentHeight -
+                            enemyRectangles[i].getCurrentHeight -
+                            offCanvasTracker.y +
+                            offCanvasTracker.h) +
+                          offCanvasTracker.y +
+                          offCanvasTracker.h
+                      ));
+                  offCanvasTracker.h = enemyRectangles[i].getCurrentHeight;
+                  offCanvasTracker.i = offCanvasTracker.i === 1 ? 0 : 1;
+                  offCanvasTracker.p = Math.floor(Math.random() * 2);
+                }
+              } else {
+                offCanvasTracker = {
+                  y: enemyRectangles[i].getCurrentYcord,
+                  h: enemyRectangles[i].getCurrentHeight,
+                  i: Math.floor(Math.random() * 2),
+                  p: Math.floor(Math.random() * 2)
+                };
               }
-              offCampusTracker = {
-                y: enemyRectangles[i].getCurrentYcord,
-                h: enemyRectangles[i].getCurrentHeight,
-                i: Math.floor(Math.random() * 2)
-              };
               enemyRectangles[i].xcord =
                 canvas.getCurrentWidth +
-                Math.floor(Math.random() * (20 - 10) + 10);
-              /* enemyRectangles[i].ycord = Math.floor(
-                Math.random() *
-                  (canvas.getCurrentHeight + canvas.getCurrentYcord) +
-                  canvas.getCurrentYcord
-              );*/
+                enemyRectangles[i].getCurrentWidthOrRadius;
               enemyRectangles[i].speed = Math.floor(
                 Math.random() * (5 - 2) + 2
               );
             }
           }
 
-          if (checkForOffTheCanvas(newWall.getCurrentLocation)) {
+          if (
+            checkForOffTheCanvas(
+              newWall.getCurrentLocation,
+              newWall.getCurrentWidthOrRadius,
+              newWall.getCurrentHeight,
+              canvas.getCurrentXcord,
+              canvas.getCurrentYcord,
+              canvas.getCurrentWidth,
+              canvas.getCurrentHeight
+            )
+          ) {
+            if (offCanvasTracker !== null) {
+              offCanvasTracker.y = newWall.getCurrentYcord;
+              offCanvasTracker.i === 1
+                ? (newWall.ycord = Math.floor(
+                    Math.random() *
+                      (offCanvasTracker.y +
+                        offCanvasTracker.h -
+                        canvas.getCurrentYcord +
+                        newWall.getCurrentHeight) +
+                      canvas.getCurrentYcord +
+                      newWall.getCurrentHeight
+                  ))
+                : (newWall.ycord = Math.floor(
+                    Math.random() *
+                      (canvas.getCurrentHeight -
+                        newWall.getCurrentHeight -
+                        offCanvasTracker.y +
+                        offCanvasTracker.h) +
+                      offCanvasTracker.y +
+                      offCanvasTracker.h
+                  ));
+              offCanvasTracker.y = newWall.getCurrentYcord;
+              offCanvasTracker.h = newWall.getCurrentHeight;
+            } else {
+              offCanvasTracker = {
+                y: newWall.getCurrentYcord,
+                h: newWall.getCurrentHeight,
+                i: Math.floor(Math.random() * 2),
+                p: Math.floor(Math.random() * 2)
+              };
+            }
             newWall.xcord =
-              canvas.getCurrentWidth +
-              Math.floor(Math.random() * (20 - 10) + 10);
-            newWall.ycord = Math.floor(
-              Math.random() *
-                (canvas.getCurrentHeight + canvas.getCurrentYcord) +
-                canvas.getCurrentYcord
-            );
+              canvas.getCurrentWidth + newWall.getCurrentWidthOrRadius;
             newWall.speed = Math.floor(Math.random() * (5 - 2) + 2);
           }
-        }
 
-        //Continue running the game
-        if (timestamp - start < 12000 && newPlayer.getCurrentHit !== 1) {
-          window.requestAnimationFrame(runningTheGame);
-        }
-
-        //End the game
-        if (timestamp - start >= 12000 || newPlayer.getCurrentHit === 1) {
-          for (let i = 0; i < enemyRectangles.length; i++) {
-            enemyRectangles[i].deleteObject();
+          //Continue running the game
+          if (timestamp - start < 15000 && newPlayer.getCurrentHit !== 1) {
+            window.requestAnimationFrame(runningTheGame);
           }
-          newPlayer.deleteObject();
-          newWall.deleteObject();
 
-          globalObject.pauseButton.removeEventListener("click", pBF, false);
-          start = null;
-          newPlayer.hit = 0;
-          canvas.mode = 2;
-          globalObject.pauseButton.style.setProperty("display", "none");
+          //End the game
+          if (timestamp - start >= 15000 || newPlayer.getCurrentHit === 1) {
+            for (let i = 0; i < enemyRectangles.length; i++) {
+              enemyRectangles[i].deleteObject();
+            }
+            newPlayer.deleteObject();
+            newWall.deleteObject();
 
-          playingTheGame(canvas);
+            globalObject.pauseButton.removeEventListener("click", pBF, false);
+            start = null;
+            newPlayer.hit = 0;
+            canvas.mode = 2;
+            globalObject.pauseButton.style.setProperty("display", "none");
+
+            playingTheGame(canvas);
+          }
         } else if (canvas.getCurrentMode === 3) {
           if (diff === null) {
             diff = timestamp - start;

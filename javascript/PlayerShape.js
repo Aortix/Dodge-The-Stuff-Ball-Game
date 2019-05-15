@@ -37,6 +37,7 @@ class PlayerShape extends CreateShapes {
   drawPlayerShape = () => {
     this.drawShape();
     this.canvasContext.beginPath();
+    //Origin (x,y) is the middle of the circle
     this.canvasContext.arc(
       this.xcord,
       this.ycord,

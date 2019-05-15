@@ -1,6 +1,9 @@
 import PlayerShape from "./PlayerShape.js";
 import Rectangle from "./Enemies/Rectangle.js";
 import Wall from "./Enemies/Wall.js";
+import Circle from "./Enemies/Circle.js";
+import Magnet from "./Enemies/Magnet.js";
+import Zigzag from "./Enemies/Zigzag.js";
 import checkForCollisions from "./checkForCollisions.js";
 import checkForOffTheCanvas from "./checkForOffTheCanvas.js";
 
@@ -124,6 +127,53 @@ export const playingTheGame = canvas => {
         canvas.getCurrentCanvasContext
       );
 
+      let newCircle = new Circle(
+        canvas.getCurrentWidth + 5,
+        Math.floor(Math.random() * (canvas.getCurrentHeight - 5) + 5),
+        10,
+        0,
+        0,
+        360,
+        4,
+        0,
+        0,
+        "white",
+        "white",
+        canvas.getCurrentCanvasContext
+      );
+
+      let newMagnet = new Magnet(
+        canvas.getCurrentWidth + 5,
+        Math.floor(Math.random() * (canvas.getCurrentHeight - 5) + 5),
+        25,
+        0,
+        0,
+        180,
+        4,
+        0,
+        0,
+        "white",
+        "white",
+        canvas.getCurrentCanvasContext
+      );
+
+      let newZigzag = new Zigzag(
+        canvas.getCurrentWidth + 5,
+        Math.floor(Math.random() * (canvas.getCurrentHeight - 100) + 100),
+        Math.floor(Math.random() * (20 - 10) + 10),
+        Math.floor(Math.random() * (120 - 80) + 60),
+        0,
+        0,
+        Math.floor(Math.random() * (5 - 2) + 2),
+        0,
+        0,
+        "white",
+        "white",
+        canvas.getCurrentCanvasContext
+      );
+
+      console.log(newZigzag);
+
       //Get initial speeds of enemies - this will be used when you unpause (speed is set to 0 for a pause) the game to
       //return the speed values
       let newWallSpeed = newWall.getCurrentSpeed;
@@ -132,6 +182,9 @@ export const playingTheGame = canvas => {
         rectangleSpeeds.push(enemyRectangles[i].getCurrentSpeed);
       }
       let newPlayerSpeed = newPlayer.getCurrentSpeed;
+      let newCircleSpeed = newCircle.getCurrentSpeed;
+      let newMagnetSpeed = newMagnet.getCurrentSpeed;
+      let newZigzagSpeed = newZigzag.getCurrentSpeed;
 
       let offCanvasTracker = null;
 
@@ -192,18 +245,36 @@ export const playingTheGame = canvas => {
             newWall.speed = newWallSpeed;
           }
 
+          if (newCircle.getCurrentSpeed === 0) {
+            newCircle.speed = newCircleSpeed;
+          }
+
+          if (newMagnet.getCurrentSpeed === 0) {
+            newMagnet.speed = newMagnetSpeed;
+          }
+
+          if (newZigzag.getCurrentSpeed === 0) {
+            newZigzag.speed = newZigzagSpeed;
+          }
+
           //Clear everything
           newPlayer.clearObject();
           for (let i = 0; i < enemyRectangles.length; i++) {
             enemyRectangles[i].clearObject();
           }
           newWall.clearObject();
+          newCircle.clearObject();
+          newMagnet.clearObject();
+          newZigzag.clearObject();
           canvas.clearCanvas();
 
           //Redraw everything
           canvas.drawCanvas();
           newPlayer.drawPlayerShape();
           newWall.drawWall();
+          newCircle.drawCircle();
+          newMagnet.drawMagnet();
+          newZigzag.drawZigzag();
           for (let i = 0; i < enemyRectangles.length; i++) {
             enemyRectangles[i].drawRectangle();
           }
@@ -213,6 +284,9 @@ export const playingTheGame = canvas => {
             enemyRectangles[i].moveRectangle();
           }
           newWall.moveWall();
+          newCircle.moveCircle();
+          newMagnet.moveMagnet();
+          newZigzag.moveZigzag();
 
           //Check for collisions
           for (let i = 0; i < enemyRectangles.length; i++) {
@@ -230,6 +304,36 @@ export const playingTheGame = canvas => {
             checkForCollisions(
               newPlayer.getCurrentLocation,
               newWall.getCurrentLocation
+            ) === true &&
+            newPlayer.hit !== 1
+          ) {
+            newPlayer.hit = 1;
+          }
+
+          if (
+            checkForCollisions(
+              newPlayer.getCurrentLocation,
+              newCircle.getCurrentLocation
+            ) === true &&
+            newPlayer.hit !== 1
+          ) {
+            newPlayer.hit = 1;
+          }
+
+          if (
+            checkForCollisions(
+              newPlayer.getCurrentLocation,
+              newMagnet.getCurrentLocation
+            ) === true &&
+            newPlayer.hit !== 1
+          ) {
+            newPlayer.hit = 1;
+          }
+
+          if (
+            checkForCollisions(
+              newPlayer.getCurrentLocation,
+              newZigzag.getCurrentLocation
             ) === true &&
             newPlayer.hit !== 1
           ) {
@@ -354,6 +458,9 @@ export const playingTheGame = canvas => {
             }
             newPlayer.deleteObject();
             newWall.deleteObject();
+            newCircle.deleteObject();
+            newMagnet.deleteObject();
+            newZigzag.deleteObject();
 
             globalObject.pauseButton.removeEventListener("click", pBF, false);
             start = null;
@@ -373,6 +480,9 @@ export const playingTheGame = canvas => {
           }
           newWall.speed = 0;
           newPlayer.speed = 0;
+          newCircle.speed = 0;
+          newMagnet.speed = 0;
+          newZigzag.speed = 0;
           globalObject.pauseButton.addEventListener("click", pBF, false);
           window.requestAnimationFrame(runningTheGame);
         }

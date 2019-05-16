@@ -9,8 +9,6 @@ class Wall extends CreateShapes {
     startAngle,
     endAngle,
     speed,
-    time,
-    hit,
     bgColor,
     strokeColor,
     canvasContext
@@ -23,8 +21,6 @@ class Wall extends CreateShapes {
       startAngle,
       endAngle,
       speed,
-      time,
-      hit,
       bgColor,
       strokeColor,
       canvasContext

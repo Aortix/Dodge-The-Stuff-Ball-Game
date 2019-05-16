@@ -8,8 +8,6 @@ class Zigzag extends CreateShapes {
     startAngle,
     endAngle,
     speed,
-    time,
-    hit,
     bgColor,
     strokeColor,
     canvasContext
@@ -22,8 +20,6 @@ class Zigzag extends CreateShapes {
       startAngle,
       endAngle,
       speed,
-      time,
-      hit,
       bgColor,
       strokeColor,
       canvasContext

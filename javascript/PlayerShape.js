@@ -9,8 +9,6 @@ class PlayerShape extends CreateShapes {
     startAngle,
     endAngle,
     speed,
-    time,
-    hit,
     bgColor,
     strokeColor,
     canvasContext
@@ -23,15 +21,22 @@ class PlayerShape extends CreateShapes {
       startAngle,
       endAngle,
       speed,
-      time,
-      hit,
       bgColor,
       strokeColor,
       canvasContext
     );
 
+    this.hit = 0;
     this.addKeyboardCommands();
     this.drawPlayerShape();
+  }
+
+  get getCurrentHit() {
+    return this.hit;
+  }
+
+  set setCurrentHit(hit) {
+    return (this.hit = hit);
   }
 
   drawPlayerShape = () => {

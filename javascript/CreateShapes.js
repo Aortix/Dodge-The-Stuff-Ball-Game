@@ -8,8 +8,6 @@ class CreateShapes {
     startAngle = 0,
     endAngle = 0,
     speed = 5,
-    time = 0,
-    hit = 0,
     bgColor = "white",
     strokeColor = "black",
     canvasContext
@@ -21,8 +19,6 @@ class CreateShapes {
     this.startAngle = startAngle;
     this.endAngle = endAngle;
     this.speed = speed;
-    this.time = time;
-    this.hit = hit;
     this.bgColor = bgColor;
     this.strokeColor = strokeColor;
     this.canvasContext = canvasContext;
@@ -60,13 +56,6 @@ class CreateShapes {
     return this.speed;
   }
 
-  get getCurrentTime() {
-    return this.time;
-  }
-
-  get getCurrentHit() {
-    return this.hit;
-  }
   get getCurrentBgColor() {
     return this.bgColor;
   }
@@ -109,14 +98,6 @@ class CreateShapes {
     return (this.speed = speed);
   }
 
-  set setCurrentTime(time) {
-    return (this.time = time);
-  }
-
-  set setCurrentHit(hit) {
-    return (this.hit = hit);
-  }
-
   set setCurrentBgColor(bgColor) {
     return (this.bgColor = bgColor);
   }
@@ -146,8 +127,6 @@ class CreateShapes {
     delete this.startAngle;
     delete this.endAngle;
     delete this.speed;
-    delete this.time;
-    delete this.hit;
     delete this.bgColor;
     delete this.strokeColor;
     delete this.canvasContext;

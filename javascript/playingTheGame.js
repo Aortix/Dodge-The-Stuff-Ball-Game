@@ -1,11 +1,9 @@
 import PlayerShape from "./PlayerShape.js";
-import Rectangle from "./Enemies/Rectangle.js";
-import Wall from "./Enemies/Wall.js";
-import Circle from "./Enemies/Circle.js";
-import Magnet from "./Enemies/Magnet.js";
-import Zigzag from "./Enemies/Zigzag.js";
+
+import limitPlayerMovement from "./limitPlayerMovement.js";
 import checkForCollisions from "./checkForCollisions.js";
-import checkForOffTheCanvas from "./checkForOffTheCanvas.js";
+import createEnemies from "./createEnemies.js";
+import offTheCanvas from "./offTheCanvas.js";
 
 import {
   playGameButtonFunction,
@@ -58,19 +56,27 @@ export const playingTheGame = canvas => {
   //Determines the state of the application based off the mode the canvas is in
   switch (canvas.getCurrentMode) {
     case 0:
+      //The Start Menu
       console.log("Start Menu");
-      //Creating the Start Menu
       document
         .getElementById(canvas.getCurrentCanvasId)
         .classList.toggle("menu");
       globalObject.playGameButton.addEventListener("click", pGBF, false);
       break;
     case 1:
-      console.log("Game Screen");
       //Game Running
+      console.log("Game Screen");
+
+      //For limiting where an object can appear on the canvas after it has gone off of it
+      let offCanvasTracker = {
+        y: canvas.getCurrentWidth,
+        h: canvas.getCurrentHeight / 2,
+        i: Math.floor(Math.random() * 2),
+        p: Math.floor(Math.random() * 2)
+      };
 
       //Create the player, for now this is up to the developer - might extend to user later on
-      let newPlayer = new PlayerShape(
+      let player1 = new PlayerShape(
         canvas.getCurrentXcord + 20,
         canvas.getCurrentYcord + 20,
         10,
@@ -78,113 +84,46 @@ export const playingTheGame = canvas => {
         0,
         360,
         5,
-        0,
-        0,
         "white",
         "white",
         canvas.getCurrentCanvasContext
       );
 
-      //Create enemies
-      let enemyRectangles = [];
-      let rectangleAmount = Math.floor(Math.random() * 3 + 3);
-      for (let i = 0; i < rectangleAmount; i++) {
-        enemyRectangles.push(
-          new Rectangle(
-            canvas.getCurrentWidth - 20,
-            Math.floor(
-              Math.random() *
-                (canvas.getCurrentHeight -
-                  Math.floor(Math.random() * (40 - 20) + 20)) +
-                Math.floor(Math.random() * (40 - 20) + 20)
-            ),
-            Math.floor(Math.random() * (40 - 20) + 20),
-            Math.floor(Math.random() * (40 - 20) + 20),
-            0,
-            0,
-            Math.floor(Math.random() * (5 - 2) + 2),
-            0,
-            0,
-            "white",
-            "white",
-            canvas.getCurrentCanvasContext
-          )
-        );
-      }
-
-      let newWall = new Wall(
-        canvas.getCurrentWidth + 5,
-        Math.floor(Math.random() * (canvas.getCurrentHeight - 5) + 5),
-        Math.floor(Math.random() * (20 - 10) + 10),
-        Math.floor(Math.random() * (120 - 80) + 60),
-        0,
-        0,
-        Math.floor(Math.random() * (5 - 2) + 2),
-        0,
-        0,
-        "white",
-        "white",
-        canvas.getCurrentCanvasContext
-      );
-
-      let newCircle = new Circle(
-        canvas.getCurrentWidth + 5,
-        Math.floor(Math.random() * (canvas.getCurrentHeight - 5) + 5),
-        10,
-        0,
-        0,
-        360,
-        4,
-        0,
-        0,
-        "white",
-        "white",
-        canvas.getCurrentCanvasContext
-      );
-
-      let newMagnet = new Magnet(
-        canvas.getCurrentWidth + 5,
-        Math.floor(Math.random() * (canvas.getCurrentHeight - 5) + 5),
-        25,
-        0,
-        0,
-        180,
-        4,
-        0,
-        0,
-        "white",
-        "white",
-        canvas.getCurrentCanvasContext
-      );
-
-      let newZigzag = new Zigzag(
-        canvas.getCurrentWidth + 5,
-        Math.floor(Math.random() * (canvas.getCurrentHeight - 100) + 100),
-        Math.floor(Math.random() * (40 - 30) + 30),
-        Math.floor(Math.random() * (120 - 80) + 60),
-        0,
-        0,
-        Math.floor(Math.random() * (5 - 2) + 2),
-        0,
-        0,
-        "white",
-        "white",
-        canvas.getCurrentCanvasContext
-      );
+      //Create Enemies
+      let enemyRectangles = createEnemies(canvas, "Rectangle");
+      let enemyWalls = createEnemies(canvas, "Wall");
+      let enemyCircles = createEnemies(canvas, "Circle");
+      let enemyMagnets = createEnemies(canvas, "Magnet");
+      let enemyZigzags = createEnemies(canvas, "Zigzag");
 
       //Get initial speeds of enemies - this will be used when you unpause (speed is set to 0 for a pause) the game to
       //return the speed values
-      let newWallSpeed = newWall.getCurrentSpeed;
-      let rectangleSpeeds = [];
-      for (let i = 0; i < enemyRectangles.length; i++) {
-        rectangleSpeeds.push(enemyRectangles[i].getCurrentSpeed);
-      }
-      let newPlayerSpeed = newPlayer.getCurrentSpeed;
-      let newCircleSpeed = newCircle.getCurrentSpeed;
-      let newMagnetSpeed = newMagnet.getCurrentSpeed;
-      let newZigzagSpeed = newZigzag.getCurrentSpeed;
+      let player1Speed = player1.getCurrentSpeed;
 
-      let offCanvasTracker = null;
+      let rectangleSpeeds = [];
+      enemyRectangles.forEach(rectangle => {
+        rectangleSpeeds.push(rectangle.getCurrentSpeed);
+      });
+
+      let wallSpeeds = [];
+      enemyWalls.forEach(wall => {
+        wallSpeeds.push(wall.getCurrentSpeed);
+      });
+
+      let circleSpeeds = [];
+      enemyCircles.forEach(circle => {
+        circleSpeeds.push(circle.getCurrentSpeed);
+      });
+
+      let magnetSpeeds = [];
+      enemyMagnets.forEach(magnet => {
+        magnetSpeeds.push(magnet.getCurrentSpeed);
+      });
+
+      let zigzagSpeeds = [];
+      enemyZigzags.forEach(zigzag => {
+        zigzagSpeeds.push(zigzag.getCurrentSpeed);
+      });
 
       //Function for actually running the game
       const runningTheGame = timestamp => {
@@ -193,27 +132,7 @@ export const playingTheGame = canvas => {
           globalObject.pauseButton.addEventListener("click", pBF, false);
 
           //Stops player from going out of the canvas
-          if (
-            newPlayer.getCurrentYcord - newPlayer.getCurrentWidthOrRadius <=
-            canvas.getCurrentYcord
-          ) {
-            newPlayer.ycord += newPlayer.getCurrentSpeed;
-          } else if (
-            newPlayer.getCurrentYcord + newPlayer.getCurrentWidthOrRadius >=
-            canvas.getCurrentHeight
-          ) {
-            newPlayer.ycord -= newPlayer.getCurrentSpeed;
-          } else if (
-            newPlayer.getCurrentXcord - newPlayer.getCurrentWidthOrRadius <=
-            canvas.getCurrentXcord
-          ) {
-            newPlayer.xcord += newPlayer.getCurrentSpeed;
-          } else if (
-            newPlayer.getCurrentXcord + newPlayer.getCurrentWidthOrRadius >=
-            canvas.getCurrentWidth
-          ) {
-            newPlayer.xcord += newPlayer.getCurrentSpeed;
-          }
+          limitPlayerMovement(canvas, player1, 1);
 
           if (diff !== null) {
             diff = null;
@@ -223,246 +142,188 @@ export const playingTheGame = canvas => {
             start = timestamp;
           }
 
+          //Displays the time the game has been running on the screen in seconds
           document.getElementById("time").innerHTML = (
             (timestamp - start) /
             1000
           ).toPrecision(4);
 
-          //Reapplies speeds if game was unpaused
-          for (let i = 0; i < enemyRectangles.length; i++) {
-            if (enemyRectangles[i].getCurrentSpeed === 0) {
-              enemyRectangles[i].speed = rectangleSpeeds[i];
-            }
-          }
-
-          if (newPlayer.getCurrentSpeed === 0) {
-            newPlayer.speed = newPlayerSpeed;
-          }
-
-          if (newWall.getCurrentSpeed === 0) {
-            newWall.speed = newWallSpeed;
-          }
-
-          if (newCircle.getCurrentSpeed === 0) {
-            newCircle.speed = newCircleSpeed;
-          }
-
-          if (newMagnet.getCurrentSpeed === 0) {
-            newMagnet.speed = newMagnetSpeed;
-          }
-
-          if (newZigzag.getCurrentSpeed === 0) {
-            newZigzag.speed = newZigzagSpeed;
-          }
-
-          //Clear everything
-          newPlayer.clearObject();
-          for (let i = 0; i < enemyRectangles.length; i++) {
-            enemyRectangles[i].clearObject();
-          }
-          newWall.clearObject();
-          newCircle.clearObject();
-          newMagnet.clearObject();
-          newZigzag.clearObject();
+          //Clearing and redrawing the canvas
           canvas.clearCanvas();
-
-          //Redraw everything
           canvas.drawCanvas();
-          newPlayer.drawPlayerShape();
-          newWall.drawWall();
-          newCircle.drawCircle();
-          newMagnet.drawMagnet();
-          newZigzag.drawZigzag();
-          for (let i = 0; i < enemyRectangles.length; i++) {
-            enemyRectangles[i].drawRectangle();
+
+          //Clearing, redrawing, and resetting the speed (if necessary) of the player object
+          player1.clearObject();
+          player1.drawPlayerShape();
+          if (player1.getCurrentSpeed === 0) {
+            player1.speed = player1Speed;
           }
 
-          //Move enemies
-          for (let i = 0; i < enemyRectangles.length; i++) {
-            enemyRectangles[i].moveRectangle();
-          }
-          newWall.moveWall();
-          newCircle.moveCircle();
-          newMagnet.moveMagnet();
-          newZigzag.moveZigzag();
-
-          //Check for collisions
-          for (let i = 0; i < enemyRectangles.length; i++) {
+          //The following loops are the necessary function calls for each enemy object that is in the game
+          enemyRectangles.forEach((rectangle, index) => {
+            rectangle.clearObject();
+            rectangle.drawRectangle();
+            if (rectangle.getCurrentSpeed === 0) {
+              rectangle.speed = rectangleSpeeds[index];
+            }
+            rectangle.moveRectangle();
             if (
               checkForCollisions(
-                newPlayer.getCurrentLocation,
-                enemyRectangles[i].getCurrentLocation
+                player1.getCurrentLocation,
+                rectangle.getCurrentLocation
               ) === true
             ) {
-              newPlayer.hit = 1;
+              player1.hit = 1;
             }
-          }
+          });
 
-          if (
-            checkForCollisions(
-              newPlayer.getCurrentLocation,
-              newWall.getCurrentLocation
-            ) === true &&
-            newPlayer.hit !== 1
-          ) {
-            newPlayer.hit = 1;
-          }
-
-          if (
-            checkForCollisions(
-              newPlayer.getCurrentLocation,
-              newCircle.getCurrentLocation
-            ) === true &&
-            newPlayer.hit !== 1
-          ) {
-            newPlayer.hit = 1;
-          }
-
-          if (
-            checkForCollisions(
-              newPlayer.getCurrentLocation,
-              newMagnet.getCurrentLocation
-            ) === true &&
-            newPlayer.hit !== 1
-          ) {
-            newPlayer.hit = 1;
-          }
-
-          if (
-            checkForCollisions(
-              newPlayer.getCurrentLocation,
-              newZigzag.getCurrentLocation
-            ) === true &&
-            newPlayer.hit !== 1
-          ) {
-            newPlayer.hit = 1;
-          }
-
-          //Check for enemy objects going off the canvas
-          for (let i = 0; i < enemyRectangles.length; i++) {
+          enemyWalls.forEach((wall, index) => {
+            wall.clearObject();
+            wall.drawWall();
+            if (wall.getCurrentSpeed === 0) {
+              wall.speed = wallSpeeds[index];
+            }
+            wall.moveWall();
             if (
-              checkForOffTheCanvas(
-                enemyRectangles[i].getCurrentLocation,
-                enemyRectangles[i].getCurrentWidthOrRadius,
-                enemyRectangles[i].getCurrentHeight,
-                canvas.getCurrentXcord,
-                canvas.getCurrentYcord,
-                canvas.getCurrentWidth,
-                canvas.getCurrentHeight
-              ) == true
+              checkForCollisions(
+                player1.getCurrentLocation,
+                wall.getCurrentLocation
+              ) === true
             ) {
-              if (offCanvasTracker !== null) {
-                offCanvasTracker.y = enemyRectangles[i].getCurrentYcord;
-                if (offCanvasTracker.p === 1) {
-                  enemyRectangles[i].ycord = newPlayer.getCurrentLocation[0].y;
-                  offCanvasTracker.p = 0;
-                } else {
-                  offCanvasTracker.i === 1
-                    ? (enemyRectangles[i].ycord = Math.floor(
-                        Math.random() *
-                          (offCanvasTracker.y +
-                            offCanvasTracker.h -
-                            (canvas.getCurrentYcord +
-                              enemyRectangles[i].getCurrentHeight)) +
-                          canvas.getCurrentYcord +
-                          enemyRectangles[i].getCurrentHeight
-                      ))
-                    : (enemyRectangles[i].ycord = Math.floor(
-                        Math.random() *
-                          (canvas.getCurrentHeight -
-                            enemyRectangles[i].getCurrentHeight -
-                            offCanvasTracker.y +
-                            offCanvasTracker.h) +
-                          offCanvasTracker.y +
-                          offCanvasTracker.h
-                      ));
-                  offCanvasTracker.h = enemyRectangles[i].getCurrentHeight;
-                  offCanvasTracker.i = offCanvasTracker.i === 1 ? 0 : 1;
-                  offCanvasTracker.p = Math.floor(Math.random() * 2);
-                }
-              } else {
-                offCanvasTracker = {
-                  y: enemyRectangles[i].getCurrentYcord,
-                  h: enemyRectangles[i].getCurrentHeight,
-                  i: Math.floor(Math.random() * 2),
-                  p: Math.floor(Math.random() * 2)
-                };
-              }
-              enemyRectangles[i].xcord =
-                canvas.getCurrentWidth +
-                enemyRectangles[i].getCurrentWidthOrRadius;
-              enemyRectangles[i].speed = Math.floor(
-                Math.random() * (5 - 2) + 2
-              );
+              player1.hit = 1;
             }
+          });
+
+          enemyCircles.forEach((circle, index) => {
+            circle.clearObject();
+            circle.drawCircle();
+            if (circle.getCurrentSpeed === 0) {
+              circle.speed = circleSpeeds[index];
+            }
+            circle.moveCircle();
+            if (
+              checkForCollisions(
+                player1.getCurrentLocation,
+                circle.getCurrentLocation
+              ) === true
+            ) {
+              player1.hit = 1;
+            }
+          });
+
+          enemyMagnets.forEach((magnet, index) => {
+            magnet.clearObject();
+            magnet.drawMagnet();
+            if (magnet.getCurrentSpeed === 0) {
+              magnet.speed = magnetSpeeds[index];
+            }
+            magnet.moveMagnet();
+            if (
+              checkForCollisions(
+                player1.getCurrentLocation,
+                magnet.getCurrentLocation
+              ) === true
+            ) {
+              player1.hit = 1;
+            }
+          });
+
+          enemyZigzags.forEach((zigzag, index) => {
+            zigzag.clearObject();
+            zigzag.drawZigzag();
+            if (zigzag.getCurrentSpeed === 0) {
+              zigzag.speed = zigzagSpeeds[index];
+            }
+            zigzag.moveZigzag();
+            if (
+              checkForCollisions(
+                player1.getCurrentLocation,
+                zigzag.getCurrentLocation
+              ) === true
+            ) {
+              player1.hit = 1;
+            }
+          });
+
+          //The following if statements check if each enemy object is outside of the canvas, and they are their
+          //positions are changed and a new offCanvasTracker is returned
+          if (
+            offTheCanvas(canvas, enemyRectangles, player1, offCanvasTracker) !=
+            null
+          ) {
+            return Object.assign(
+              offCanvasTracker,
+              offTheCanvas(canvas, enemyRectangles, player1, offCanvasTracker)
+            );
           }
 
           if (
-            checkForOffTheCanvas(
-              newWall.getCurrentLocation,
-              newWall.getCurrentWidthOrRadius,
-              newWall.getCurrentHeight,
-              canvas.getCurrentXcord,
-              canvas.getCurrentYcord,
-              canvas.getCurrentWidth,
-              canvas.getCurrentHeight
-            )
+            offTheCanvas(canvas, enemyWalls, player1, offCanvasTracker) != null
           ) {
-            if (offCanvasTracker !== null) {
-              offCanvasTracker.y = newWall.getCurrentYcord;
-              offCanvasTracker.i === 1
-                ? (newWall.ycord = Math.floor(
-                    Math.random() *
-                      (offCanvasTracker.y +
-                        offCanvasTracker.h -
-                        canvas.getCurrentYcord +
-                        newWall.getCurrentHeight) +
-                      canvas.getCurrentYcord +
-                      newWall.getCurrentHeight
-                  ))
-                : (newWall.ycord = Math.floor(
-                    Math.random() *
-                      (canvas.getCurrentHeight -
-                        newWall.getCurrentHeight -
-                        offCanvasTracker.y +
-                        offCanvasTracker.h) +
-                      offCanvasTracker.y +
-                      offCanvasTracker.h
-                  ));
-              offCanvasTracker.y = newWall.getCurrentYcord;
-              offCanvasTracker.h = newWall.getCurrentHeight;
-            } else {
-              offCanvasTracker = {
-                y: newWall.getCurrentYcord,
-                h: newWall.getCurrentHeight,
-                i: Math.floor(Math.random() * 2),
-                p: Math.floor(Math.random() * 2)
-              };
-            }
-            newWall.xcord =
-              canvas.getCurrentWidth + newWall.getCurrentWidthOrRadius;
-            newWall.speed = Math.floor(Math.random() * (5 - 2) + 2);
+            return Object.assign(
+              offCanvasTracker,
+              offTheCanvas(canvas, enemyWalls, player1, offCanvasTracker)
+            );
           }
 
-          //Continue running the game
-          if (timestamp - start < 15000 && newPlayer.getCurrentHit !== 1) {
+          if (
+            offTheCanvas(canvas, enemyCircles, player1, offCanvasTracker) !=
+            null
+          ) {
+            return Object.assign(
+              offCanvasTracker,
+              offTheCanvas(canvas, enemyCircles, player1, offCanvasTracker)
+            );
+          }
+
+          if (
+            offTheCanvas(canvas, enemyMagnets, player1, offCanvasTracker) !=
+            null
+          ) {
+            return Object.assign(
+              offCanvasTracker,
+              offTheCanvas(canvas, enemyMagnets, player1, offCanvasTracker)
+            );
+          }
+
+          if (
+            offTheCanvas(canvas, enemyZigzags, player1, offCanvasTracker) !=
+            null
+          ) {
+            return Object.assign(
+              offCanvasTracker,
+              offTheCanvas(canvas, enemyZigzags, player1, offCanvasTracker)
+            );
+          }
+
+          //Continue running the game if conditions are met
+          if (timestamp - start < 15000 && player1.getCurrentHit !== 1) {
             window.requestAnimationFrame(runningTheGame);
           }
 
-          //End the game
-          if (timestamp - start >= 15000 || newPlayer.getCurrentHit === 1) {
-            for (let i = 0; i < enemyRectangles.length; i++) {
-              enemyRectangles[i].deleteObject();
-            }
-            newPlayer.deleteObject();
-            newWall.deleteObject();
-            newCircle.deleteObject();
-            newMagnet.deleteObject();
-            newZigzag.deleteObject();
+          //End the game if conditions are met
+          if (timestamp - start >= 15000 || player1.getCurrentHit === 1) {
+            //The following loops delete the object properties for each object in the game
+            player1.deleteObject();
+            enemyRectangles.forEach(rectangle => {
+              rectangle.deleteObject();
+            });
+            enemyWalls.forEach(wall => {
+              wall.deleteObject();
+            });
+            enemyCircles.forEach(circle => {
+              circle.deleteObject();
+            });
+            enemyMagnets.forEach(magnet => {
+              magnet.deleteObject();
+            });
+            enemyZigzags.forEach(zigzag => {
+              zigzag.deleteObject();
+            });
 
             globalObject.pauseButton.removeEventListener("click", pBF, false);
             start = null;
-            newPlayer.hit = 0;
+            player1.hit = 0;
             canvas.mode = 2;
             globalObject.pauseButton.style.setProperty("display", "none");
 
@@ -473,21 +334,30 @@ export const playingTheGame = canvas => {
             diff = timestamp - start;
           }
           start = timestamp - diff;
-          for (let i = 0; i < enemyRectangles.length; i++) {
-            enemyRectangles[i].speed = 0;
-          }
-          newWall.speed = 0;
-          newPlayer.speed = 0;
-          newCircle.speed = 0;
-          newMagnet.speed = 0;
-          newZigzag.speed = 0;
+
+          player1.speed = 0;
+          enemyRectangles.forEach(rectangle => {
+            rectangle.speed = 0;
+          });
+          enemyWalls.forEach(wall => {
+            wall.speed = 0;
+          });
+          enemyCircles.forEach(circle => {
+            circle.speed = 0;
+          });
+          enemyMagnets.forEach(magnet => {
+            magnet.speed = 0;
+          });
+          enemyZigzags.forEach(zigzag => {
+            zigzag.speed = 0;
+          });
+
           globalObject.pauseButton.addEventListener("click", pBF, false);
           window.requestAnimationFrame(runningTheGame);
         }
       };
 
       window.requestAnimationFrame(runningTheGame);
-
       break;
     case 2:
       //Game Over Screen

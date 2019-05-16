@@ -160,7 +160,7 @@ export const playingTheGame = canvas => {
       let newZigzag = new Zigzag(
         canvas.getCurrentWidth + 5,
         Math.floor(Math.random() * (canvas.getCurrentHeight - 100) + 100),
-        Math.floor(Math.random() * (20 - 10) + 10),
+        Math.floor(Math.random() * (40 - 30) + 30),
         Math.floor(Math.random() * (120 - 80) + 60),
         0,
         0,
@@ -171,8 +171,6 @@ export const playingTheGame = canvas => {
         "white",
         canvas.getCurrentCanvasContext
       );
-
-      console.log(newZigzag);
 
       //Get initial speeds of enemies - this will be used when you unpause (speed is set to 0 for a pause) the game to
       //return the speed values

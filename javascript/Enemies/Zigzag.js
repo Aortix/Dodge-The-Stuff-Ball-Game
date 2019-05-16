@@ -36,16 +36,22 @@ class Zigzag extends CreateShapes {
     this.drawShape();
     this.canvasContext.beginPath();
     this.canvasContext.moveTo(this.xcord, this.ycord);
-    for (let i = 3; i > 0; i--) {
-      this.canvasContext.lineTo(
-        this.xcord - (this.widthOrRadius - i + 1),
-        this.ycord + this.height + i
-      );
-      this.canvasContext.lineTo(
-        this.xcord - (this.widthOrRadius - i + 1),
-        this.ycord - this.height + i
-      );
-    }
+    this.canvasContext.lineTo(
+      this.xcord - this.widthOrRadius / 3,
+      this.ycord + this.height / 7
+    );
+    this.canvasContext.lineTo(
+      this.xcord - this.widthOrRadius / 2,
+      this.ycord - this.height / 6
+    );
+    this.canvasContext.lineTo(
+      this.xcord - this.widthOrRadius,
+      this.ycord + this.height / 5
+    );
+    this.canvasContext.lineTo(
+      this.xcord - this.widthOrRadius,
+      this.ycord - this.height / 4
+    );
     this.canvasContext.stroke();
   };
 

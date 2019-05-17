@@ -20,6 +20,7 @@ export const playingTheGame = canvas => {
   //Used to save the current timestamp when clicking the pause button during the game
   let diff = null;
 
+  let level = 0;
   //The following functions are used to add an event listener to a button, while removing previous event listeners
   //from the previous runs of this function.
   const pGBF = () => {
@@ -127,19 +128,40 @@ export const playingTheGame = canvas => {
 
       //Function for actually running the game
       const runningTheGame = timestamp => {
+        //So paused button can be clicked on
+        globalObject.pauseButton.addEventListener("click", pBF, false);
+
+        //Stops player from going out of the canvas
+        limitPlayerMovement(canvas, player1, level);
+
+        if (diff !== null) {
+          diff = null;
+        }
+
+        if (start == null) {
+          start = timestamp;
+        }
+
         if (canvas.getCurrentMode === 1) {
-          //So paused button can be clicked on
-          globalObject.pauseButton.addEventListener("click", pBF, false);
-
-          //Stops player from going out of the canvas
-          limitPlayerMovement(canvas, player1, 1);
-
-          if (diff !== null) {
-            diff = null;
-          }
-
-          if (start == null) {
-            start = timestamp;
+          switch (level) {
+            case 0:
+              if ((timestamp - start) / 1000 > 8) {
+                player1.invincibility = 1;
+                player1.xcord = canvas.getCurrentWidth / 4;
+                level = 1;
+                setTimeout(() => (player1.invincibility = 0), 3000);
+              }
+            case 1:
+              if ((timestamp - start) / 1000 > 15) {
+                player1.invincibility = 1;
+                player1.xcord = canvas.getCurrentWidth / 2;
+                level = 2;
+                setTimeout(() => (player1.invincibility = 0), 3000);
+              }
+            case 2:
+              break;
+            default:
+              break;
           }
 
           //Displays the time the game has been running on the screen in seconds
@@ -296,12 +318,20 @@ export const playingTheGame = canvas => {
           }
 
           //Continue running the game if conditions are met
-          if (timestamp - start < 15000 && player1.getCurrentHit !== 1) {
+          if (timestamp - start < 20000 && player1.invincibility === 1) {
+          }
+
+          if (timestamp - start < 20000 && player1.invincibility === 1) {
+            player1.hit = 0;
             window.requestAnimationFrame(runningTheGame);
+          } else {
+            if (timestamp - start < 20000 && player1.getCurrentHit !== 1) {
+              window.requestAnimationFrame(runningTheGame);
+            }
           }
 
           //End the game if conditions are met
-          if (timestamp - start >= 15000 || player1.getCurrentHit === 1) {
+          if (timestamp - start >= 20000 || player1.getCurrentHit === 1) {
             //The following loops delete the object properties for each object in the game
             player1.deleteObject();
             enemyRectangles.forEach(rectangle => {
@@ -322,6 +352,7 @@ export const playingTheGame = canvas => {
 
             globalObject.pauseButton.removeEventListener("click", pBF, false);
             start = null;
+            level = 0;
             player1.hit = 0;
             canvas.mode = 2;
             globalObject.pauseButton.style.setProperty("display", "none");

@@ -27,6 +27,7 @@ class PlayerShape extends CreateShapes {
     );
 
     this.hit = 0;
+    this.invincibility = 0;
     this.addKeyboardCommands();
     this.drawPlayerShape();
   }

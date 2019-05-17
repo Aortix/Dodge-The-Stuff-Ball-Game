@@ -1,6 +1,6 @@
-const limitPlayerMovement = (canvas, player, mode) => {
-  switch (mode) {
-    case 1:
+const limitPlayerMovement = (canvas, player, level) => {
+  switch (level) {
+    case 0:
       if (
         player.getCurrentYcord - player.getCurrentWidthOrRadius <=
         canvas.getCurrentYcord
@@ -16,9 +16,40 @@ const limitPlayerMovement = (canvas, player, mode) => {
         canvas.getCurrentXcord
       ) {
         player.xcord += player.getCurrentSpeed;
+      }
+      break;
+    case 1:
+      if (
+        player.getCurrentYcord - player.getCurrentWidthOrRadius <=
+        canvas.getCurrentYcord
+      ) {
+        player.ycord += player.getCurrentSpeed;
       } else if (
-        player.getCurrentXcord + player.getCurrentWidthOrRadius >=
-        canvas.getCurrentWidth
+        player.getCurrentYcord + player.getCurrentWidthOrRadius >=
+        canvas.getCurrentHeight
+      ) {
+        player.ycord -= player.getCurrentSpeed;
+      } else if (
+        player.getCurrentXcord - player.getCurrentWidthOrRadius <=
+        canvas.getCurrentWidth / 4
+      ) {
+        player.xcord += player.getCurrentSpeed;
+      }
+      break;
+      case 2: 
+      if (
+        player.getCurrentYcord - player.getCurrentWidthOrRadius <=
+        canvas.getCurrentYcord
+      ) {
+        player.ycord += player.getCurrentSpeed;
+      } else if (
+        player.getCurrentYcord + player.getCurrentWidthOrRadius >=
+        canvas.getCurrentHeight
+      ) {
+        player.ycord -= player.getCurrentSpeed;
+      } else if (
+        player.getCurrentXcord - player.getCurrentWidthOrRadius <=
+        canvas.getCurrentWidth / 2
       ) {
         player.xcord += player.getCurrentSpeed;
       }

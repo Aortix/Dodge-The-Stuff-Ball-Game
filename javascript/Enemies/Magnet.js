@@ -36,16 +36,43 @@ class Magnet extends CreateShapes {
       this.xcord - this.widthOrRadius,
       this.ycord,
       this.widthOrRadius,
-      this.startAngle,
-      Math.PI
+      0,
+      Math.PI,
+      true
     );
-    this.canvasContext.moveTo(this.xcord, this.ycord);
+    for (let i = Math.PI; i < 2 * Math.PI; i += Math.PI / 12) {
+      this.location.push({
+        x: Math.floor(
+          this.xcord - this.widthOrRadius - this.widthOrRadius * Math.cos(i)
+        ),
+        y: Math.floor(this.widthOrRadius * Math.sin(i) + this.ycord)
+      });
+    }
+    this.canvasContext.moveTo(this.xcord - 5, this.ycord);
     this.canvasContext.arc(
       this.xcord - this.widthOrRadius,
       this.ycord,
       this.widthOrRadius - 5,
-      this.startAngle,
-      Math.PI
+      0,
+      Math.PI,
+      true
+    );
+    for (let i = Math.PI; i < 2 * Math.PI; i += Math.PI / 12) {
+      this.location.push({
+        x: Math.floor(
+          this.xcord -
+            this.widthOrRadius -
+            (this.widthOrRadius - 5) * Math.cos(i)
+        ),
+        y: Math.floor((this.widthOrRadius - 5) * Math.sin(i) + this.ycord)
+      });
+    }
+    this.canvasContext.moveTo(this.xcord, this.ycord);
+    this.canvasContext.lineTo(this.xcord - 5, this.ycord);
+    this.canvasContext.moveTo(this.xcord - this.widthOrRadius * 2, this.ycord);
+    this.canvasContext.lineTo(
+      this.xcord - this.widthOrRadius * 2 + 5,
+      this.ycord
     );
     this.canvasContext.stroke();
   };

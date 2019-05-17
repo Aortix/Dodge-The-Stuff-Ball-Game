@@ -51,7 +51,7 @@ class PlayerShape extends CreateShapes {
       this.endAngle
     );
 
-    for (let i = this.startAngle; i < this.endAngle; i += 5) {
+    for (let i = this.startAngle; i < this.endAngle; i += 7.5) {
       this.location.push({
         x: Math.floor(this.widthOrRadius * Math.cos(i) + this.xcord),
         y: Math.floor(this.widthOrRadius * Math.sin(i) + this.ycord)

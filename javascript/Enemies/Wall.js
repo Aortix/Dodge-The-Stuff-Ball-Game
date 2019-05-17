@@ -36,9 +36,11 @@ class Wall extends CreateShapes {
     this.location.push({ x: this.xcord, y: this.ycord });
 
     this.canvasContext.lineTo(this.xcord, this.ycord + this.height);
-    for (let i = this.ycord; i < this.ycord + this.height; i += 5) {
+    for (let i = this.ycord; i < this.ycord + this.height; i += 2.5) {
       this.location.push({ x: this.xcord, y: Math.floor(i) });
     }
+    this.location.push({ x: this.xcord, y: this.ycord + this.height / 2 });
+    this.location.push({ x: this.xcord, y: this.ycord + this.height });
     this.canvasContext.stroke();
   };
 

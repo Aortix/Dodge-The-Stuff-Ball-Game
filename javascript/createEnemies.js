@@ -2,7 +2,7 @@ import Rectangle from "./Enemies/Rectangle.js";
 import Wall from "./Enemies/Wall.js";
 import Circle from "./Enemies/Circle.js";
 import Magnet from "./Enemies/Magnet.js";
-import Zigzag from "./Enemies/Zigzag.js";
+import Belt from "./Enemies/Belt.js";
 
 const createEnemies = (canvas, enemy, amount) => {
   switch (enemy) {
@@ -91,16 +91,16 @@ const createEnemies = (canvas, enemy, amount) => {
         );
       }
       return enemyWalls;
-    case "Zigzag":
-      let enemyZigzags = [];
-      let enemyZigzagsAmount = amount || Math.floor(Math.random() * 2 + 3);
-      for (let i = 0; i < enemyZigzagsAmount; i++) {
-        enemyZigzags.push(
-          new Zigzag(
+    case "Belt":
+      let enemyBelts = [];
+      let enemyBeltsAmount = amount || Math.floor(Math.random() * 2 + 3);
+      for (let i = 0; i < enemyBeltsAmount; i++) {
+        enemyBelts.push(
+          new Belt(
             canvas.getCurrentWidth + 5,
             Math.floor(Math.random() * (canvas.getCurrentHeight - 100) + 100),
-            Math.floor(Math.random() * (40 - 30) + 30),
-            Math.floor(Math.random() * (120 - 80) + 60),
+            20,
+            30,
             0,
             0,
             Math.floor(Math.random() * (5 - 2) + 2),
@@ -110,7 +110,7 @@ const createEnemies = (canvas, enemy, amount) => {
           )
         );
       }
-      return enemyZigzags;
+      return enemyBelts;
     default:
       break;
   }

@@ -90,11 +90,11 @@ export const playingTheGame = canvas => {
       );
 
       //Create Enemies
-      let enemyRectangles = createEnemies(canvas, "Rectangle");
-      let enemyWalls = createEnemies(canvas, "Wall");
-      let enemyCircles = createEnemies(canvas, "Circle");
-      let enemyMagnets = createEnemies(canvas, "Magnet");
-      let enemyZigzags = createEnemies(canvas, "Zigzag");
+      let enemyRectangles = createEnemies(canvas, "Rectangle", 3);
+      let enemyWalls = createEnemies(canvas, "Wall", 1);
+      let enemyCircles = createEnemies(canvas, "Circle", 1);
+      let enemyMagnets = createEnemies(canvas, "Magnet", 1);
+      let enemyBelts = createEnemies(canvas, "Belt", 1);
 
       //Get initial speeds of enemies - this will be used when you unpause (speed is set to 0 for a pause) the game to
       //return the speed values
@@ -120,9 +120,9 @@ export const playingTheGame = canvas => {
         magnetSpeeds.push(magnet.getCurrentSpeed);
       });
 
-      let zigzagSpeeds = [];
-      enemyZigzags.forEach(zigzag => {
-        zigzagSpeeds.push(zigzag.getCurrentSpeed);
+      let beltSpeeds = [];
+      enemyBelts.forEach(belt => {
+        beltSpeeds.push(belt.getCurrentSpeed);
       });
 
       //Function for actually running the game
@@ -228,17 +228,17 @@ export const playingTheGame = canvas => {
             }
           });
 
-          enemyZigzags.forEach((zigzag, index) => {
-            zigzag.clearObject();
-            zigzag.drawZigzag();
-            if (zigzag.getCurrentSpeed === 0) {
-              zigzag.speed = zigzagSpeeds[index];
+          enemyBelts.forEach((belt, index) => {
+            belt.clearObject();
+            belt.drawBelt();
+            if (belt.getCurrentSpeed === 0) {
+              belt.speed = beltSpeeds[index];
             }
-            zigzag.moveZigzag();
+            belt.moveBelt();
             if (
               checkForCollisions(
                 player1.getCurrentLocation,
-                zigzag.getCurrentLocation
+                belt.getCurrentLocation
               ) === true
             ) {
               player1.hit = 1;
@@ -287,12 +287,11 @@ export const playingTheGame = canvas => {
           }
 
           if (
-            offTheCanvas(canvas, enemyZigzags, player1, offCanvasTracker) !=
-            null
+            offTheCanvas(canvas, enemyBelts, player1, offCanvasTracker) != null
           ) {
             return Object.assign(
               offCanvasTracker,
-              offTheCanvas(canvas, enemyZigzags, player1, offCanvasTracker)
+              offTheCanvas(canvas, enemyBelts, player1, offCanvasTracker)
             );
           }
 
@@ -317,8 +316,8 @@ export const playingTheGame = canvas => {
             enemyMagnets.forEach(magnet => {
               magnet.deleteObject();
             });
-            enemyZigzags.forEach(zigzag => {
-              zigzag.deleteObject();
+            enemyBelts.forEach(belt => {
+              belt.deleteObject();
             });
 
             globalObject.pauseButton.removeEventListener("click", pBF, false);
@@ -348,8 +347,8 @@ export const playingTheGame = canvas => {
           enemyMagnets.forEach(magnet => {
             magnet.speed = 0;
           });
-          enemyZigzags.forEach(zigzag => {
-            zigzag.speed = 0;
+          enemyBelts.forEach(belt => {
+            belt.speed = 0;
           });
 
           globalObject.pauseButton.addEventListener("click", pBF, false);

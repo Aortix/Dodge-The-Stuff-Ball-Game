@@ -21,6 +21,8 @@ export const playingTheGame = canvas => {
   let diff = null;
 
   let level = 0;
+  let state = 0;
+  let speedModifier = 0;
   //The following functions are used to add an event listener to a button, while removing previous event listeners
   //from the previous runs of this function.
   const pGBF = () => {
@@ -153,6 +155,12 @@ export const playingTheGame = canvas => {
         //Stops player from going out of the canvas
         limitPlayerMovement(canvas, player1, level);
 
+        if (player1.keyClicks.up === true) {
+          player1.ycord -= player1.speed;
+        } else if (player1.keyClicks.down === true) {
+          player1.ycord += player1.speed;
+        }
+
         if (canvas.getCurrentMode === 1) {
           if (diff != null) {
             diff = null;
@@ -160,26 +168,6 @@ export const playingTheGame = canvas => {
 
           if (start === null) {
             start = timestamp;
-          }
-          switch (level) {
-            case 0:
-              if ((timestamp - start) / 1000 > 8) {
-                player1.invincibility = 1;
-                player1.xcord = canvas.getCurrentWidth / 4;
-                level = 1;
-                setTimeout(() => (player1.invincibility = 0), 3000);
-              }
-            case 1:
-              if ((timestamp - start) / 1000 > 15) {
-                player1.invincibility = 1;
-                player1.xcord = canvas.getCurrentWidth / 2;
-                level = 2;
-                setTimeout(() => (player1.invincibility = 0), 3000);
-              }
-            case 2:
-              break;
-            default:
-              break;
           }
 
           //Displays the time the game has been running on the screen in seconds
@@ -194,7 +182,125 @@ export const playingTheGame = canvas => {
 
           //Clearing, redrawing, and resetting the speed (if necessary) of the player object
           player1.clearObject();
-          player1.drawPlayerShape();
+          player1.drawPlayerShape(state);
+          switch (level) {
+            case 0:
+              if ((timestamp - start) / 1000 > 10) {
+                state = 1;
+                player1.invincibility = 1;
+                player1.xcord = canvas.getCurrentWidth / 4;
+                level = 1;
+                speedModifier += 1.0;
+                /*enemyRectangles.forEach((rectangle, index) => {
+                  rectangleSpeeds[index] += 1;
+                  rectangle.speed += 1;
+                });
+                enemyWalls.forEach((wall, index) => {
+                  wallSpeeds[index] += 1;
+                  wall.speed += 1;
+                });
+                enemyBelts.forEach((belt, index) => {
+                  beltSpeeds[index] += 1;
+                  belt.speed += 1;
+                });
+                enemyMagnets.forEach((magnet, index) => {
+                  magnetSpeeds[index] += 1;
+                  magnet.speed += 1;
+                });
+                enemyBelts.forEach((circle, index) => {
+                  magnetSpeeds[index] += 1;
+                  circle.speed += 1;
+                });*/
+                setTimeout(() => {
+                  state = 0;
+                }, 1000);
+                setTimeout(() => {
+                  state = 1;
+                }, 1250);
+                setTimeout(() => {
+                  state = 0;
+                }, 2000);
+                setTimeout(() => {
+                  state = 1;
+                }, 2300);
+                setTimeout(() => {
+                  state = 0;
+                }, 2500);
+                setTimeout(() => {
+                  state = 1;
+                }, 2700);
+                setTimeout(() => {
+                  state = 0;
+                }, 2800);
+                setTimeout(() => {
+                  state = 1;
+                }, 2900);
+                setTimeout(() => {
+                  state = 0;
+                  player1.invincibility = 0;
+                }, 3000);
+              }
+            case 1:
+              if ((timestamp - start) / 1000 > 20) {
+                state = 1;
+                player1.invincibility = 1;
+                player1.xcord = canvas.getCurrentWidth / 2;
+                level = 2;
+                speedModifier += 1.0;
+                /*enemyRectangles.forEach((rectangle, index) => {
+                  rectangleSpeeds[index] += 1;
+                  rectangle.speed += 1;
+                });
+                enemyWalls.forEach((wall, index) => {
+                  wallSpeeds[index] += 1;
+                  wall.speed += 1;
+                });
+                enemyBelts.forEach((belt, index) => {
+                  beltSpeeds[index] += 1;
+                  belt.speed += 1;
+                });
+                enemyMagnets.forEach((magnet, index) => {
+                  magnetSpeeds[index] += 1;
+                  magnet.speed += 1;
+                });
+                enemyBelts.forEach((circle, index) => {
+                  magnetSpeeds[index] += 1;
+                  circle.speed += 1;
+                });*/
+                setTimeout(() => {
+                  state = 0;
+                }, 1000);
+                setTimeout(() => {
+                  state = 1;
+                }, 1250);
+                setTimeout(() => {
+                  state = 0;
+                }, 2000);
+                setTimeout(() => {
+                  state = 1;
+                }, 2300);
+                setTimeout(() => {
+                  state = 0;
+                }, 2500);
+                setTimeout(() => {
+                  state = 1;
+                }, 2700);
+                setTimeout(() => {
+                  state = 0;
+                }, 2800);
+                setTimeout(() => {
+                  state = 1;
+                }, 2900);
+                setTimeout(() => {
+                  state = 0;
+                  player1.invincibility = 0;
+                }, 3000);
+              }
+            case 2:
+              break;
+            default:
+              break;
+          }
           if (player1.getCurrentSpeed === 0) {
             player1.speed = player1Speed;
           }
@@ -288,64 +394,121 @@ export const playingTheGame = canvas => {
           //The following if statements check if each enemy object is outside of the canvas, and they are their
           //positions are changed and a new offCanvasTracker is returned
           if (
-            offTheCanvas(canvas, enemyRectangles, player1, offCanvasTracker) !=
-            null
+            offTheCanvas(
+              canvas,
+              enemyRectangles,
+              player1,
+              offCanvasTracker,
+              speedModifier
+            ) != null
           ) {
             return Object.assign(
               offCanvasTracker,
-              offTheCanvas(canvas, enemyRectangles, player1, offCanvasTracker)
+              offTheCanvas(
+                canvas,
+                enemyRectangles,
+                player1,
+                offCanvasTracker,
+                speedModifier
+              )
             );
           }
 
           if (
-            offTheCanvas(canvas, enemyWalls, player1, offCanvasTracker) != null
+            offTheCanvas(
+              canvas,
+              enemyWalls,
+              player1,
+              offCanvasTracker,
+              speedModifier
+            ) != null
           ) {
             return Object.assign(
               offCanvasTracker,
-              offTheCanvas(canvas, enemyWalls, player1, offCanvasTracker)
+              offTheCanvas(
+                canvas,
+                enemyWalls,
+                player1,
+                offCanvasTracker,
+                speedModifier
+              )
             );
           }
 
           if (
-            offTheCanvas(canvas, enemyCircles, player1, offCanvasTracker) !=
-            null
+            offTheCanvas(
+              canvas,
+              enemyCircles,
+              player1,
+              offCanvasTracker,
+              speedModifier
+            ) != null
           ) {
             return Object.assign(
               offCanvasTracker,
-              offTheCanvas(canvas, enemyCircles, player1, offCanvasTracker)
+              offTheCanvas(
+                canvas,
+                enemyCircles,
+                player1,
+                offCanvasTracker,
+                speedModifier
+              )
             );
           }
 
           if (
-            offTheCanvas(canvas, enemyMagnets, player1, offCanvasTracker) !=
-            null
+            offTheCanvas(
+              canvas,
+              enemyMagnets,
+              player1,
+              offCanvasTracker,
+              speedModifier
+            ) != null
           ) {
             return Object.assign(
               offCanvasTracker,
-              offTheCanvas(canvas, enemyMagnets, player1, offCanvasTracker)
+              offTheCanvas(
+                canvas,
+                enemyMagnets,
+                player1,
+                offCanvasTracker,
+                speedModifier
+              )
             );
           }
 
           if (
-            offTheCanvas(canvas, enemyBelts, player1, offCanvasTracker) != null
+            offTheCanvas(
+              canvas,
+              enemyBelts,
+              player1,
+              offCanvasTracker,
+              speedModifier
+            ) != null
           ) {
             return Object.assign(
               offCanvasTracker,
-              offTheCanvas(canvas, enemyBelts, player1, offCanvasTracker)
+              offTheCanvas(
+                canvas,
+                enemyBelts,
+                player1,
+                offCanvasTracker,
+                speedModifier
+              )
             );
           }
 
           //Continue running the game if conditions are met
 
-          if (timestamp - start < 20000 && player1.invincibility === 1) {
+          if (timestamp - start < 30000 && player1.invincibility === 1) {
             player1.hit = 0;
             window.requestAnimationFrame(runningTheGame);
-          } else if (timestamp - start < 20000 && player1.getCurrentHit !== 1) {
+          } else if (timestamp - start < 30000 && player1.getCurrentHit !== 1) {
             window.requestAnimationFrame(runningTheGame);
           }
 
           //End the game if conditions are met
-          if (timestamp - start >= 20000 || player1.getCurrentHit === 1) {
+          if (timestamp - start >= 30000 || player1.getCurrentHit === 1) {
             //The following loops delete the object properties for each object in the game
             player1.deleteObject();
             enemyRectangles.forEach(rectangle => {

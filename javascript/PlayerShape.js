@@ -26,6 +26,7 @@ class PlayerShape extends CreateShapes {
       canvasContext
     );
 
+    this.keyClicks = {};
     this.hit = 0;
     this.invincibility = 0;
     this.addKeyboardCommands();
@@ -36,15 +37,20 @@ class PlayerShape extends CreateShapes {
     return this.hit;
   }
 
+  get getCurrentKeyClicks() {
+    return this.keyClicks;
+  }
+
   set setCurrentHit(hit) {
     return (this.hit = hit);
   }
 
-  drawPlayerShape = () => {
+  drawPlayerShape = state => {
     this.drawShape();
     this.canvasContext.beginPath();
+    let newPath = new Path2D();
     //Origin (x,y) is the middle of the circle
-    this.canvasContext.arc(
+    newPath.arc(
       this.xcord,
       this.ycord,
       this.widthOrRadius,
@@ -58,7 +64,12 @@ class PlayerShape extends CreateShapes {
         y: Math.floor(this.widthOrRadius * Math.sin(i) + this.ycord)
       });
     }
-    this.canvasContext.stroke();
+
+    if (state === 0) {
+      this.canvasContext.stroke(newPath);
+    } else {
+      this.canvasContext.fill(newPath);
+    }
   };
 
   movePlayerShape = () => {
@@ -66,19 +77,42 @@ class PlayerShape extends CreateShapes {
   };
 
   addKeyboardCommands = () => {
-    window.addEventListener("keydown", this.keyboardCommands, false);
+    window.addEventListener("keydown", this.keyDownCommands, false);
+    window.addEventListener("keyup", this.keyUpCommands, false);
   };
 
   removeKeyboardCommands = () => {
-    window.removeEventListener("keydown", this.keyboardCommands, false);
+    window.removeEventListener("keydown", this.keyDownCommands, false);
+    window.removeEventListener("keyup", this.keyUpCommands, false);
   };
 
-  keyboardCommands = function(e) {
+  keyDownCommands = function(e) {
     switch (e.key) {
       case "ArrowUp":
-        return (this.ycord -= this.speed);
+        this.keyClicks.up = true;
+        this.keyClicks.down = false;
+        break;
+      //return (this.ycord -= this.speed);
       case "ArrowDown":
-        return (this.ycord += this.speed);
+        this.keyClicks.down = true;
+        this.keyClicks.up = false;
+        break;
+      //return (this.ycord += this.speed);
+      default:
+        break;
+    }
+  }.bind(this);
+
+  keyUpCommands = function(e) {
+    switch (e.key) {
+      case "ArrowUp":
+        this.keyClicks.up = false;
+        break;
+      //return (this.ycord -= this.speed);
+      case "ArrowDown":
+        this.keyClicks.down = false;
+        break;
+      //return (this.ycord += this.speed);
       default:
         break;
     }

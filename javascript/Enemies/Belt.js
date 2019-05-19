@@ -25,7 +25,18 @@ class Belt extends CreateShapes {
       canvasContext
     );
 
+    this.animation = 0;
+    this.originalXcord = this.xcord;
+    this.originalYcord = this.ycord;
     this.drawBelt();
+  }
+
+  get getCurrentAnimation() {
+    return this.animation;
+  }
+
+  set setCurrentAnimation(animation) {
+    return (this.animation = animation);
   }
 
   drawBelt = () => {

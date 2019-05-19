@@ -26,6 +26,7 @@ class Circle extends CreateShapes {
       canvasContext
     );
 
+    this.animation = 0;
     this.drawCircle();
   }
 
@@ -49,8 +50,30 @@ class Circle extends CreateShapes {
     this.canvasContext.fill(newPath);
   };
 
+  get getCurrentAnimation() {
+    return this.animation;
+  }
+
+  set setCurrentAnimation(animation) {
+    return (this.animation = animation);
+  }
+
   moveCircle = () => {
     this.xcord -= this.speed;
+
+    if (this.getCurrentAnimation < 4) {
+      this.ycord -= this.speed;
+      this.animation = this.getCurrentAnimation + 0.2;
+    }
+
+    if (this.getCurrentAnimation >= 4 && this.getCurrentAnimation < 8) {
+      this.ycord += this.speed;
+      this.animation = this.getCurrentAnimation + 0.2;
+    }
+
+    if (this.getCurrentAnimation >= 8) {
+      this.animation = 0;
+    }
   };
 }
 

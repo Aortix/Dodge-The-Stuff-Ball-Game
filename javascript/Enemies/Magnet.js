@@ -26,7 +26,17 @@ class Magnet extends CreateShapes {
       canvasContext
     );
 
+    this.animation = 0;
+    this.originalWidth = this.widthOrRadius;
     this.drawMagnet();
+  }
+
+  get getCurrentAnimation() {
+    return this.animation;
+  }
+
+  set setCurrentAnimation(animation) {
+    return (this.animation = animation);
   }
 
   drawMagnet = () => {
@@ -79,6 +89,27 @@ class Magnet extends CreateShapes {
 
   moveMagnet = () => {
     this.xcord -= this.speed;
+
+    if (this.getCurrentAnimation >= 0 && this.getCurrentAnimation < 2) {
+      this.animation += 0.1;
+    } else if (this.getCurrentAnimation >= 2 && this.getCurrentAnimation <= 4) {
+      this.animation += 0.1;
+      this.widthOrRadius = this.originalWidth - 10;
+    } else if (this.getCurrentAnimation >= 4 && this.getCurrentAnimation <= 6) {
+      this.animation += 0.1;
+      this.widthOrRadius = this.originalWidth + 10;
+    } else if (this.getCurrentAnimation >= 6 && this.getCurrentAnimation <= 8) {
+      this.animation += 0.1;
+      this.widthOrRadius = this.originalWidth - 10;
+    } else if (
+      this.getCurrentAnimation >= 8 &&
+      this.getCurrentAnimation <= 10
+    ) {
+      this.animation += 0.1;
+      this.widthOrRadius = this.originalWidth + 10;
+    } else if (this.getCurrentAnimation >= 10) {
+      this.animation = 0;
+    }
   };
 }
 

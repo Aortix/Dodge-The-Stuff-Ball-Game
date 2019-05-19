@@ -79,7 +79,7 @@ const createEnemies = (canvas, enemy, amount) => {
           new Wall(
             canvas.getCurrentWidth + 5,
             Math.floor(Math.random() * (canvas.getCurrentHeight - 5) + 5),
-            Math.floor(Math.random() * (20 - 10) + 10),
+            0,
             Math.floor(Math.random() * (120 - 80) + 60),
             0,
             0,

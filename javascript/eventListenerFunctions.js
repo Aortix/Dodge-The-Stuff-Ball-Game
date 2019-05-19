@@ -34,6 +34,8 @@ export const playGameButtonFunction = canvas => {
 
 export const retryButtonFunction = canvas => {
   console.log("Retry button clicked");
+  canvas.clearCanvas();
+  canvas.drawCanvas();
   document.getElementById(canvas.getCurrentCanvasId).classList.toggle("menu");
   globalObject.gameOverItemsToEnable.forEach(items => {
     return items.style.setProperty("display", "none");
@@ -64,6 +66,8 @@ export const retryButtonFunction = canvas => {
 };
 
 export const menuButtonFunction = canvas => {
+  canvas.clearCanvas();
+  canvas.drawCanvas();
   console.log("Menu button clicked");
   document.getElementById(canvas.getCurrentCanvasId).classList.toggle("menu");
   globalObject.gameOverItemsToEnable.forEach(items => {

@@ -126,6 +126,25 @@ export const playingTheGame = canvas => {
         beltSpeeds.push(belt.getCurrentSpeed);
       });
 
+      document
+        .getElementById("countdown")
+        .style.setProperty("display", "block");
+      document.getElementById("countdown").innerHTML = "3";
+      setTimeout(
+        () => (document.getElementById("countdown").innerHTML = "2"),
+        1000
+      );
+      setTimeout(
+        () => (document.getElementById("countdown").innerHTML = "1"),
+        2000
+      );
+      setTimeout(() => {
+        document
+          .getElementById("countdown")
+          .style.setProperty("display", "none");
+        window.requestAnimationFrame(runningTheGame);
+      }, 3000);
+
       //Function for actually running the game
       const runningTheGame = timestamp => {
         //So paused button can be clicked on
@@ -134,15 +153,14 @@ export const playingTheGame = canvas => {
         //Stops player from going out of the canvas
         limitPlayerMovement(canvas, player1, level);
 
-        if (diff !== null) {
-          diff = null;
-        }
-
-        if (start == null) {
-          start = timestamp;
-        }
-
         if (canvas.getCurrentMode === 1) {
+          if (diff != null) {
+            diff = null;
+          }
+
+          if (start === null) {
+            start = timestamp;
+          }
           switch (level) {
             case 0:
               if ((timestamp - start) / 1000 > 8) {
@@ -318,16 +336,12 @@ export const playingTheGame = canvas => {
           }
 
           //Continue running the game if conditions are met
-          if (timestamp - start < 20000 && player1.invincibility === 1) {
-          }
 
           if (timestamp - start < 20000 && player1.invincibility === 1) {
             player1.hit = 0;
             window.requestAnimationFrame(runningTheGame);
-          } else {
-            if (timestamp - start < 20000 && player1.getCurrentHit !== 1) {
-              window.requestAnimationFrame(runningTheGame);
-            }
+          } else if (timestamp - start < 20000 && player1.getCurrentHit !== 1) {
+            window.requestAnimationFrame(runningTheGame);
           }
 
           //End the game if conditions are met
@@ -352,6 +366,7 @@ export const playingTheGame = canvas => {
 
             globalObject.pauseButton.removeEventListener("click", pBF, false);
             start = null;
+            diff = null;
             level = 0;
             player1.hit = 0;
             canvas.mode = 2;
@@ -360,7 +375,7 @@ export const playingTheGame = canvas => {
             playingTheGame(canvas);
           }
         } else if (canvas.getCurrentMode === 3) {
-          if (diff === null) {
+          if (diff == null) {
             diff = timestamp - start;
           }
           start = timestamp - diff;
@@ -386,8 +401,6 @@ export const playingTheGame = canvas => {
           window.requestAnimationFrame(runningTheGame);
         }
       };
-
-      window.requestAnimationFrame(runningTheGame);
       break;
     case 2:
       //Game Over Screen

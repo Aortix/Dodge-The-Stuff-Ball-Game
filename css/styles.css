@@ -20,6 +20,16 @@ body {
   border: 1px solid white;
 }
 
+.canvas-container {
+  position: relative;
+}
+
+#countdown {
+  position: absolute;
+  z-index: 3;
+  width: 100%;
+}
+
 .menu {
   box-shadow: 0px 0px 1px;
   opacity: 0.2;

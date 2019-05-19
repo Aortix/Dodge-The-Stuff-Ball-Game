@@ -18,6 +18,12 @@ window.addEventListener("keydown", e => {
   }
 });
 
+document.getElementById("countdown").style.setProperty(
+  "top",
+  `${canvas.getCurrentYcord + canvas.getCurrentHeight / 4 - 50}px`
+);
+
+
 //Setting the menu title and buttons positions (mode 0)
 globalObject.menuTitle.style.setProperty(
   "top",

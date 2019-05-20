@@ -25,18 +25,7 @@ class Belt extends CreateShapes {
       canvasContext
     );
 
-    this.animation = 0;
-    this.originalXcord = this.xcord;
-    this.originalYcord = this.ycord;
     this.drawBelt();
-  }
-
-  get getCurrentAnimation() {
-    return this.animation;
-  }
-
-  set setCurrentAnimation(animation) {
-    return (this.animation = animation);
   }
 
   drawBelt = () => {
@@ -53,7 +42,7 @@ class Belt extends CreateShapes {
       2 * Math.PI
     );
 
-    for (let i = 0; i < 360; i += 15) {
+    for (let i = 0; i < 360; i += 10) {
       this.location.push({
         x: Math.floor(
           this.widthOrRadius * Math.cos(i) + this.xcord - this.widthOrRadius
@@ -88,7 +77,7 @@ class Belt extends CreateShapes {
         0,
         2 * Math.PI
       );
-      for (let i = 0; i < 360; i += 15) {
+      for (let i = 0; i < 360; i += 10) {
         this.location.push({
           x: Math.floor(
             (this.widthOrRadius / 2) * Math.cos(i) +
@@ -131,7 +120,7 @@ class Belt extends CreateShapes {
         0,
         2 * Math.PI
       );
-      for (let i = 0; i < 360; i += 15) {
+      for (let i = 0; i < 360; i += 10) {
         this.location.push({
           x: Math.floor(
             (this.widthOrRadius / 2) * Math.cos(i) +

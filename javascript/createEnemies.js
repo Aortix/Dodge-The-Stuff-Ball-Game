@@ -12,18 +12,13 @@ const createEnemies = (canvas, enemy, amount) => {
       for (let i = 0; i < enemyRectanglesAmount; i++) {
         enemyRectangles.push(
           new Rectangle(
-            canvas.getCurrentWidth - 20,
-            Math.floor(
-              Math.random() *
-                (canvas.getCurrentHeight -
-                  Math.floor(Math.random() * (40 - 20) + 20)) +
-                Math.floor(Math.random() * (40 - 20) + 20)
-            ),
+            canvas.getCurrentWidth + 41,
+            Math.floor(Math.random() * (canvas.getCurrentHeight - 50) + 50),
             Math.floor(Math.random() * (40 - 20) + 20),
-            Math.floor(Math.random() * (40 - 20) + 20),
+            Math.floor(Math.random() * (50 - 20) + 20),
             0,
             0,
-            Math.floor(Math.random() * (5 - 2) + 2),
+            Math.floor(Math.random() * (6 - 4) + 4),
             "white",
             "white",
             canvas.getCurrentCanvasContext
@@ -33,17 +28,17 @@ const createEnemies = (canvas, enemy, amount) => {
       return enemyRectangles;
     case "Circle":
       let enemyCircles = [];
-      let enemyCirclesAmount = amount || Math.floor(Math.random() * 2 + 3);
+      let enemyCirclesAmount = amount || Math.floor(Math.random() * 2 + 1);
       for (let i = 0; i < enemyCirclesAmount; i++) {
         enemyCircles.push(
           new Circle(
-            canvas.getCurrentWidth + 5,
-            Math.floor(Math.random() * (canvas.getCurrentHeight - 5) + 5),
-            10,
+            canvas.getCurrentWidth + 16,
+            Math.floor(Math.random() * (canvas.getCurrentHeight - 15) + 15),
+            Math.floor(Math.random() * (15 - 10) + 10),
             0,
             0,
             360,
-            4,
+            Math.floor(Math.random() * (6 - 4) + 4),
             "white",
             "white",
             canvas.getCurrentCanvasContext
@@ -53,17 +48,17 @@ const createEnemies = (canvas, enemy, amount) => {
       return enemyCircles;
     case "Magnet":
       let enemyMagnets = [];
-      let enemyMagnetsAmount = amount || Math.floor(Math.random() * 2 + 3);
+      let enemyMagnetsAmount = amount || Math.floor(Math.random() * 2 + 1);
       for (let i = 0; i < enemyMagnetsAmount; i++) {
         enemyMagnets.push(
           new Magnet(
-            canvas.getCurrentWidth + 5,
-            Math.floor(Math.random() * (canvas.getCurrentHeight - 5) + 5),
-            25,
+            canvas.getCurrentWidth + 70,
+            Math.floor(Math.random() * (canvas.getCurrentHeight - 70) + 70),
+            Math.floor(Math.random() * (35 - 25) + 25),
             0,
             0,
             180,
-            4,
+            Math.floor(Math.random() * (6 - 4) + 4),
             "white",
             "white",
             canvas.getCurrentCanvasContext
@@ -73,17 +68,17 @@ const createEnemies = (canvas, enemy, amount) => {
       return enemyMagnets;
     case "Wall":
       let enemyWalls = [];
-      let enemyWallsAmount = amount || Math.floor(Math.random() * 2 + 3);
+      let enemyWallsAmount = amount || Math.floor(Math.random() * 2 + 1);
       for (let i = 0; i < enemyWallsAmount; i++) {
         enemyWalls.push(
           new Wall(
-            canvas.getCurrentWidth + 5,
-            Math.floor(Math.random() * (canvas.getCurrentHeight - 5) + 5),
+            canvas.getCurrentWidth + 141,
+            Math.floor(Math.random() * (canvas.getCurrentHeight - 140) + 140),
             0,
-            Math.floor(Math.random() * (120 - 80) + 60),
+            Math.floor(Math.random() * (140 - 100) + 100),
             0,
             0,
-            Math.floor(Math.random() * (5 - 2) + 2),
+            Math.floor(Math.random() * (6 - 4) + 4),
             "white",
             "white",
             canvas.getCurrentCanvasContext
@@ -97,13 +92,13 @@ const createEnemies = (canvas, enemy, amount) => {
       for (let i = 0; i < enemyBeltsAmount; i++) {
         enemyBelts.push(
           new Belt(
-            canvas.getCurrentWidth + 5,
-            Math.floor(Math.random() * (canvas.getCurrentHeight - 100) + 100),
+            canvas.getCurrentWidth + 50,
+            Math.floor(Math.random() * (canvas.getCurrentHeight - 300) + 300),
             20,
             30,
             0,
             0,
-            Math.floor(Math.random() * (5 - 2) + 2),
+            Math.floor(Math.random() * (6 - 4) + 4),
             "white",
             "white",
             canvas.getCurrentCanvasContext

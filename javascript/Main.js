@@ -3,7 +3,7 @@ import playingTheGame from "./playingTheGame.js";
 import globalObject from "./globalObject.js";
 
 //Parameters: x-cordinate, y-cordinate, width, height, background-color, time amassed, canvas id, mode
-let canvas = new Canvas(0, 0, 800, 400, "gray", 0, "canvas", 0);
+let canvas = new Canvas(0, 0, 1000, 400, "gray", 0, "canvas", 0);
 
 //Block the arrow keys from scrolling with the window scrollbar
 window.addEventListener("keydown", e => {

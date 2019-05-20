@@ -34,20 +34,14 @@ class Circle extends CreateShapes {
     this.drawShape();
     this.canvasContext.beginPath();
     let newPath = new Path2D();
-    newPath.arc(
-      this.xcord,
-      this.ycord,
-      this.widthOrRadius,
-      this.startAngle,
-      2 * Math.PI
-    );
-    for (let i = this.startAngle; i < 360; i += 15) {
+    newPath.arc(this.xcord, this.ycord, this.widthOrRadius, 0, 2 * Math.PI);
+    for (let i = 0; i < 360; i += 10) {
       this.location.push({
         x: Math.floor(this.widthOrRadius * Math.cos(i) + this.xcord),
         y: Math.floor(this.widthOrRadius * Math.sin(i) + this.ycord)
       });
     }
-    this.canvasContext.fill(newPath);
+    this.canvasContext.stroke(newPath);
   };
 
   get getCurrentAnimation() {
@@ -61,17 +55,17 @@ class Circle extends CreateShapes {
   moveCircle = () => {
     this.xcord -= this.speed;
 
-    if (this.getCurrentAnimation < 4) {
+    if (this.getCurrentAnimation < 5) {
       this.ycord -= this.speed;
       this.animation = this.getCurrentAnimation + 0.2;
     }
 
-    if (this.getCurrentAnimation >= 4 && this.getCurrentAnimation < 8) {
+    if (this.getCurrentAnimation >= 5 && this.getCurrentAnimation < 10) {
       this.ycord += this.speed;
       this.animation = this.getCurrentAnimation + 0.2;
     }
 
-    if (this.getCurrentAnimation >= 8) {
+    if (this.getCurrentAnimation >= 10) {
       this.animation = 0;
     }
   };

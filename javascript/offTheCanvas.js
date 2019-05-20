@@ -1,6 +1,12 @@
 import checkForOffTheCanvas from "./checkForOffTheCanvas.js";
 
-const offTheCanvas = (canvas, object, player, offCanvasTracker, speedModifier) => {
+const offTheCanvas = (
+  canvas,
+  object,
+  player,
+  offCanvasTracker,
+  speedModifier
+) => {
   object.forEach(obj => {
     if (
       checkForOffTheCanvas(
@@ -41,7 +47,7 @@ const offTheCanvas = (canvas, object, player, offCanvasTracker, speedModifier) =
         offCanvasTracker.p = Math.floor(Math.random() * 2);
       }
       obj.xcord = canvas.getCurrentWidth + obj.getCurrentWidthOrRadius;
-      obj.speed = speedModifier + Math.floor(Math.random() * (5 - 2) + 2);
+      obj.speed = speedModifier + Math.floor(Math.random() * (6 - 4) + 4);
       return offCanvasTracker;
     } else {
       return null;

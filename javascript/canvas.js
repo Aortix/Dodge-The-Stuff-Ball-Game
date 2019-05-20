@@ -9,7 +9,9 @@ class Canvas {
     this.canvasId = canvasId;
     this.mode = mode;
 
-    this.canvasContext = document.getElementById(canvasId).getContext("2d");
+    this.canvasContext = document
+      .getElementById(canvasId)
+      .getContext("2d", { alpha: false });
 
     this.createCanvas();
   }

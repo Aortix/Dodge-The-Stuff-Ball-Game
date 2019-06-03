@@ -110,7 +110,7 @@ export const playingTheGame = canvas => {
       let enemyRectangles = createEnemies(canvas, "Rectangle", 3);
       let enemyWalls = createEnemies(canvas, "Wall");
       let enemyCircles = createEnemies(canvas, "Circle", 2);
-      let enemyMagnets = createEnemies(canvas, "Magnet", 1);
+      //let enemyMagnets = createEnemies(canvas, "Magnet", 1);
       let enemyBelts = createEnemies(canvas, "Belt", 1);
 
       //Get initial speeds of enemies - this will be used when you unpause (speed is set to 0 for a pause) the game to

@@ -132,7 +132,7 @@ export const playingTheGame = canvas => {
         circleSpeeds.push(circle.getCurrentSpeed);
       });
 
-      let magnetSpeeds = [];
+      //let magnetSpeeds = [];
       /*enemyMagnets.forEach(magnet => {
         magnetSpeeds.push(magnet.getCurrentSpeed);
       });*/

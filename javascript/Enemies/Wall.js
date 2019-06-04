@@ -63,14 +63,14 @@ class Wall extends CreateShapes {
       i < Math.floor(this.ycord + this.height / 2);
       i += 2
     ) {
-      this.location.push({ x: this.xcord, y: Math.floor(i) });
+      this.location.push({ x: Math.floor(this.xcord), y: Math.floor(i) });
     }
     for (
       let i = Math.floor(this.xcord - this.widthOrRadius / 2);
       i < Math.floor(this.xcord + this.widthOrRadius / 2);
       i += 2
     ) {
-      this.location.push({ x: Math.floor(i), y: this.ycord });
+      this.location.push({ x: Math.floor(i), y: Math.floor(this.ycord) });
     }
 
     this.location.push({

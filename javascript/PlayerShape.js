@@ -86,33 +86,29 @@ class PlayerShape extends CreateShapes {
     window.removeEventListener("keyup", this.keyUpCommands, false);
   };
 
-  keyDownCommands = function(e) {
+  keyDownCommands = function (e) {
     switch (e.key) {
       case "ArrowUp":
         this.keyClicks.up = true;
         this.keyClicks.down = false;
         break;
-      //return (this.ycord -= this.speed);
       case "ArrowDown":
         this.keyClicks.down = true;
         this.keyClicks.up = false;
         break;
-      //return (this.ycord += this.speed);
       default:
         break;
     }
   }.bind(this);
 
-  keyUpCommands = function(e) {
+  keyUpCommands = function (e) {
     switch (e.key) {
       case "ArrowUp":
         this.keyClicks.up = false;
         break;
-      //return (this.ycord -= this.speed);
       case "ArrowDown":
         this.keyClicks.down = false;
         break;
-      //return (this.ycord += this.speed);
       default:
         break;
     }

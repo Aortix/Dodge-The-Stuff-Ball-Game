@@ -133,9 +133,9 @@ export const playingTheGame = canvas => {
       });
 
       let magnetSpeeds = [];
-      enemyMagnets.forEach(magnet => {
+      /*enemyMagnets.forEach(magnet => {
         magnetSpeeds.push(magnet.getCurrentSpeed);
-      });
+      });*/
 
       let beltSpeeds = [];
       enemyBelts.forEach(belt => {
@@ -340,7 +340,7 @@ export const playingTheGame = canvas => {
             }
           });
 
-          enemyMagnets.forEach((magnet, index) => {
+          /*enemyMagnets.forEach((magnet, index) => {
             magnet.clearObject();
             magnet.drawMagnet();
             if (magnet.getCurrentSpeed === 0) {
@@ -355,7 +355,7 @@ export const playingTheGame = canvas => {
             ) {
               player1.hit = 1;
             }
-          });
+          });*/
 
           enemyBelts.forEach((belt, index) => {
             belt.clearObject();
@@ -440,7 +440,7 @@ export const playingTheGame = canvas => {
               );
             }
 
-            if (
+            /*if (
               offTheCanvas(
                 canvas,
                 enemyMagnets,
@@ -459,7 +459,7 @@ export const playingTheGame = canvas => {
                   speedModifier
                 )
               );
-            }
+            }*/
 
             if (
               offTheCanvas(
@@ -508,9 +508,9 @@ export const playingTheGame = canvas => {
             enemyCircles.forEach(circle => {
               circle.deleteObject();
             });
-            enemyMagnets.forEach(magnet => {
+            /*enemyMagnets.forEach(magnet => {
               magnet.deleteObject();
-            });
+            });*/
             enemyBelts.forEach(belt => {
               belt.deleteObject();
             });
@@ -553,13 +553,13 @@ export const playingTheGame = canvas => {
               circle.speed = 0;
             }
           });
-          enemyMagnets.forEach((magnet, index) => {
+          /*enemyMagnets.forEach((magnet, index) => {
             if (magnet.speed !== 0) {
               magnetSpeeds[index] = magnet.getCurrentSpeed;
             } else {
               magnet.speed = 0;
             }
-          });
+          });*/
           enemyBelts.forEach((belt, index) => {
             if (belt.speed !== 0) {
               beltSpeeds[index] = belt.getCurrentSpeed;

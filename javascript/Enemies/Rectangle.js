@@ -42,12 +42,12 @@ class Rectangle extends CreateShapes {
     for (let i = this.xcord; i > this.xcord - this.widthOrRadius; i -= 2)
       this.location.push({
         x: Math.floor(i),
-        y: this.ycord
+        y: Math.floor(this.ycord)
       });
     this.location.push({ x: this.xcord - this.widthOrRadius, y: this.ycord });
     this.location.push({
       x: Math.floor(this.xcord - this.widthOrRadius / 2),
-      y: this.ycord
+      y: Math.floor(this.ycord)
     });
 
     this.canvasContext.lineTo(
@@ -85,11 +85,11 @@ class Rectangle extends CreateShapes {
 
     for (let i = this.ycord + this.height; i > this.ycord; i -= 2) {
       this.location.push({
-        x: this.xcord,
+        x: Math.floor(this.xcord),
         y: Math.floor(i)
       });
     }
-    this.location.push({ x: this.xcord, y: this.ycord + this.height });
+    this.location.push({ x: Math.floor(this.xcord), y: Math.floor(this.ycord + this.height) });
     this.canvasContext.lineTo(this.xcord, this.ycord);
 
     this.canvasContext.stroke();

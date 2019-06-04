@@ -55,8 +55,8 @@ class Belt extends CreateShapes {
     this.canvasContext.moveTo(
       this.xcord - this.widthOrRadius / 2,
       this.ycord -
-        this.widthOrRadius -
-        (this.widthOrRadius / 2) * Math.sin(Math.PI / 2)
+      this.widthOrRadius -
+      (this.widthOrRadius / 2) * Math.sin(Math.PI / 2)
     );
     for (
       let j =
@@ -65,9 +65,9 @@ class Belt extends CreateShapes {
         (this.widthOrRadius / 2) * Math.sin(Math.PI / 2);
       j >
       this.ycord -
-        this.widthOrRadius * 3 -
-        this.widthOrRadius -
-        (this.widthOrRadius / 2) * Math.sin(Math.PI / 2);
+      this.widthOrRadius * 3 -
+      this.widthOrRadius -
+      (this.widthOrRadius / 2) * Math.sin(Math.PI / 2);
       j -= this.widthOrRadius
     ) {
       this.canvasContext.arc(
@@ -81,8 +81,8 @@ class Belt extends CreateShapes {
         this.location.push({
           x: Math.floor(
             (this.widthOrRadius / 2) * Math.cos(i) +
-              this.xcord -
-              this.widthOrRadius
+            this.xcord -
+            this.widthOrRadius
           ),
           y: Math.floor((this.widthOrRadius / 2) * Math.sin(i) + j)
         });
@@ -97,8 +97,8 @@ class Belt extends CreateShapes {
     this.canvasContext.moveTo(
       this.xcord - this.widthOrRadius / 2,
       (this.widthOrRadius / 2) * Math.sin((3 * Math.PI) / 2) +
-        this.ycord +
-        this.widthOrRadius * 2
+      this.ycord +
+      this.widthOrRadius * 2
     );
 
     for (
@@ -108,9 +108,9 @@ class Belt extends CreateShapes {
         this.widthOrRadius * 2;
       j <
       (this.widthOrRadius / 2) * Math.sin((3 * Math.PI) / 2) +
-        this.ycord +
-        this.widthOrRadius * 3 +
-        this.widthOrRadius * 2;
+      this.ycord +
+      this.widthOrRadius * 3 +
+      this.widthOrRadius * 2;
       j += this.widthOrRadius
     ) {
       this.canvasContext.arc(
@@ -124,8 +124,8 @@ class Belt extends CreateShapes {
         this.location.push({
           x: Math.floor(
             (this.widthOrRadius / 2) * Math.cos(i) +
-              this.xcord -
-              this.widthOrRadius
+            this.xcord -
+            this.widthOrRadius
           ),
           y: Math.floor((this.widthOrRadius / 2) * Math.sin(i) + j)
         });

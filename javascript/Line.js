@@ -29,7 +29,7 @@ class Line extends CreateShapes {
     this.drawLine();
   }
 
-  drawLine = () => {
+  drawLine () {
     this.drawShape();
     this.canvasContext.beginPath();
 
@@ -39,7 +39,7 @@ class Line extends CreateShapes {
     this.canvasContext.stroke();
   };
 
-  moveline = () => {
+  moveline () {
     this.xcord -= this.speed;
   };
 }

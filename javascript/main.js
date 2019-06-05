@@ -1,4 +1,4 @@
-import Canvas from "./Canvas.js";
+import Canvas from "./canvas.js";
 import playingTheGame from "./playingTheGame.js";
 import globalObject from "./globalObject.js";
 

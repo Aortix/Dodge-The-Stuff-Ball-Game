@@ -40,7 +40,7 @@ class Wall extends CreateShapes {
     return (this.animation = animation);
   }
 
-  drawWall = () => {
+  drawWall() {
     this.drawShape();
     this.canvasContext.beginPath();
     this.canvasContext.moveTo(this.xcord, this.ycord);
@@ -84,7 +84,7 @@ class Wall extends CreateShapes {
     this.canvasContext.stroke();
   };
 
-  moveWall = () => {
+  moveWall() {
     this.xcord -= this.speed;
     if (this.getCurrentAnimation >= 0 && this.getCurrentAnimation < 3) {
       this.animation += 0.1;

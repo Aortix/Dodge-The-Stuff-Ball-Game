@@ -88,7 +88,7 @@ class Canvas {
     return (this.mode = mode);
   }
 
-  createCanvas = () => {
+  createCanvas() {
     document.getElementById(this.canvasId).setAttribute("width", this.width);
     document.getElementById(this.canvasId).setAttribute("height", this.height);
     document.getElementById(this.canvasId).style.top = `${this.ycord}px`;
@@ -97,7 +97,7 @@ class Canvas {
     this.canvasContext.fillRect(0, 0, this.width, this.height);
   };
 
-  drawCanvas = () => {
+  drawCanvas() {
     this.canvasContext.fillStyle = this.bgColor;
     this.canvasContext.fillRect(
       this.xcord,
@@ -107,7 +107,7 @@ class Canvas {
     );
   };
 
-  clearCanvas = () => {
+  clearCanvas() {
     this.canvasContext.clearRect(
       this.xcord,
       this.ycord,

@@ -26,6 +26,9 @@ class PlayerShape extends CreateShapes {
       canvasContext
     );
 
+    this.addKeyboardCommands = this.addKeyboardCommands.bind(this);
+    this.removeKeyboardCommands = this.removeKeyboardCommands.bind(this);
+
     this.keyClicks = {};
     this.hit = 0;
     this.invincibility = 0;
@@ -45,7 +48,7 @@ class PlayerShape extends CreateShapes {
     return (this.hit = hit);
   }
 
-  drawPlayerShape = state => {
+  drawPlayerShape(state){
     this.drawShape();
     this.canvasContext.beginPath();
     let newPath = new Path2D();
@@ -72,21 +75,21 @@ class PlayerShape extends CreateShapes {
     }
   };
 
-  movePlayerShape = () => {
+  movePlayerShape() {
     this.xcord += this.speed;
   };
 
-  addKeyboardCommands = () => {
-    window.addEventListener("keydown", this.keyDownCommands, false);
-    window.addEventListener("keyup", this.keyUpCommands, false);
+  addKeyboardCommands() {
+    window.addEventListener("keydown", (e) => {this.keyDownCommands(e)}, false);
+    window.addEventListener("keyup", (e) => {this.keyUpCommands(e)}, false);
   };
 
-  removeKeyboardCommands = () => {
-    window.removeEventListener("keydown", this.keyDownCommands, false);
-    window.removeEventListener("keyup", this.keyUpCommands, false);
+  removeKeyboardCommands() {
+    window.removeEventListener("keydown", (e) => {this.keyDownCommands(e)}, false);
+    window.removeEventListener("keyup", (e) => {this.keyUpCommands(e)}, false);
   };
 
-  keyDownCommands = function (e) {
+  keyDownCommands(e) {
     switch (e.key) {
       case "ArrowUp":
         this.keyClicks.up = true;
@@ -99,9 +102,9 @@ class PlayerShape extends CreateShapes {
       default:
         break;
     }
-  }.bind(this);
+  };
 
-  keyUpCommands = function (e) {
+  keyUpCommands(e) {
     switch (e.key) {
       case "ArrowUp":
         this.keyClicks.up = false;
@@ -112,7 +115,7 @@ class PlayerShape extends CreateShapes {
       default:
         break;
     }
-  }.bind(this);
+  };
 }
 
 export default PlayerShape;

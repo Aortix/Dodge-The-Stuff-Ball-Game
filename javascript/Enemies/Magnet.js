@@ -29,7 +29,7 @@ class Magnet extends CreateShapes {
     this.drawMagnet();
   }
 
-  drawMagnet = () => {
+  drawMagnet() {
     this.drawShape();
     this.canvasContext.beginPath();
     this.canvasContext.arc(
@@ -77,7 +77,7 @@ class Magnet extends CreateShapes {
     this.canvasContext.stroke();
   };
 
-  moveMagnet = () => {
+  moveMagnet() {
     this.xcord -= this.speed;
   };
 }

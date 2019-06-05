@@ -110,16 +110,16 @@ class CreateShapes {
     return (this.canvasContext = canvasContext);
   }
 
-  drawShape = () => {
+  drawShape() {
     this.canvasContext.fillStyle = this.bgColor;
     this.canvasContext.strokeStyle = this.strokeColor;
   };
 
-  clearObject = () => {
+  clearObject() {
     this.location.length = 0;
   };
 
-  deleteObject = () => {
+  deleteObject() {
     delete this.xcord;
     delete this.ycord;
     delete this.widthOrRadius;

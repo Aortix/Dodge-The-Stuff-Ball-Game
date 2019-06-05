@@ -30,7 +30,7 @@ class Circle extends CreateShapes {
     this.drawCircle();
   }
 
-  drawCircle = () => {
+  drawCircle() {
     this.drawShape();
     this.canvasContext.beginPath();
     let newPath = new Path2D();
@@ -52,7 +52,7 @@ class Circle extends CreateShapes {
     return (this.animation = animation);
   }
 
-  moveCircle = () => {
+  moveCircle() {
     this.xcord -= this.speed;
 
     if (this.getCurrentAnimation < 5) {

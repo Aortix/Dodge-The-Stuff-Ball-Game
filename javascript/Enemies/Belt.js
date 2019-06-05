@@ -28,7 +28,7 @@ class Belt extends CreateShapes {
     this.drawBelt();
   }
 
-  drawBelt = () => {
+  drawBelt() {
     this.drawShape();
     this.canvasContext.beginPath();
     this.canvasContext.moveTo(this.xcord, this.ycord);
@@ -139,7 +139,7 @@ class Belt extends CreateShapes {
     this.canvasContext.stroke();
   };
 
-  moveBelt = () => {
+  moveBelt() {
     this.xcord -= this.speed;
   };
 }

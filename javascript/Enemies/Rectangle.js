@@ -29,7 +29,7 @@ class Rectangle extends CreateShapes {
     this.drawRectangle();
   }
 
-  drawRectangle = () => {
+  drawRectangle() {
     //Calling CreateShapes method
     this.drawShape();
     this.canvasContext.beginPath();
@@ -95,7 +95,7 @@ class Rectangle extends CreateShapes {
     this.canvasContext.stroke();
   };
 
-  moveRectangle = () => {
+  moveRectangle() {
     this.xcord -= this.speed;
   };
 }

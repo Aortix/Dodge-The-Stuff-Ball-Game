@@ -60,14 +60,15 @@ class Wall extends CreateShapes {
 
     for (
       let i = Math.floor(this.ycord - this.height / 2);
-      i < Math.floor(this.ycord + this.height / 2);
+      i <= Math.floor(this.ycord + this.height / 2);
       i += 2
     ) {
       this.location.push({ x: Math.floor(this.xcord), y: Math.floor(i) });
     }
+
     for (
       let i = Math.floor(this.xcord - this.widthOrRadius / 2);
-      i < Math.floor(this.xcord + this.widthOrRadius / 2);
+      i <= Math.floor(this.xcord + this.widthOrRadius / 2);
       i += 2
     ) {
       this.location.push({ x: Math.floor(i), y: Math.floor(this.ycord) });
@@ -82,26 +83,20 @@ class Wall extends CreateShapes {
       y: this.ycord
     });
     this.canvasContext.stroke();
-  };
+  }
 
   moveWall() {
     this.xcord -= this.speed;
-    if (this.getCurrentAnimation >= 0 && this.getCurrentAnimation < 3) {
-      this.animation += 0.1;
-    } else if (this.getCurrentAnimation >= 3 && this.getCurrentAnimation < 6) {
-      this.animation += 0.1;
-      this.height = 0;
-      this.widthOrRadius = this.originalHeight;
-    } else if (this.getCurrentAnimation >= 6 && this.getCurrentAnimation < 9) {
-      this.animation += 0.1;
-      this.height = this.originalHeight;
-      this.widthOrRadius = this.originalWidth;
+    this.animation += 1;
+    if (this.getCurrentAnimation % 90 === 0) {
+      this.widthOrRadius === 0
+        ? (this.widthOrRadius = this.originalHeight)
+        : (this.widthOrRadius = 0);
+      this.height === 0
+        ? (this.height = this.originalHeight)
+        : (this.height = 0);
     }
-
-    if (this.getCurrentAnimation >= 9) {
-      this.animation = 0;
-    }
-  };
+  }
 }
 
 export default Wall;

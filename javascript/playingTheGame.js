@@ -242,7 +242,7 @@ export const playingTheGame = canvas => {
                 player1.xcord = canvas.getCurrentWidth / 2;
                 line1.xcord = canvas.getCurrentWidth / 2;
                 level = 2;
-                speedModifier += 1.2;
+                speedModifier += 1.1;
                 setTimeout(() => {
                   state = 0;
                 }, 1000);

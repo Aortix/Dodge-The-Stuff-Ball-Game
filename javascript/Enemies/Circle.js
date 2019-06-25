@@ -42,7 +42,7 @@ class Circle extends CreateShapes {
       });
     }
     this.canvasContext.stroke(newPath);
-  };
+  }
 
   get getCurrentAnimation() {
     return this.animation;
@@ -55,20 +55,11 @@ class Circle extends CreateShapes {
   moveCircle() {
     this.xcord -= this.speed;
 
-    if (this.getCurrentAnimation < 5) {
-      this.ycord -= this.speed;
-      this.animation = this.getCurrentAnimation + 0.2;
-    }
-
-    if (this.getCurrentAnimation >= 5 && this.getCurrentAnimation < 10) {
-      this.ycord += this.speed;
-      this.animation = this.getCurrentAnimation + 0.2;
-    }
-
-    if (this.getCurrentAnimation >= 10) {
-      this.animation = 0;
-    }
-  };
+    this.animation += 1;
+    this.getCurrentAnimation % 90 > 45
+      ? (this.ycord += this.speed)
+      : (this.ycord -= this.speed);
+  }
 }
 
 export default Circle;

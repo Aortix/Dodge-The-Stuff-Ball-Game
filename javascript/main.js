@@ -3,7 +3,29 @@ import playingTheGame from "./playingTheGame.js";
 import globalObject from "./globalObject.js";
 
 //Parameters: x-cordinate, y-cordinate, width, height, background-color, time amassed, canvas id, mode
-let canvas = new Canvas(0, 0, 1000, 400, "gray", 0, "canvas", 0);
+let canvas = new Canvas(0, 0, 1000, 400, "rgb(139, 0, 0)", 0, "canvas", 0);
+
+document.querySelector(".main-container").style.width = "1000px";
+
+const arrayFromNodeList = Array.from(
+  document.querySelector(".menu-colors").getElementsByTagName("li")
+);
+arrayFromNodeList.forEach(node => {
+  node.addEventListener("click", () => {
+    canvas.clearCanvas();
+    document.getElementsByClassName(
+      "canvas-container"
+    )[0].style.backgroundColor = `${node.style.backgroundColor}`;
+    document.getElementsByClassName(
+      "menu-change_canvas_color"
+    )[0].style.backgroundColor = `${node.style.backgroundColor}`;
+    document.getElementsByClassName(
+      "menu-change_object_amount"
+    )[0].style.backgroundColor = `${node.style.backgroundColor}`;
+    canvas.bgColor = node.style.backgroundColor;
+    canvas.drawCanvas();
+  });
+});
 
 //Block the arrow keys from scrolling with the window scrollbar
 window.addEventListener("keydown", e => {
@@ -18,28 +40,53 @@ window.addEventListener("keydown", e => {
   }
 });
 
-document.getElementById("countdown").style.setProperty(
-  "top",
-  `${canvas.getCurrentYcord + canvas.getCurrentHeight / 4 - 50}px`
-);
-
+document
+  .getElementById("countdown")
+  .style.setProperty(
+    "top",
+    `${canvas.getCurrentYcord + canvas.getCurrentHeight / 4 - 50}px`
+  );
 
 //Setting the menu title and buttons positions (mode 0)
 globalObject.menuTitle.style.setProperty(
   "top",
-  `${canvas.getCurrentYcord + canvas.getCurrentHeight / 4 - 50}px`
+  `${canvas.getCurrentYcord + canvas.getCurrentHeight / 5 - 80}px`
 );
 globalObject.playGameButton.style.setProperty(
   "top",
-  `${canvas.getCurrentYcord + canvas.getCurrentHeight / 3}px`
+  `${canvas.getCurrentYcord + 2 * (canvas.getCurrentHeight / 5) - 35}px`
+);
+globalObject.colorButton.style.setProperty(
+  "top",
+  `${canvas.getCurrentYcord + canvas.getCurrentHeight - 130}px`
+);
+globalObject.objectsButton.style.setProperty(
+  "top",
+  `${canvas.getCurrentYcord + canvas.getCurrentHeight - 130}px`
+);
+globalObject.menuColors.style.setProperty(
+  "top",
+  `${canvas.getCurrentYcord + canvas.getCurrentHeight - 65}px`
 );
 globalObject.menuTitle.style.setProperty(
-  "margin-left",
-  `${canvas.getCurrentXcord / 2}px`
+  "left",
+  `${canvas.getCurrentXcord + canvas.getCurrentWidth / 2 - 200}px`
 );
 globalObject.playGameButton.style.setProperty(
   "margin-left",
   `${canvas.getCurrentXcord / 2}px`
+);
+globalObject.colorButton.style.setProperty(
+  "left",
+  `${canvas.getCurrentXcord + canvas.getCurrentWidth / 5}px`
+);
+globalObject.objectsButton.style.setProperty(
+  "left",
+  `${canvas.getCurrentWidth - canvas.getCurrentWidth / 5 - 205}px`
+);
+globalObject.menuColors.style.setProperty(
+  "left",
+  `${canvas.getCurrentXcord + canvas.getCurrentWidth / 5}px`
 );
 
 //Setting the pause icon and paused title positions (mode 3)
@@ -58,19 +105,13 @@ globalObject.pauseButton.style.setProperty(
 
 globalObject.pauseButton.style.setProperty(
   "left",
-  `${window.innerWidth -
-    (window.innerWidth - (canvas.getCurrentWidth - 100)) +
-    window.innerWidth / 2 -
-    (canvas.getCurrentWidth - 100) / 2}px`
+  `${canvas.getCurrentWidth - 35}px`
 );
 
 window.onresize = () => {
   globalObject.pauseButton.style.setProperty(
     "left",
-    `${window.innerWidth -
-      (window.innerWidth - (canvas.getCurrentWidth - 100)) +
-      window.innerWidth / 2 -
-      (canvas.getCurrentWidth - 100) / 2}px`
+    `${canvas.getCurrentWidth - 35}px`
   );
 };
 

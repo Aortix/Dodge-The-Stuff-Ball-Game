@@ -33,12 +33,14 @@ export const playGameButtonFunction = (canvas, difficulty) => {
     pauseMenuButtonFunction,
     false
   );
+  window.removeEventListener("keydown", addingInvulnerability, false);
   playingTheGame(canvas, difficulty);
 };
 
 export const retryButtonFunction = (canvas, difficulty) => {
   canvas.clearCanvas();
   canvas.drawCanvas();
+  document.querySelector(".main-stock_number").innerHTML = "0";
   document.getElementById(canvas.getCurrentCanvasId).classList.toggle("menu");
   globalObject.gameOverItemsToEnable.forEach(items => {
     return items.style.setProperty("display", "none");
@@ -70,6 +72,7 @@ export const retryButtonFunction = (canvas, difficulty) => {
     pauseMenuButtonFunction,
     false
   );
+  window.removeEventListener("keydown", addingInvulnerability, false);
   playingTheGame(canvas, difficulty);
 };
 
@@ -109,6 +112,7 @@ export const menuButtonFunction = (canvas, difficulty) => {
     pauseMenuButtonFunction,
     false
   );
+  window.removeEventListener("keydown", addingInvulnerability, false);
   playingTheGame(canvas, difficulty);
 };
 
@@ -149,6 +153,7 @@ export const pauseButtonFunction = canvas => {
     pauseMenuButtonFunction,
     false
   );
+  window.removeEventListener("keydown", addingInvulnerability, false);
 };
 
 export const pauseMenuButtonFunction = (canvas, difficulty) => {
@@ -189,5 +194,69 @@ export const pauseMenuButtonFunction = (canvas, difficulty) => {
     pauseMenuButtonFunction,
     false
   );
+  window.removeEventListener("keydown", addingInvulnerability, false);
   playingTheGame(canvas, difficulty);
+};
+
+export const addingInvulnerability = (player, state) => {
+  player.clearObject();
+  player.drawPlayerShape(state);
+  document.querySelector(".main-stock_number").innerHTML = Math.floor(
+    Number(document.querySelector(".main-stock_number").innerHTML) - 1
+  ).toString();
+  player.invincibility = 1;
+  /*setTimeout(() => {
+    state = 0;
+  }, 1000);
+  setTimeout(() => {
+    state = 1;
+  }, 1250);
+  setTimeout(() => {
+    state = 0;
+  }, 2000);
+  setTimeout(() => {
+    state = 1;
+  }, 2300);
+  setTimeout(() => {
+    state = 0;
+  }, 2500);
+  setTimeout(() => {
+    state = 1;
+  }, 2700);
+  setTimeout(() => {
+    state = 0;
+  }, 2800);
+  setTimeout(() => {
+    state = 1;
+  }, 2900);*/
+  setTimeout(() => {
+    player.invincibility = 0;
+  }, 3000);
+
+  globalObject.menuButton.removeEventListener(
+    "click",
+    menuButtonFunction,
+    false
+  );
+  globalObject.playGameButton.removeEventListener(
+    "click",
+    playGameButtonFunction,
+    false
+  );
+  globalObject.retryButton.removeEventListener(
+    "click",
+    retryButtonFunction,
+    false
+  );
+  globalObject.pauseButton.removeEventListener(
+    "click",
+    pauseButtonFunction,
+    false
+  );
+  globalObject.pauseMenuButton.removeEventListener(
+    "click",
+    pauseMenuButtonFunction,
+    false
+  );
+  window.removeEventListener("keydown", addingInvulnerability, false);
 };

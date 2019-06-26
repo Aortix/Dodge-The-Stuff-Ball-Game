@@ -18,10 +18,13 @@ arrayFromNodeList.forEach(node => {
     )[0].style.backgroundColor = `${node.style.backgroundColor}`;
     document.getElementsByClassName(
       "menu-change_canvas_color"
-    )[0].style.backgroundColor = `${node.style.backgroundColor}`;
+    )[0].style.color = `${node.style.backgroundColor}`;
     document.getElementsByClassName(
       "menu-change_object_amount"
-    )[0].style.backgroundColor = `${node.style.backgroundColor}`;
+    )[0].style.color = `${node.style.backgroundColor}`;
+    document.querySelector(".menu-objects").style.color = `${
+      node.style.backgroundColor
+    }`;
     canvas.bgColor = node.style.backgroundColor;
     canvas.drawCanvas();
   });
@@ -130,7 +133,7 @@ globalObject.gamePausedTitle.style.setProperty(
 );
 globalObject.pauseMenuButton.style.setProperty(
   "left",
-  `${canvas.getCurrentWidth / 2 - 65}px`
+  `${canvas.getCurrentWidth / 2 - 110}px`
 );
 globalObject.pauseButton.style.setProperty(
   "top",
@@ -152,27 +155,19 @@ window.onresize = () => {
 //Setting the game over title and buttons (mode 2)
 globalObject.gameOverTitle.style.setProperty(
   "top",
-  `${canvas.getCurrentYcord + canvas.getCurrentHeight / 4 - 50}px`
+  `${canvas.getCurrentYcord + canvas.getCurrentHeight / 5 - 50}px`
 );
 globalObject.retryButton.style.setProperty(
   "top",
-  `${canvas.getCurrentYcord + canvas.getCurrentHeight / 3}px`
+  `${canvas.getCurrentYcord + 2 * (canvas.getCurrentHeight / 5) - 35}px`
 );
 globalObject.menuButton.style.setProperty(
   "top",
-  `${canvas.getCurrentYcord + canvas.getCurrentHeight / 2.2}px`
+  `${canvas.getCurrentYcord + 3 * (canvas.getCurrentHeight / 5) - 35}px`
 );
 globalObject.gameOverTitle.style.setProperty(
-  "margin-left",
-  `${canvas.getCurrentXcord / 2}px`
-);
-globalObject.retryButton.style.setProperty(
-  "margin-left",
-  `${canvas.getCurrentXcord / 2}px`
-);
-globalObject.menuButton.style.setProperty(
-  "margin-left",
-  `${canvas.getCurrentXcord / 2}px`
+  "left",
+  `${canvas.getCurrentWidth / 2 - 175}px`
 );
 
 playingTheGame(canvas, "Normal");

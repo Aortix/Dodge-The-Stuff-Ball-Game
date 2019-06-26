@@ -11,7 +11,8 @@ import {
   retryButtonFunction,
   menuButtonFunction,
   pauseButtonFunction,
-  pauseMenuButtonFunction
+  pauseMenuButtonFunction,
+  addingInvulnerability
 } from "./eventListenerFunctions.js";
 import globalObject from "./globalObject.js";
 
@@ -29,7 +30,10 @@ export const playingTheGame = (canvas, difficulty) => {
 
   let level = 0;
   let state = 0;
+  let invincibilityStocks = 0;
+  let invincibilityTimer = 35000;
   let speedModifier = 0;
+  let keyFPressed = false;
   //The following functions are used to add an event listener to a button, while removing previous event listeners
   //from the previous runs of this function.
   const pGBF = () => {
@@ -38,6 +42,7 @@ export const playingTheGame = (canvas, difficulty) => {
     globalObject.menuButton.removeEventListener("click", mBF, false);
     globalObject.pauseButton.removeEventListener("click", pBF, false);
     globalObject.pauseMenuButton.removeEventListener("click", pMBF, false);
+    window.removeEventListener("keydown", addInvulnerability, false);
     playGameButtonFunction(canvas, difficulty);
   };
 
@@ -47,6 +52,7 @@ export const playingTheGame = (canvas, difficulty) => {
     globalObject.menuButton.removeEventListener("click", mBF, false);
     globalObject.pauseButton.removeEventListener("click", pBF, false);
     globalObject.pauseMenuButton.removeEventListener("click", pMBF, false);
+    window.removeEventListener("keydown", addInvulnerability, false);
     retryButtonFunction(canvas, difficulty);
   };
 
@@ -56,6 +62,7 @@ export const playingTheGame = (canvas, difficulty) => {
     globalObject.menuButton.removeEventListener("click", mBF, false);
     globalObject.pauseButton.removeEventListener("click", pBF, false);
     globalObject.pauseMenuButton.removeEventListener("click", pMBF, false);
+    window.removeEventListener("keydown", addInvulnerability, false);
     menuButtonFunction(canvas, difficulty);
   };
   const pBF = () => {
@@ -64,6 +71,7 @@ export const playingTheGame = (canvas, difficulty) => {
     globalObject.menuButton.removeEventListener("click", mBF, false);
     globalObject.pauseButton.removeEventListener("click", pBF, false);
     globalObject.pauseMenuButton.removeEventListener("click", pMBF, false);
+    window.removeEventListener("keydown", addInvulnerability, false);
     pauseButtonFunction(canvas);
   };
   const pMBF = () => {
@@ -72,7 +80,49 @@ export const playingTheGame = (canvas, difficulty) => {
     globalObject.menuButton.removeEventListener("click", mBF, false);
     globalObject.pauseButton.removeEventListener("click", pBF, false);
     globalObject.pauseMenuButton.removeEventListener("click", pMBF, false);
+    window.removeEventListener("keydown", addInvulnerability, false);
     pauseMenuButtonFunction(canvas, difficulty);
+  };
+
+  const addInvulnerability = e => {
+    globalObject.playGameButton.removeEventListener("click", pGBF, false);
+    globalObject.retryButton.removeEventListener("click", rBF, false);
+    globalObject.menuButton.removeEventListener("click", mBF, false);
+    globalObject.pauseButton.removeEventListener("click", pBF, false);
+    globalObject.pauseMenuButton.removeEventListener("click", pMBF, false);
+    window.removeEventListener("keydown", addInvulnerability, false);
+    if (e.code === "KeyF" && invincibilityStocks > 0) {
+      keyFPressed = true;
+      invincibilityStocks -= 1;
+      state = 1;
+      setTimeout(() => {
+        state = 0;
+      }, 1000);
+      setTimeout(() => {
+        state = 1;
+      }, 1250);
+      setTimeout(() => {
+        state = 0;
+      }, 2000);
+      setTimeout(() => {
+        state = 1;
+      }, 2300);
+      setTimeout(() => {
+        state = 0;
+      }, 2500);
+      setTimeout(() => {
+        state = 1;
+      }, 2700);
+      setTimeout(() => {
+        state = 0;
+      }, 2800);
+      setTimeout(() => {
+        state = 1;
+      }, 2900);
+      setTimeout(() => {
+        state = 0;
+      }, 3000);
+    }
   };
 
   const array2FromNodeList = Array.from(
@@ -81,8 +131,32 @@ export const playingTheGame = (canvas, difficulty) => {
   array2FromNodeList.forEach(node => {
     node.addEventListener("click", () => {
       if (node.innerHTML === "Normal") {
+        document
+          .querySelector(".normal-object")
+          .style.setProperty("display", "none");
+        document
+          .querySelector(".normal-object-FA")
+          .style.setProperty("display", "block");
+        document
+          .querySelector(".low-object-FA")
+          .style.setProperty("display", "none");
+        document
+          .querySelector(".low-object")
+          .style.setProperty("display", "block");
         difficulty = "Normal";
       } else if (node.innerHTML === "Low") {
+        document
+          .querySelector(".normal-object")
+          .style.setProperty("display", "block");
+        document
+          .querySelector(".normal-object-FA")
+          .style.setProperty("display", "none");
+        document
+          .querySelector(".low-object-FA")
+          .style.setProperty("display", "block");
+        document
+          .querySelector(".low-object")
+          .style.setProperty("display", "none");
         difficulty = "Low";
       }
     });
@@ -93,6 +167,9 @@ export const playingTheGame = (canvas, difficulty) => {
     case 0:
       //The Start Menu
       console.log("Start Menu");
+      document.querySelector(".main-stock_number").innerHTML = "0";
+      invincibilityStocks = 0;
+      invincibilityTimer = 35000;
       document
         .getElementById(canvas.getCurrentCanvasId)
         .classList.toggle("menu");
@@ -123,8 +200,6 @@ export const playingTheGame = (canvas, difficulty) => {
         "white",
         canvas.getCurrentCanvasContext
       );
-
-      console.log(canvas.getCurrentTime);
 
       let line1 = new Line(
         player1.getCurrentXcord - player1.getCurrentWidthOrRadius - 5,
@@ -209,6 +284,14 @@ export const playingTheGame = (canvas, difficulty) => {
         //So paused button can be clicked on
         globalObject.pauseButton.addEventListener("click", pBF, false);
 
+        //Adding invincibility with F
+        window.addEventListener("keydown", addInvulnerability, false);
+
+        if (keyFPressed === true) {
+          addingInvulnerability(player1, state);
+          keyFPressed = false;
+        }
+
         //Stops player from going out of the canvas
         limitPlayerMovement(canvas, player1, level);
 
@@ -225,13 +308,23 @@ export const playingTheGame = (canvas, difficulty) => {
 
           if (start === null) {
             start = timestamp;
+          } else {
+            if (Math.floor(timestamp - start) / invincibilityTimer > 1) {
+              console.log("Invincibility added");
+              document.querySelector(
+                ".main-stock_number"
+              ).innerHTML = Math.floor(
+                Number(document.querySelector(".main-stock_number").innerHTML) +
+                  1
+              ).toString();
+              invincibilityStocks += 1;
+              invincibilityTimer += 20000;
+            }
           }
 
           //Displays the time the game has been running on the screen in seconds
-          document.getElementById("time").innerHTML = (
-            (timestamp - start) /
-            1000
-          ).toPrecision(4);
+          document.getElementById("time").innerHTML =
+            Math.floor((timestamp - start) / 1000) + "s / 200s";
 
           //Clearing and redrawing the canvas
           canvas.clearCanvas();
@@ -528,18 +621,18 @@ export const playingTheGame = (canvas, difficulty) => {
 
           //Continue running the game if conditions are met
 
-          if (timestamp - start < 100000 && player1.invincibility === 1) {
+          if (timestamp - start < 200000 && player1.invincibility === 1) {
             player1.hit = 0;
             window.requestAnimationFrame(runningTheGame);
           } else if (
-            timestamp - start < 100000 &&
+            timestamp - start < 200000 &&
             player1.getCurrentHit !== 1
           ) {
             window.requestAnimationFrame(runningTheGame);
           }
 
           //End the game if conditions are met
-          if (timestamp - start >= 100000 || player1.getCurrentHit === 1) {
+          if (timestamp - start >= 200000 || player1.getCurrentHit === 1) {
             //The following loops delete the object properties for each object in the game
             player1.deleteObject();
             enemyRectangles.forEach(rectangle => {
@@ -562,6 +655,8 @@ export const playingTheGame = (canvas, difficulty) => {
             start = null;
             diff = null;
             level = 0;
+            invincibilityStocks = 0;
+            invincibilityTimer = 35000;
             player1.hit = 0;
             canvas.mode = 2;
             globalObject.pauseButton.style.setProperty("display", "none");

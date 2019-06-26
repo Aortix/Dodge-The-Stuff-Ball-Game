@@ -5,9 +5,11 @@ html {
 body {
   background-color: black;
   color: white;
-  font-size: 35px;
+  font-size: 38px;
   min-height: 100%;
   overflow: visible;
+  font-family: "Calibri", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans",
+    Arial, sans-serif;
 }
 
 .main-container {
@@ -17,7 +19,27 @@ body {
   height: inherit;
 }
 
+.main-title {
+  margin: 0;
+}
+
+.main-tip {
+  margin: 0;
+  font-weight: 400;
+  font-size: 20px;
+  margin-bottom: 60px;
+}
+
+.main-stock {
+  text-align: left;
+  margin-bottom: 2px;
+  font-size: 20px;
+  font-weight: 300;
+  font-family: "Rockwell";
+}
+
 #canvas {
+  display: block;
 }
 
 .canvas-container {
@@ -37,8 +59,8 @@ body {
 }
 
 .menu-title {
-  width: 400px;
-  height: 80px;
+  min-width: 400px;
+  min-height: 80px;
   position: absolute;
   z-index: 2;
   color: white;
@@ -54,7 +76,7 @@ body {
   cursor: pointer;
   border: 2px solid white;
   padding: 15px;
-  height: 35px;
+  min-height: 35px;
 }
 
 .menu-play_game:hover {
@@ -67,8 +89,9 @@ body {
   padding: 15px;
   cursor: pointer;
   width: 175px;
-  height: 35px;
-  color: white;
+  min-height: 35px;
+  background-color: white;
+  color: rgb(139, 0, 0);
 }
 
 .menu-change_canvas_color:hover {
@@ -83,14 +106,17 @@ body {
   padding: 15px;
   border: 2px solid white;
   border-top: none;
+  background-color: white;
 }
 
 .menu-colors li {
   position: relative;
   margin-bottom: 15px;
-  width: 205px;
-  height: 60px;
-  right: 15px;
+  width: 160px;
+  left: 7.5px;
+  right: 7.5px;
+  height: 65px;
+  box-shadow: 0px 0px 2px black;
 }
 
 .menu-change_object_amount {
@@ -98,9 +124,10 @@ body {
   border: 2px solid white;
   width: 175px;
   cursor: pointer;
-  height: 35px;
+  min-height: 35px;
   padding: 15px;
-  color: white;
+  background-color: white;
+  color: rgb(139, 0, 0);
 }
 
 .menu-change_object_amount:hover {
@@ -115,6 +142,8 @@ body {
   padding: 15px;
   border: 2px solid white;
   border-top: none;
+  background-color: white;
+  color: rgb(139, 0, 0);
 }
 
 .menu-objects li {
@@ -125,12 +154,21 @@ body {
   right: 15px;
 }
 
+.normal-object {
+  display: none;
+}
+
+.low-object-FA {
+  display: none;
+}
+
 .game_over-options {
   display: none;
 }
 
 #game_over-title {
-  width: 100%;
+  min-width: 330px;
+  padding: 10px;
   position: absolute;
   z-index: 2;
   color: white;
@@ -140,23 +178,23 @@ body {
 #game_over-retry {
   left: calc(50% - 115px);
   width: 200px;
+  min-height: 35px;
   position: absolute;
   z-index: 2;
   cursor: pointer;
   border: 1px solid white;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding: 10px;
 }
 
 #game_over-menu {
   left: calc(50% - 115px);
   width: 200px;
+  min-height: 35px;
   position: absolute;
   z-index: 2;
   cursor: pointer;
   border: 1px solid white;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding: 10px;
 }
 
 #game_paused-title {
@@ -171,10 +209,10 @@ body {
 #game_paused_menu {
   position: absolute;
   border: 1px solid white;
-  padding: 15px;
+  padding: 10px;
   cursor: pointer;
-  height: 50px;
-  width: 100px;
+  min-height: 40px;
+  width: 200px;
   display: none;
 }
 

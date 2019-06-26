@@ -95,7 +95,7 @@ class Canvas {
     document.getElementById(this.canvasId).style.left = `${this.xcord}px`;
     this.canvasContext.fillStyle = this.bgColor;
     this.canvasContext.fillRect(0, 0, this.width, this.height);
-  };
+  }
 
   drawCanvas() {
     this.canvasContext.fillStyle = this.bgColor;
@@ -105,7 +105,7 @@ class Canvas {
       this.width,
       this.height
     );
-  };
+  }
 
   clearCanvas() {
     this.canvasContext.clearRect(
@@ -114,7 +114,7 @@ class Canvas {
       this.width,
       this.height
     );
-  };
+  }
 }
 
 export default Canvas;

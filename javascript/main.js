@@ -27,6 +27,24 @@ arrayFromNodeList.forEach(node => {
   });
 });
 
+document
+  .querySelector(".menu-change_canvas_color")
+  .addEventListener("click", () => {
+    document.querySelector(".menu-colors").classList.toggle("hide_menu_items");
+  });
+document.querySelector(".menu-colors").addEventListener("click", () => {
+  document.querySelector(".menu-colors").classList.toggle("hide_menu_items");
+});
+
+document
+  .querySelector(".menu-change_object_amount")
+  .addEventListener("click", () => {
+    document.querySelector(".menu-objects").classList.toggle("hide_menu_items");
+  });
+document.querySelector(".menu-objects").addEventListener("click", () => {
+  document.querySelector(".menu-objects").classList.toggle("hide_menu_items");
+});
+
 //Block the arrow keys from scrolling with the window scrollbar
 window.addEventListener("keydown", e => {
   switch (e.key) {
@@ -68,6 +86,10 @@ globalObject.menuColors.style.setProperty(
   "top",
   `${canvas.getCurrentYcord + canvas.getCurrentHeight - 65}px`
 );
+globalObject.menuObjects.style.setProperty(
+  "top",
+  `${canvas.getCurrentYcord + canvas.getCurrentHeight - 65}px`
+);
 globalObject.menuTitle.style.setProperty(
   "left",
   `${canvas.getCurrentXcord + canvas.getCurrentWidth / 2 - 200}px`
@@ -88,15 +110,27 @@ globalObject.menuColors.style.setProperty(
   "left",
   `${canvas.getCurrentXcord + canvas.getCurrentWidth / 5}px`
 );
+globalObject.menuObjects.style.setProperty(
+  "left",
+  `${canvas.getCurrentWidth - canvas.getCurrentWidth / 5 - 205}px`
+);
 
 //Setting the pause icon and paused title positions (mode 3)
 globalObject.gamePausedTitle.style.setProperty(
   "top",
-  `${canvas.getCurrentYcord + canvas.getCurrentHeight / 4}px`
+  `${canvas.getCurrentYcord + canvas.getCurrentHeight / 4 - 60}px`
+);
+globalObject.pauseMenuButton.style.setProperty(
+  "top",
+  `${canvas.getCurrentYcord + canvas.getCurrentHeight / 2 - 60}px`
 );
 globalObject.gamePausedTitle.style.setProperty(
   "margin-left",
   `${canvas.getCurrentXcord / 2}px`
+);
+globalObject.pauseMenuButton.style.setProperty(
+  "left",
+  `${canvas.getCurrentWidth / 2 - 65}px`
 );
 globalObject.pauseButton.style.setProperty(
   "top",
@@ -141,4 +175,4 @@ globalObject.menuButton.style.setProperty(
   `${canvas.getCurrentXcord / 2}px`
 );
 
-playingTheGame(canvas);
+playingTheGame(canvas, "Normal");

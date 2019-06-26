@@ -24,7 +24,8 @@
       <h1>Dodge the Objects!</h1>
       <div class="canvas-container">
         <canvas id="canvas"></canvas>
-        <h2 id="game_paused-title">Paused</h2>
+        <h2 id="game_paused-title">PAUSE</h2>
+        <h3 id="game_paused_menu">Menu</h3>
         <h2 id="countdown"></h2>
         <i id="game_paused-icon" class="far fa-pause-circle fa-sm"></i>
         <h2 id="game_over-title" class="game_over-options">Game Over</h2>
@@ -36,7 +37,7 @@
         <p class="menu-options menu-change_object_amount">
           OBJECTS
         </p>
-        <ul class="menu-options menu-colors">
+        <ul class="menu-options menu-colors hide_menu_items">
           <li style="background-color: black">Black</li>
           <li style="background-color: #373737">Dark Gray</li>
           <li style="background-color: blue">Blue</li>
@@ -46,6 +47,10 @@
           <li style="background-color: #8B0000">Deep Red</li>
           <li style="background-color: purple">Purple</li>
           <li style="background-color: orange">Orange</li>
+        </ul>
+        <ul class="menu-options menu-objects hide_menu_items">
+          <li>Normal</li>
+          <li>Low</li>
         </ul>
       </div>
       <p id="time"></p>

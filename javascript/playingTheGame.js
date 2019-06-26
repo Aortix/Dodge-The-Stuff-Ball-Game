@@ -10,11 +10,17 @@ import {
   playGameButtonFunction,
   retryButtonFunction,
   menuButtonFunction,
-  pauseButtonFunction
+  pauseButtonFunction,
+  pauseMenuButtonFunction
 } from "./eventListenerFunctions.js";
 import globalObject from "./globalObject.js";
 
-export const playingTheGame = canvas => {
+export const playingTheGame = (canvas, difficulty) => {
+  let enemyRectangles = null;
+  let enemyWalls = null;
+  let enemyCircles = null;
+  //let enemyMagnets = null;
+  let enemyBelts = null;
   //To "reset" the timestamp used in window.requestAnimationFrame
   let start = null;
 
@@ -31,7 +37,8 @@ export const playingTheGame = canvas => {
     globalObject.retryButton.removeEventListener("click", rBF, false);
     globalObject.menuButton.removeEventListener("click", mBF, false);
     globalObject.pauseButton.removeEventListener("click", pBF, false);
-    playGameButtonFunction(canvas);
+    globalObject.pauseMenuButton.removeEventListener("click", pMBF, false);
+    playGameButtonFunction(canvas, difficulty);
   };
 
   const rBF = () => {
@@ -39,7 +46,8 @@ export const playingTheGame = canvas => {
     globalObject.retryButton.removeEventListener("click", rBF, false);
     globalObject.menuButton.removeEventListener("click", mBF, false);
     globalObject.pauseButton.removeEventListener("click", pBF, false);
-    retryButtonFunction(canvas);
+    globalObject.pauseMenuButton.removeEventListener("click", pMBF, false);
+    retryButtonFunction(canvas, difficulty);
   };
 
   const mBF = () => {
@@ -47,15 +55,38 @@ export const playingTheGame = canvas => {
     globalObject.retryButton.removeEventListener("click", rBF, false);
     globalObject.menuButton.removeEventListener("click", mBF, false);
     globalObject.pauseButton.removeEventListener("click", pBF, false);
-    menuButtonFunction(canvas);
+    globalObject.pauseMenuButton.removeEventListener("click", pMBF, false);
+    menuButtonFunction(canvas, difficulty);
   };
   const pBF = () => {
     globalObject.playGameButton.removeEventListener("click", pGBF, false);
     globalObject.retryButton.removeEventListener("click", rBF, false);
     globalObject.menuButton.removeEventListener("click", mBF, false);
     globalObject.pauseButton.removeEventListener("click", pBF, false);
+    globalObject.pauseMenuButton.removeEventListener("click", pMBF, false);
     pauseButtonFunction(canvas);
   };
+  const pMBF = () => {
+    globalObject.playGameButton.removeEventListener("click", pGBF, false);
+    globalObject.retryButton.removeEventListener("click", rBF, false);
+    globalObject.menuButton.removeEventListener("click", mBF, false);
+    globalObject.pauseButton.removeEventListener("click", pBF, false);
+    globalObject.pauseMenuButton.removeEventListener("click", pMBF, false);
+    pauseMenuButtonFunction(canvas, difficulty);
+  };
+
+  const array2FromNodeList = Array.from(
+    document.querySelector(".menu-objects").getElementsByTagName("li")
+  );
+  array2FromNodeList.forEach(node => {
+    node.addEventListener("click", () => {
+      if (node.innerHTML === "Normal") {
+        difficulty = "Normal";
+      } else if (node.innerHTML === "Low") {
+        difficulty = "Low";
+      }
+    });
+  });
 
   //Determines the state of the application based off the mode the canvas is in
   switch (canvas.getCurrentMode) {
@@ -93,6 +124,8 @@ export const playingTheGame = canvas => {
         canvas.getCurrentCanvasContext
       );
 
+      console.log(canvas.getCurrentTime);
+
       let line1 = new Line(
         player1.getCurrentXcord - player1.getCurrentWidthOrRadius - 5,
         canvas.getCurrentYcord,
@@ -107,11 +140,21 @@ export const playingTheGame = canvas => {
       );
 
       //Create Enemies
-      let enemyRectangles = createEnemies(canvas, "Rectangle", 3);
-      let enemyWalls = createEnemies(canvas, "Wall");
-      let enemyCircles = createEnemies(canvas, "Circle", 2);
-      //let enemyMagnets = createEnemies(canvas, "Magnet", 1);
-      let enemyBelts = createEnemies(canvas, "Belt", 1);
+      if (difficulty === "Normal") {
+        enemyRectangles = createEnemies(canvas, "Rectangle", 3);
+        enemyWalls = createEnemies(canvas, "Wall", 1);
+        enemyCircles = createEnemies(canvas, "Circle", 2);
+        //enemyMagnets = createEnemies(canvas, "Magnet", 1);
+        enemyBelts = createEnemies(canvas, "Belt", 1);
+        console.log("This should be running? - normal");
+      } else if (difficulty === "Low") {
+        enemyRectangles = createEnemies(canvas, "Rectangle", 2);
+        enemyWalls = createEnemies(canvas, "Wall", 1);
+        enemyCircles = createEnemies(canvas, "Circle", 1);
+        //enemyMagnets = createEnemies(canvas, "Magnet", 1);
+        enemyBelts = createEnemies(canvas, "Belt", 1);
+        console.log("This should be running? - low");
+      }
 
       //Get initial speeds of enemies - this will be used when you unpause (speed is set to 0 for a pause) the game to
       //return the speed values
@@ -205,7 +248,7 @@ export const playingTheGame = canvas => {
                 player1.xcord = canvas.getCurrentWidth / 4;
                 line1.xcord = canvas.getCurrentWidth / 4;
                 level = 1;
-                speedModifier += 1.2;
+                speedModifier += Math.floor(1);
                 setTimeout(() => {
                   state = 0;
                 }, 1000);
@@ -242,7 +285,7 @@ export const playingTheGame = canvas => {
                 player1.xcord = canvas.getCurrentWidth / 2;
                 line1.xcord = canvas.getCurrentWidth / 2;
                 level = 2;
-                speedModifier += 1.1;
+                speedModifier += Math.floor(1);
                 setTimeout(() => {
                   state = 0;
                 }, 1000);
@@ -274,7 +317,7 @@ export const playingTheGame = canvas => {
               }
             case 2:
               if ((timestamp - start) / 1000 > 45) {
-                speedModifier += 1;
+                speedModifier += Math.floor(1);
                 level = 3;
               }
             case 3:
@@ -523,7 +566,7 @@ export const playingTheGame = canvas => {
             canvas.mode = 2;
             globalObject.pauseButton.style.setProperty("display", "none");
 
-            playingTheGame(canvas);
+            playingTheGame(canvas, difficulty);
           }
         } else if (canvas.getCurrentMode === 3) {
           if (diff == null) {
@@ -569,6 +612,7 @@ export const playingTheGame = canvas => {
           });
 
           globalObject.pauseButton.addEventListener("click", pBF, false);
+          globalObject.pauseMenuButton.addEventListener("click", pMBF, false);
           window.requestAnimationFrame(runningTheGame);
         }
       };

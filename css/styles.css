@@ -107,6 +107,24 @@ body {
   box-shadow: 0px 0px 3px white;
 }
 
+.menu-objects {
+  position: absolute;
+  list-style-type: none;
+  width: 175px;
+  cursor: pointer;
+  padding: 15px;
+  border: 2px solid white;
+  border-top: none;
+}
+
+.menu-objects li {
+  position: relative;
+  margin-bottom: 15px;
+  width: 205px;
+  height: 60px;
+  right: 15px;
+}
+
 .game_over-options {
   display: none;
 }
@@ -150,6 +168,16 @@ body {
   display: none;
 }
 
+#game_paused_menu {
+  position: absolute;
+  border: 1px solid white;
+  padding: 15px;
+  cursor: pointer;
+  height: 50px;
+  width: 100px;
+  display: none;
+}
+
 #game_paused-icon {
   position: absolute;
   z-index: 2;
@@ -157,4 +185,8 @@ body {
   font-weight: 300;
   display: none;
   width: 35px;
+}
+
+.hide_menu_items {
+  display: none !important;
 }

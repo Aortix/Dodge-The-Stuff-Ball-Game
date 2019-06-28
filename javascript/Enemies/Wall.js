@@ -26,10 +26,14 @@ class Wall extends CreateShapes {
       canvasContext
     );
 
+    this.name = "Wall";
     this.animation = 0;
     this.originalHeight = this.height;
-    this.originalWidth = this.widthOrRadius;
     this.drawWall();
+  }
+
+  get getCurrentName() {
+    return this.name;
   }
 
   get getCurrentAnimation() {
@@ -41,67 +45,104 @@ class Wall extends CreateShapes {
   }
 
   drawWall() {
-    this.drawShape();
+    this.canvasContext.fillStyle = this.bgColor;
+    this.canvasContext.strokeStyle = this.strokeColor;
     this.canvasContext.beginPath();
+
+    //Drawing the wall
     this.canvasContext.moveTo(this.xcord, this.ycord);
-    this.location.push({ x: this.xcord, y: this.ycord });
 
     this.canvasContext.lineTo(
-      this.xcord - this.widthOrRadius / 2,
-      this.ycord + this.height / 2
+      Math.floor(this.xcord - this.widthOrRadius / 2),
+      Math.floor(this.ycord + this.height / 2)
     );
 
     this.canvasContext.moveTo(this.xcord, this.ycord);
 
     this.canvasContext.lineTo(
-      this.xcord + this.widthOrRadius / 2,
-      this.ycord - this.height / 2
+      Math.floor(this.xcord + this.widthOrRadius / 2),
+      Math.floor(this.ycord - this.height / 2)
     );
+
+    this.centerPoints.push({
+      x: this.xcord,
+      y: Math.floor(this.ycord - this.height / 2)
+    });
+    this.centerPoints.push({
+      x: this.xcord,
+      y: Math.floor(this.ycord + this.height / 2)
+    });
+    this.centerPoints.push({
+      x: Math.floor(this.xcord - this.widthOrRadius / 2),
+      y: this.ycord
+    });
+    this.centerPoints.push({
+      x: Math.floor(this.xcord + this.widthOrRadius / 2),
+      y: this.ycord
+    });
 
     for (
       let i = Math.floor(this.ycord - this.height / 2);
-      i < Math.floor(this.ycord + this.height / 2);
+      i <= Math.floor(this.ycord + this.height / 2);
       i += 2
     ) {
-      this.location.push({ x: Math.floor(this.xcord), y: Math.floor(i) });
+      this.location.push({ x: this.xcord, y: i });
     }
+
     for (
       let i = Math.floor(this.xcord - this.widthOrRadius / 2);
-      i < Math.floor(this.xcord + this.widthOrRadius / 2);
+      i <= Math.floor(this.xcord + this.widthOrRadius / 2);
       i += 2
     ) {
-      this.location.push({ x: Math.floor(i), y: Math.floor(this.ycord) });
+      this.location.push({ x: i, y: this.ycord });
     }
+
+    this.location.push({ x: this.xcord, y: this.ycord });
 
     this.location.push({
       x: this.xcord,
       y: Math.floor(this.ycord + this.height / 2)
     });
+
+    this.location.push({
+      x: this.xcord,
+      y: Math.floor(this.ycord + this.height / 2 / 2)
+    });
+
+    this.location.push({
+      x: this.xcord,
+      y: Math.floor(this.ycord - this.height / 2 / 2)
+    });
+
     this.location.push({
       x: Math.floor(this.xcord + this.widthOrRadius / 2),
       y: this.ycord
     });
-    this.canvasContext.stroke();
-  };
 
-  moveWall() {
+    this.location.push({
+      x: Math.floor(this.xcord + this.widthOrRadius / 2 / 2),
+      y: this.ycord
+    });
+
+    this.location.push({
+      x: Math.floor(this.xcord - this.widthOrRadius / 2 / 2),
+      y: this.ycord
+    });
+
+    //Moving and animating the wall
     this.xcord -= this.speed;
-    if (this.getCurrentAnimation >= 0 && this.getCurrentAnimation < 3) {
-      this.animation += 0.1;
-    } else if (this.getCurrentAnimation >= 3 && this.getCurrentAnimation < 6) {
-      this.animation += 0.1;
-      this.height = 0;
-      this.widthOrRadius = this.originalHeight;
-    } else if (this.getCurrentAnimation >= 6 && this.getCurrentAnimation < 9) {
-      this.animation += 0.1;
-      this.height = this.originalHeight;
-      this.widthOrRadius = this.originalWidth;
+    this.animation += 1;
+    if (this.getCurrentAnimation % 80 === 0) {
+      this.widthOrRadius === 0
+        ? (this.widthOrRadius = this.originalHeight)
+        : (this.widthOrRadius = 0);
+      this.height === 0
+        ? (this.height = this.originalHeight)
+        : (this.height = 0);
     }
 
-    if (this.getCurrentAnimation >= 9) {
-      this.animation = 0;
-    }
-  };
+    this.canvasContext.stroke();
+  }
 }
 
 export default Wall;

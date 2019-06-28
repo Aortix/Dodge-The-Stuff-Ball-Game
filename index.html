@@ -21,19 +21,57 @@
 
   <body>
     <div class="main-container">
-      <h1>Dodge the Objects!</h1>
+      <h1 class="main-title">Dodge the Objects!</h1>
+      <p class="main-tip">
+        Use the <i class="fas fa-arrow-up"></i> and
+        <i class="fas fa-arrow-down"></i> keys to dodge the flying objects and
+        press
+        <span
+          style="border: 1px solid white; padding-left: 5px; padding-right: 5px"
+          >F</span
+        >
+        to become invincible when it's in stock!
+      </p>
+      <p class="main-stock">
+        Invincibility Stock <i class="fas fa-circle"></i> :
+        <span class="main-stock_number">0</span>
+      </p>
       <div class="canvas-container">
         <canvas id="canvas"></canvas>
-        <h2 id="game_paused-title">Paused</h2>
+        <h2 id="game_paused-title">PAUSE</h2>
+        <p id="game_paused_menu">Menu</p>
         <h2 id="countdown"></h2>
         <i id="game_paused-icon" class="far fa-pause-circle fa-sm"></i>
-        <h2 id="game_over-title" class="game_over-options">Game Over</h2>
+        <h2 id="game_over-title" class="game_over-options">GAME OVER</h2>
         <p id="game_over-retry" class="game_over-options">Retry</p>
         <p id="game_over-menu" class="game_over-options">Menu</p>
         <h2 class="menu-options menu-title">Start Menu</h2>
-        <p class="menu-options menu-play_game">Play Game</p>
-        <p id="time"></p>
+        <p class="menu-options menu-play_game">PLAY GAME</p>
+        <p class="menu-options menu-change_canvas_color">COLOR</p>
+        <p class="menu-options menu-change_object_amount">
+          OBJECTS
+        </p>
+        <ul class="menu-options menu-colors hide_menu_items">
+          <li style="background-color: black"></li>
+          <li style="background-color: #373737"></li>
+          <li style="background-color: navy"></li>
+          <li style="background-color: deepskyblue"></li>
+          <li style="background-color: darksalmon"></li>
+          <li style="background-color: #8B0000"></li>
+          <li style="background-color: darkgreen"></li>
+          <li style="background-color: purple"></li>
+          <li style="background-color: deeppink"></li>
+        </ul>
+        <ul class="menu-options menu-objects hide_menu_items">
+          <li class="normal-object-FA">
+            <i class="fas fa-check"></i>&nbsp;Normal
+          </li>
+          <li class="normal-object">Normal</li>
+          <li class="low-object-FA"><i class="fas fa-check"></i>&nbsp;Low</li>
+          <li class="low-object">Low</li>
+        </ul>
       </div>
+      <p id="time"></p>
     </div>
     <script type="module" src="./javascript/canvas.js"></script>
     <script type="module" src="./javascript/CreateShapes.js"></script>

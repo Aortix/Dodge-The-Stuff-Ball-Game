@@ -4,32 +4,22 @@ const checkForOffTheCanvas = (
   enemyObjectsHeight,
   canvasXcord,
   canvasYcord,
-  canvasWidth,
   canvasHeight
 ) => {
-  for (let i = 0; i < enemyObjectsLocation.length; i++) {
-    if (enemyObjectsLocation[i].x <= canvasXcord - 30 - enemyObjectsWidth) {
-      i = enemyObjectsLocation.length;
-      return true;
-    } else if (
-      enemyObjectsLocation[i].x >=
-      canvasWidth + 30 + enemyObjectsWidth
-    ) {
-      i = enemyObjectsLocation.length;
-      return true;
-    } else if (
-      enemyObjectsLocation[i].y <=
-      canvasYcord - 30 - enemyObjectsHeight
-    ) {
-      i = enemyObjectsLocation.length;
-      return true;
-    } else if (
-      enemyObjectsLocation[i].y >=
-      canvasHeight + 30 + enemyObjectsHeight
-    ) {
-      i = enemyObjectsLocation.length;
-      return true;
-    }
+  if (enemyObjectsLocation[3].x <= canvasXcord - enemyObjectsWidth) {
+    return true;
+  } else if (
+    enemyObjectsLocation[1].y <=
+    canvasYcord - enemyObjectsHeight - 70
+  ) {
+    return true;
+  } else if (
+    enemyObjectsLocation[0].y >=
+    canvasHeight + enemyObjectsHeight + 70
+  ) {
+    return true;
+  } else {
+    return false;
   }
 };
 

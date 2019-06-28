@@ -26,78 +26,102 @@ class Rectangle extends CreateShapes {
       canvasContext
     );
 
+    this.name = "Rectangle";
     this.drawRectangle();
   }
 
+  get getCurrentName() {
+    return this.name;
+  }
+
   drawRectangle() {
-    //Calling CreateShapes method
-    this.drawShape();
+    this.canvasContext.fillStyle = this.bgColor;
+    this.canvasContext.strokeStyle = this.strokeColor;
     this.canvasContext.beginPath();
 
     //Origin (x,y) is the upper right of the rectangle
     this.canvasContext.moveTo(this.xcord, this.ycord);
-    this.location.push({ x: this.xcord, y: this.ycord });
 
+    //Drawing the rectangle
     this.canvasContext.lineTo(this.xcord - this.widthOrRadius, this.ycord);
-    for (let i = this.xcord; i > this.xcord - this.widthOrRadius; i -= 2)
+    this.canvasContext.lineTo(
+      this.xcord - this.widthOrRadius,
+      this.ycord + this.height
+    );
+    this.canvasContext.lineTo(this.xcord, this.ycord + this.height);
+    this.canvasContext.lineTo(this.xcord, this.ycord);
+
+    //Getting the centerpoints
+    this.centerPoints.push({
+      x: Math.floor(this.xcord - this.widthOrRadius / 2),
+      y: this.ycord
+    });
+    this.centerPoints.push({
+      x: Math.floor(this.xcord - this.widthOrRadius / 2),
+      y: this.ycord + this.height
+    });
+    this.centerPoints.push({
+      x: this.xcord + this.widthOrRadius,
+      y: Math.floor(this.ycord + this.height / 2)
+    });
+    this.centerPoints.push({
+      x: this.xcord,
+      y: Math.floor(this.ycord + this.height / 2)
+    });
+
+    //Saving location data of rectangle to compare to player object for hits
+    for (let i = this.xcord; i >= this.xcord - this.widthOrRadius; i -= 2) {
       this.location.push({
-        x: Math.floor(i),
+        x: i,
         y: this.ycord
       });
-    this.location.push({ x: this.xcord - this.widthOrRadius, y: this.ycord });
+      this.location.push({
+        x: i,
+        y: this.ycord + this.height
+      });
+    }
+
+    for (let i = this.ycord; i <= this.ycord + this.height; i += 2) {
+      this.location.push({
+        x: this.xcord - this.widthOrRadius,
+        y: i
+      });
+      this.location.push({
+        x: this.xcord,
+        y: i
+      });
+    }
+
+    this.location.push({
+      x: this.xcord - this.widthOrRadius,
+      y: Math.floor(this.ycord + this.height / 2)
+    });
+
+    this.location.push({
+      x: this.xcord,
+      y: Math.floor(this.ycord + this.height / 2)
+    });
+
+    this.location.push({
+      x: this.xcord - this.widthOrRadius,
+      y: this.ycord + this.height
+    });
+
     this.location.push({
       x: Math.floor(this.xcord - this.widthOrRadius / 2),
       y: this.ycord
     });
 
-    this.canvasContext.lineTo(
-      this.xcord - this.widthOrRadius,
-      this.ycord + this.height
-    );
-    for (let i = this.ycord; i < this.ycord + this.height; i += 2) {
-      this.location.push({
-        x: Math.floor(this.xcord - this.widthOrRadius),
-        y: Math.floor(i)
-      });
-    }
-    this.location.push({
-      x: Math.floor(this.xcord - this.widthOrRadius),
-      y: Math.floor(this.ycord + this.height / 2)
-    });
-
-    this.location.push({
-      x: Math.floor(this.xcord - this.widthOrRadius),
-      y: Math.floor(this.ycord + this.height)
-    });
-
-    this.canvasContext.lineTo(this.xcord, this.ycord + this.height);
-    for (let i = this.xcord - this.widthOrRadius; i < this.xcord; i += 2) {
-      this.location.push({
-        x: Math.floor(i),
-        y: Math.floor(this.ycord + this.height)
-      });
-    }
-
     this.location.push({
       x: Math.floor(this.xcord - this.widthOrRadius / 2),
-      y: Math.floor(this.ycord + this.height)
+      y: this.ycord + this.height
     });
 
-    for (let i = this.ycord + this.height; i > this.ycord; i -= 2) {
-      this.location.push({
-        x: this.xcord,
-        y: Math.floor(i)
-      });
-    }
-    this.location.push({ x: this.xcord, y: Math.floor(this.ycord + this.height) });
-    this.canvasContext.lineTo(this.xcord, this.ycord);
+    //Move the rectangle
+    this.xcord -= this.speed;
 
     this.canvasContext.stroke();
-  };
-
-  moveRectangle() {
-    this.xcord -= this.speed;
-  };
+  }
 }
 
 export default Rectangle;

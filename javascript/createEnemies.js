@@ -13,7 +13,9 @@ const createEnemies = (canvas, enemy, amount) => {
         enemyRectangles.push(
           new Rectangle(
             canvas.getCurrentWidth + 41,
-            Math.floor(Math.random() * (canvas.getCurrentHeight - 50) + 50),
+            Math.floor(
+              Math.random() * (canvas.getCurrentHeight - 50 - 50) + 50
+            ),
             Math.floor(Math.random() * (40 - 20) + 20),
             Math.floor(Math.random() * (50 - 20) + 20),
             0,
@@ -33,12 +35,14 @@ const createEnemies = (canvas, enemy, amount) => {
         enemyCircles.push(
           new Circle(
             canvas.getCurrentWidth + 16,
-            Math.floor(Math.random() * (canvas.getCurrentHeight - 15) + 15),
+            Math.floor(
+              Math.random() * (canvas.getCurrentHeight - 70 - 70) + 70
+            ),
             Math.floor(Math.random() * (15 - 10) + 10),
             0,
             0,
             360,
-            Math.floor(Math.random() * (6 - 4) + 4),
+            Math.floor(Math.random() * (3 - 2) + 2),
             "white",
             "white",
             canvas.getCurrentCanvasContext
@@ -73,7 +77,9 @@ const createEnemies = (canvas, enemy, amount) => {
         enemyWalls.push(
           new Wall(
             canvas.getCurrentWidth + 141,
-            Math.floor(Math.random() * (canvas.getCurrentHeight - 140) + 140),
+            Math.floor(
+              Math.random() * (canvas.getCurrentHeight - 140 - 140) + 140
+            ),
             0,
             Math.floor(Math.random() * (140 - 100) + 100),
             0,
@@ -93,11 +99,13 @@ const createEnemies = (canvas, enemy, amount) => {
         enemyBelts.push(
           new Belt(
             canvas.getCurrentWidth + 50,
-            Math.floor(Math.random() * (canvas.getCurrentHeight - 300) + 300),
+            Math.floor(
+              Math.random() * (canvas.getCurrentHeight - 300 - 300) + 300
+            ),
             20,
             30,
             0,
-            0,
+            360,
             Math.floor(Math.random() * (6 - 4) + 4),
             "white",
             "white",

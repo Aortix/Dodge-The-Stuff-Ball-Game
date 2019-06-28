@@ -16,7 +16,7 @@ import {
 } from "./eventListenerFunctions.js";
 import globalObject from "./globalObject.js";
 
-export const playingTheGame = (canvas, difficulty) => {
+export let playingTheGame = (canvas, difficulty) => {
   let enemyRectangles = null;
   let enemyWalls = null;
   let enemyCircles = null;
@@ -221,14 +221,12 @@ export const playingTheGame = (canvas, difficulty) => {
         enemyCircles = createEnemies(canvas, "Circle", 2);
         //enemyMagnets = createEnemies(canvas, "Magnet", 1);
         enemyBelts = createEnemies(canvas, "Belt", 1);
-        console.log("This should be running? - normal");
       } else if (difficulty === "Low") {
         enemyRectangles = createEnemies(canvas, "Rectangle", 2);
         enemyWalls = createEnemies(canvas, "Wall", 1);
         enemyCircles = createEnemies(canvas, "Circle", 1);
         //enemyMagnets = createEnemies(canvas, "Magnet", 1);
         enemyBelts = createEnemies(canvas, "Belt", 1);
-        console.log("This should be running? - low");
       }
 
       //Get initial speeds of enemies - this will be used when you unpause (speed is set to 0 for a pause) the game to
@@ -311,11 +309,9 @@ export const playingTheGame = (canvas, difficulty) => {
           } else {
             if (Math.floor(timestamp - start) / invincibilityTimer > 1) {
               console.log("Invincibility added");
-              document.querySelector(
-                ".main-stock_number"
-              ).innerHTML = Math.floor(
+              document.querySelector(".main-stock_number").innerHTML = (
                 Number(document.querySelector(".main-stock_number").innerHTML) +
-                  1
+                1
               ).toString();
               invincibilityStocks += 1;
               invincibilityTimer += 20000;
@@ -324,7 +320,7 @@ export const playingTheGame = (canvas, difficulty) => {
 
           //Displays the time the game has been running on the screen in seconds
           document.getElementById("time").innerHTML =
-            Math.floor((timestamp - start) / 1000) + "s / 200s";
+            Math.floor((timestamp - start) / 1000) + "s / 150s";
 
           //Clearing and redrawing the canvas
           canvas.clearCanvas();
@@ -335,13 +331,13 @@ export const playingTheGame = (canvas, difficulty) => {
           player1.drawPlayerShape(state);
           switch (level) {
             case 0:
-              if ((timestamp - start) / 1000 > 15) {
+              if (Math.floor((timestamp - start) / 1000) > 15) {
                 state = 1;
                 player1.invincibility = 1;
-                player1.xcord = canvas.getCurrentWidth / 4;
-                line1.xcord = canvas.getCurrentWidth / 4;
+                player1.xcord = Math.floor(canvas.getCurrentWidth / 4);
+                line1.xcord = Math.floor(canvas.getCurrentWidth / 4);
                 level = 1;
-                speedModifier += Math.floor(1);
+                speedModifier += 1;
                 setTimeout(() => {
                   state = 0;
                 }, 1000);
@@ -372,13 +368,13 @@ export const playingTheGame = (canvas, difficulty) => {
                 }, 3000);
               }
             case 1:
-              if ((timestamp - start) / 1000 > 30) {
+              if (Math.floor((timestamp - start) / 1000) > 30) {
                 state = 1;
                 player1.invincibility = 1;
-                player1.xcord = canvas.getCurrentWidth / 2;
-                line1.xcord = canvas.getCurrentWidth / 2;
+                player1.xcord = Math.floor((2 * canvas.getCurrentWidth) / 5);
+                line1.xcord = Math.floor((2 * canvas.getCurrentWidth) / 5);
                 level = 2;
-                speedModifier += Math.floor(1);
+                speedModifier += 1;
                 setTimeout(() => {
                   state = 0;
                 }, 1000);
@@ -409,9 +405,39 @@ export const playingTheGame = (canvas, difficulty) => {
                 }, 3000);
               }
             case 2:
-              if ((timestamp - start) / 1000 > 45) {
-                speedModifier += Math.floor(1);
+              if (Math.floor((timestamp - start) / 1000) > 100) {
+                speedModifier += 1;
                 level = 3;
+                state = 1;
+                player1.invincibility = 1;
+                setTimeout(() => {
+                  state = 0;
+                }, 1000);
+                setTimeout(() => {
+                  state = 1;
+                }, 1250);
+                setTimeout(() => {
+                  state = 0;
+                }, 2000);
+                setTimeout(() => {
+                  state = 1;
+                }, 2300);
+                setTimeout(() => {
+                  state = 0;
+                }, 2500);
+                setTimeout(() => {
+                  state = 1;
+                }, 2700);
+                setTimeout(() => {
+                  state = 0;
+                }, 2800);
+                setTimeout(() => {
+                  state = 1;
+                }, 2900);
+                setTimeout(() => {
+                  state = 0;
+                  player1.invincibility = 0;
+                }, 3000);
               }
             case 3:
               break;
@@ -431,7 +457,7 @@ export const playingTheGame = (canvas, difficulty) => {
             if (rectangle.getCurrentSpeed === 0) {
               rectangle.speed = rectangleSpeeds[index];
             }
-            rectangle.moveRectangle();
+            //rectangle.moveRectangle();
             if (
               checkForCollisions(
                 player1.getCurrentLocation,
@@ -448,7 +474,7 @@ export const playingTheGame = (canvas, difficulty) => {
             if (wall.getCurrentSpeed === 0) {
               wall.speed = wallSpeeds[index];
             }
-            wall.moveWall();
+            //wall.moveWall();
             if (
               checkForCollisions(
                 player1.getCurrentLocation,
@@ -465,7 +491,7 @@ export const playingTheGame = (canvas, difficulty) => {
             if (circle.getCurrentSpeed === 0) {
               circle.speed = circleSpeeds[index];
             }
-            circle.moveCircle();
+            //circle.moveCircle();
             if (
               checkForCollisions(
                 player1.getCurrentLocation,
@@ -499,7 +525,7 @@ export const playingTheGame = (canvas, difficulty) => {
             if (belt.getCurrentSpeed === 0) {
               belt.speed = beltSpeeds[index];
             }
-            belt.moveBelt();
+            //belt.moveBelt();
             if (
               checkForCollisions(
                 player1.getCurrentLocation,
@@ -621,35 +647,30 @@ export const playingTheGame = (canvas, difficulty) => {
 
           //Continue running the game if conditions are met
 
-          if (timestamp - start < 200000 && player1.invincibility === 1) {
+          if (
+            Math.floor(timestamp - start) < 150000 &&
+            player1.invincibility === 1
+          ) {
             player1.hit = 0;
             window.requestAnimationFrame(runningTheGame);
           } else if (
-            timestamp - start < 200000 &&
+            Math.floor(timestamp - start) < 150000 &&
             player1.getCurrentHit !== 1
           ) {
             window.requestAnimationFrame(runningTheGame);
           }
 
           //End the game if conditions are met
-          if (timestamp - start >= 200000 || player1.getCurrentHit === 1) {
+          if (
+            Math.floor(timestamp - start) >= 150000 ||
+            player1.getCurrentHit === 1
+          ) {
             //The following loops delete the object properties for each object in the game
-            player1.deleteObject();
-            enemyRectangles.forEach(rectangle => {
-              rectangle.deleteObject();
-            });
-            enemyWalls.forEach(wall => {
-              wall.deleteObject();
-            });
-            enemyCircles.forEach(circle => {
-              circle.deleteObject();
-            });
-            /*enemyMagnets.forEach(magnet => {
-              magnet.deleteObject();
-            });*/
-            enemyBelts.forEach(belt => {
-              belt.deleteObject();
-            });
+            player1 = null;
+            enemyRectangles = [];
+            enemyWalls = [];
+            enemyCircles = [];
+            enemyBelts = [];
 
             globalObject.pauseButton.removeEventListener("click", pBF, false);
             start = null;
@@ -657,11 +678,10 @@ export const playingTheGame = (canvas, difficulty) => {
             level = 0;
             invincibilityStocks = 0;
             invincibilityTimer = 35000;
-            player1.hit = 0;
             canvas.mode = 2;
             globalObject.pauseButton.style.setProperty("display", "none");
 
-            playingTheGame(canvas, difficulty);
+            return playingTheGame(canvas, difficulty);
           }
         } else if (canvas.getCurrentMode === 3) {
           if (diff == null) {

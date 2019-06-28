@@ -30,7 +30,8 @@ class Magnet extends CreateShapes {
   }
 
   drawMagnet() {
-    this.drawShape();
+    this.canvasContext.fillStyle = this.bgColor;
+    this.canvasContext.strokeStyle = this.strokeColor;
     this.canvasContext.beginPath();
     this.canvasContext.arc(
       this.xcord - this.widthOrRadius,

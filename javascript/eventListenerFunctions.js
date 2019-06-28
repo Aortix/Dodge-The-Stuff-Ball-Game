@@ -80,12 +80,26 @@ export const menuButtonFunction = (canvas, difficulty) => {
   canvas.clearCanvas();
   canvas.drawCanvas();
   document.getElementById(canvas.getCurrentCanvasId).classList.toggle("menu");
+  document.querySelector(".menu-colors").style.setProperty("display", "none");
+  document.querySelector(".menu-objects").style.setProperty("display", "none");
   globalObject.gameOverItemsToEnable.forEach(items => {
     return items.style.setProperty("display", "none");
   });
   globalObject.menuItemsToDisable.forEach(items => {
     return items.style.setProperty("display", "block");
   });
+  if (
+    !document
+      .querySelector(".menu-colors")
+      .classList.contains("hide_menu_items")
+  ) {
+    document.querySelector(".menu-colors").classList.toggle("hide_menu_items");
+  }
+  if (
+    !document.querySelector(".menu-objects").classList.toggle("hide_menu_items")
+  ) {
+    document.querySelector(".menu-objects").classList.toggle("hide_menu_items");
+  }
   canvas.mode = 0;
   globalObject.menuButton.removeEventListener(
     "click",
@@ -117,7 +131,6 @@ export const menuButtonFunction = (canvas, difficulty) => {
 };
 
 export const pauseButtonFunction = canvas => {
-  console.log("Clicked");
   document.getElementById(canvas.getCurrentCanvasId).classList.toggle("menu");
   if (canvas.getCurrentMode === 3) {
     globalObject.pauseTitle.style.setProperty("display", "none");
@@ -164,6 +177,18 @@ export const pauseMenuButtonFunction = (canvas, difficulty) => {
   globalObject.pauseTitle.style.setProperty("display", "none");
   globalObject.pauseButton.style.setProperty("display", "none");
   globalObject.pauseMenuButton.style.setProperty("display", "none");
+  if (
+    !document
+      .querySelector(".menu-colors")
+      .classList.contains("hide_menu_items")
+  ) {
+    document.querySelector(".menu-colors").classList.toggle("hide_menu_items");
+  }
+  if (
+    !document.querySelector(".menu-objects").classList.toggle("hide_menu_items")
+  ) {
+    document.querySelector(".menu-objects").classList.toggle("hide_menu_items");
+  }
   canvas.mode = 0;
   globalObject.menuItemsToDisable.forEach(items => {
     return items.style.setProperty("display", "block");
@@ -199,36 +224,11 @@ export const pauseMenuButtonFunction = (canvas, difficulty) => {
 };
 
 export const addingInvulnerability = (player, state) => {
-  player.clearObject();
   player.drawPlayerShape(state);
   document.querySelector(".main-stock_number").innerHTML = Math.floor(
     Number(document.querySelector(".main-stock_number").innerHTML) - 1
   ).toString();
   player.invincibility = 1;
-  /*setTimeout(() => {
-    state = 0;
-  }, 1000);
-  setTimeout(() => {
-    state = 1;
-  }, 1250);
-  setTimeout(() => {
-    state = 0;
-  }, 2000);
-  setTimeout(() => {
-    state = 1;
-  }, 2300);
-  setTimeout(() => {
-    state = 0;
-  }, 2500);
-  setTimeout(() => {
-    state = 1;
-  }, 2700);
-  setTimeout(() => {
-    state = 0;
-  }, 2800);
-  setTimeout(() => {
-    state = 1;
-  }, 2900);*/
   setTimeout(() => {
     player.invincibility = 0;
   }, 3000);

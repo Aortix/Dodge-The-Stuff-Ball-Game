@@ -33,7 +33,7 @@ class PlayerShape extends CreateShapes {
     this.hit = 0;
     this.invincibility = 0;
     this.addKeyboardCommands();
-    this.drawPlayerShape();
+    this.drawPlayerShape(0);
   }
 
   get getCurrentHit() {
@@ -48,61 +48,18 @@ class PlayerShape extends CreateShapes {
     return (this.hit = hit);
   }
 
-  drawPlayerShape(state){
-    this.drawShape();
-    this.canvasContext.beginPath();
-    let newPath = new Path2D();
-    //Origin (x,y) is the middle of the circle
-    newPath.arc(
-      this.xcord,
-      this.ycord,
-      this.widthOrRadius,
-      this.startAngle,
-      this.endAngle
-    );
-
-    for (let i = this.startAngle; i < this.endAngle; i += 8) {
-      this.location.push({
-        x: Math.floor(this.widthOrRadius * Math.cos(i) + this.xcord),
-        y: Math.floor(this.widthOrRadius * Math.sin(i) + this.ycord)
-      });
-    }
-
-    if (state === 0) {
-      this.canvasContext.stroke(newPath);
-    } else {
-      this.canvasContext.fill(newPath);
-    }
-  };
-
-  movePlayerShape() {
-    this.xcord += this.speed;
-  };
-
-  addKeyboardCommands() {
-    window.addEventListener("keydown", (e) => {this.keyDownCommands(e)}, false);
-    window.addEventListener("keyup", (e) => {this.keyUpCommands(e)}, false);
-  };
-
-  removeKeyboardCommands() {
-    window.removeEventListener("keydown", (e) => {this.keyDownCommands(e)}, false);
-    window.removeEventListener("keyup", (e) => {this.keyUpCommands(e)}, false);
-  };
-
   keyDownCommands(e) {
     switch (e.key) {
       case "ArrowUp":
         this.keyClicks.up = true;
-        this.keyClicks.down = false;
         break;
       case "ArrowDown":
         this.keyClicks.down = true;
-        this.keyClicks.up = false;
         break;
       default:
         break;
     }
-  };
+  }
 
   keyUpCommands(e) {
     switch (e.key) {
@@ -115,7 +72,70 @@ class PlayerShape extends CreateShapes {
       default:
         break;
     }
-  };
+  }
+
+  addKeyboardCommands() {
+    window.addEventListener(
+      "keydown",
+      e => {
+        this.keyDownCommands(e);
+      },
+      false
+    );
+    window.addEventListener(
+      "keyup",
+      e => {
+        this.keyUpCommands(e);
+      },
+      false
+    );
+  }
+
+  removeKeyboardCommands() {
+    window.removeEventListener(
+      "keydown",
+      e => {
+        this.keyDownCommands(e);
+      },
+      false
+    );
+    window.removeEventListener(
+      "keyup",
+      e => {
+        this.keyUpCommands(e);
+      },
+      false
+    );
+  }
+
+  drawPlayerShape(state) {
+    this.canvasContext.fillStyle = this.bgColor;
+    this.canvasContext.strokeStyle = this.strokeColor;
+    this.canvasContext.beginPath();
+
+    let newPath = new Path2D();
+    //Origin (x,y) is the middle of the circle
+    newPath.arc(
+      this.xcord,
+      this.ycord,
+      this.widthOrRadius,
+      this.startAngle,
+      this.endAngle
+    );
+
+    for (let i = this.startAngle; i <= this.endAngle; i += 9) {
+      this.location.push({
+        x: Math.floor(this.widthOrRadius * Math.cos(i) + this.xcord),
+        y: Math.floor(this.widthOrRadius * Math.sin(i) + this.ycord)
+      });
+    }
+
+    if (state === 0) {
+      this.canvasContext.stroke(newPath);
+    } else {
+      this.canvasContext.fill(newPath);
+    }
+  }
 }
 
 export default PlayerShape;

@@ -10,7 +10,7 @@ const offTheCanvas = (
   object.forEach(obj => {
     if (
       checkForOffTheCanvas(
-        obj.getCurrentLocation,
+        obj.getCurrentCenterPoints,
         obj.getCurrentWidthOrRadius,
         obj.getCurrentHeight,
         canvas.getCurrentXcord,
@@ -47,7 +47,7 @@ const offTheCanvas = (
         offCanvasTracker.p = Math.floor(Math.random() * 2);
       }
       obj.xcord = canvas.getCurrentWidth + obj.getCurrentWidthOrRadius;
-      obj.speed = speedModifier + Math.floor(Math.random() * (6 - 4) + 4);
+      obj.speed = speedModifier + Math.floor(Math.random() * (5 - 4) + 4);
       return offCanvasTracker;
     } else {
       return null;

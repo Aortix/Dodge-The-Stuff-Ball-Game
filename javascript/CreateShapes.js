@@ -1,20 +1,20 @@
 class CreateShapes {
-  //12 Parameters so far
+  //10 Parameters so far
   constructor(
-    xcord = 0,
-    ycord = 0,
-    widthOrRadius = 40,
-    height = 40,
-    startAngle = 0,
-    endAngle = 0,
-    speed = 5,
-    bgColor = "white",
-    strokeColor = "black",
+    xcord,
+    ycord,
+    widthOrRadius,
+    height,
+    startAngle,
+    endAngle,
+    speed,
+    bgColor,
+    strokeColor,
     canvasContext
   ) {
-    (this.xcord = xcord),
-      (this.ycord = ycord),
-      (this.widthOrRadius = widthOrRadius);
+    this.xcord = xcord;
+    this.ycord = ycord;
+    this.widthOrRadius = widthOrRadius;
     this.height = height;
     this.startAngle = startAngle;
     this.endAngle = endAngle;
@@ -26,6 +26,8 @@ class CreateShapes {
     //Location is an array of the coordinates of whatever shape is being created; these coordinates will allow for
     //collision detection with the player object.
     this.location = [];
+
+    this.centerPoints = [];
   }
 
   get getCurrentXcord() {
@@ -71,6 +73,10 @@ class CreateShapes {
   get getCurrentLocation() {
     return this.location;
   }
+
+  get getCurrentCenterPoints() {
+    return this.centerPoints;
+  }
   set setCurrentXcord(xcord) {
     return (this.xcord = xcord);
   }
@@ -110,28 +116,10 @@ class CreateShapes {
     return (this.canvasContext = canvasContext);
   }
 
-  drawShape() {
-    this.canvasContext.fillStyle = this.bgColor;
-    this.canvasContext.strokeStyle = this.strokeColor;
-  };
-
   clearObject() {
-    this.location.length = 0;
-  };
-
-  deleteObject() {
-    delete this.xcord;
-    delete this.ycord;
-    delete this.widthOrRadius;
-    delete this.height;
-    delete this.startAngle;
-    delete this.endAngle;
-    delete this.speed;
-    delete this.bgColor;
-    delete this.strokeColor;
-    delete this.canvasContext;
-    delete this.location;
-  };
+    this.location = [];
+    this.centerPoints = [];
+  }
 }
 
 export default CreateShapes;

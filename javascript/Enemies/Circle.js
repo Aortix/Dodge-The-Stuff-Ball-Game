@@ -31,16 +31,52 @@ class Circle extends CreateShapes {
   }
 
   drawCircle() {
-    this.drawShape();
+    this.canvasContext.fillStyle = this.bgColor;
+    this.canvasContext.strokeStyle = this.strokeColor;
     this.canvasContext.beginPath();
+
+    //Draw the circle and add location points
     let newPath = new Path2D();
-    newPath.arc(this.xcord, this.ycord, this.widthOrRadius, 0, 2 * Math.PI);
-    for (let i = 0; i < 360; i += 10) {
+    newPath.arc(
+      this.xcord,
+      this.ycord,
+      this.widthOrRadius,
+      this.startAngle,
+      this.endAngle
+    );
+    for (let i = this.startAngle; i <= this.endAngle; i += 10) {
       this.location.push({
         x: Math.floor(this.widthOrRadius * Math.cos(i) + this.xcord),
         y: Math.floor(this.widthOrRadius * Math.sin(i) + this.ycord)
       });
     }
+
+    //Getting the centerpoints
+    this.centerPoints.push({
+      x: Math.floor(this.widthOrRadius * Math.cos(90) + this.xcord),
+      y: Math.floor(this.widthOrRadius * Math.sin(90) + this.ycord)
+    });
+    this.centerPoints.push({
+      x: Math.floor(this.widthOrRadius * Math.cos(270) + this.xcord),
+      y: Math.floor(this.widthOrRadius * Math.sin(270) + this.ycord)
+    });
+    this.centerPoints.push({
+      x: Math.floor(this.widthOrRadius * Math.cos(180) + this.xcord),
+      y: Math.floor(this.widthOrRadius * Math.sin(180) + this.ycord)
+    });
+    this.centerPoints.push({
+      x: Math.floor(this.widthOrRadius * Math.cos(360) + this.xcord),
+      y: Math.floor(this.widthOrRadius * Math.sin(360) + this.ycord)
+    });
+
+    //Move the circle
+    this.xcord -= this.speed;
+
+    this.animation += 1;
+    this.getCurrentAnimation % 70 > 35
+      ? (this.ycord += this.speed)
+      : (this.ycord -= this.speed);
+
     this.canvasContext.stroke(newPath);
   }
 
@@ -50,15 +86,6 @@ class Circle extends CreateShapes {
 
   set setCurrentAnimation(animation) {
     return (this.animation = animation);
-  }
-
-  moveCircle() {
-    this.xcord -= this.speed;
-
-    this.animation += 1;
-    this.getCurrentAnimation % 90 > 45
-      ? (this.ycord += this.speed)
-      : (this.ycord -= this.speed);
   }
 }
 

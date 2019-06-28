@@ -29,19 +29,20 @@ class Line extends CreateShapes {
     this.drawLine();
   }
 
-  drawLine () {
-    this.drawShape();
+  drawLine() {
+    this.canvasContext.fillStyle = this.bgColor;
+    this.canvasContext.strokeStyle = this.strokeColor;
     this.canvasContext.beginPath();
 
     this.canvasContext.moveTo(this.xcord, this.ycord);
     this.canvasContext.lineTo(this.xcord, this.height);
 
     this.canvasContext.stroke();
-  };
+  }
 
-  moveline () {
+  moveline() {
     this.xcord -= this.speed;
-  };
+  }
 }
 
 export default Line;

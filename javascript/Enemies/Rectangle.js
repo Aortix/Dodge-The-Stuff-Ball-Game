@@ -26,7 +26,12 @@ class Rectangle extends CreateShapes {
       canvasContext
     );
 
+    this.name = "Rectangle";
     this.drawRectangle();
+  }
+
+  get getCurrentName() {
+    return this.name;
   }
 
   drawRectangle() {

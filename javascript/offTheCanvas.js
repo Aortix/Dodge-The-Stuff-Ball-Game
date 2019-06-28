@@ -15,7 +15,6 @@ const offTheCanvas = (
         obj.getCurrentHeight,
         canvas.getCurrentXcord,
         canvas.getCurrentYcord,
-        canvas.getCurrentWidth,
         canvas.getCurrentHeight
       ) == true
     ) {
@@ -47,7 +46,12 @@ const offTheCanvas = (
         offCanvasTracker.p = Math.floor(Math.random() * 2);
       }
       obj.xcord = canvas.getCurrentWidth + obj.getCurrentWidthOrRadius;
-      obj.speed = speedModifier + Math.floor(Math.random() * (5 - 4) + 4);
+
+      if (obj.getCurrentName === "Circle") {
+        obj.speed = speedModifier + Math.floor(Math.random() * (4 - 2) + 2);
+      } else {
+        obj.speed = speedModifier + Math.floor(Math.random() * (5 - 3) + 3);
+      }
       return offCanvasTracker;
     } else {
       return null;

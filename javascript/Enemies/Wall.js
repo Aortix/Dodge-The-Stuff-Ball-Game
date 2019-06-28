@@ -26,10 +26,14 @@ class Wall extends CreateShapes {
       canvasContext
     );
 
+    this.name = "Wall";
     this.animation = 0;
     this.originalHeight = this.height;
-    this.originalWidth = this.widthOrRadius;
     this.drawWall();
+  }
+
+  get getCurrentName() {
+    return this.name;
   }
 
   get getCurrentAnimation() {

@@ -9,13 +9,13 @@ const checkForOffTheCanvas = (
   if (enemyObjectsLocation[3].x <= canvasXcord - enemyObjectsWidth) {
     return true;
   } else if (
-    enemyObjectsLocation[0].y <=
-    Math.floor(canvasYcord - enemyObjectsHeight / 2)
+    enemyObjectsLocation[1].y <=
+    canvasYcord - enemyObjectsHeight - 70
   ) {
     return true;
   } else if (
     enemyObjectsLocation[0].y >=
-    Math.floor(canvasHeight + enemyObjectsHeight / 2)
+    canvasHeight + enemyObjectsHeight + 70
   ) {
     return true;
   } else {

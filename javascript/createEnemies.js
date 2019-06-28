@@ -42,7 +42,7 @@ const createEnemies = (canvas, enemy, amount) => {
             0,
             0,
             360,
-            Math.floor(Math.random() * (6 - 4) + 3),
+            Math.floor(Math.random() * (3 - 2) + 2),
             "white",
             "white",
             canvas.getCurrentCanvasContext

@@ -26,8 +26,13 @@ class Circle extends CreateShapes {
       canvasContext
     );
 
+    this.name = "Circle";
     this.animation = 0;
     this.drawCircle();
+  }
+
+  get getCurrentName() {
+    return this.name;
   }
 
   drawCircle() {

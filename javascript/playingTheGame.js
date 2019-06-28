@@ -666,6 +666,11 @@ export let playingTheGame = (canvas, difficulty) => {
             player1.getCurrentHit === 1
           ) {
             //The following loops delete the object properties for each object in the game
+            if (Math.floor(timestamp - start) >= 150000) {
+              document.getElementById("game_over-title").innerHTML =
+                "Nice Work.";
+            }
+
             player1 = null;
             enemyRectangles = [];
             enemyWalls = [];

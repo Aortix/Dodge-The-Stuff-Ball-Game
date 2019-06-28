@@ -25,7 +25,12 @@ class Belt extends CreateShapes {
       canvasContext
     );
 
+    this.name = "Belt";
     this.drawBelt();
+  }
+
+  get getCurrentName() {
+    return this.name;
   }
 
   drawBelt() {

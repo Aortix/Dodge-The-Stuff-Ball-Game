@@ -46,6 +46,7 @@ export const retryButtonFunction = (canvas, difficulty) => {
     return items.style.setProperty("display", "none");
   });
   globalObject.pauseButton.style.setProperty("display", "block");
+  document.getElementById("game_over-title").innerHTML = "Game Over";
   canvas.mode = 1;
   globalObject.playGameButton.removeEventListener(
     "click",
@@ -100,6 +101,7 @@ export const menuButtonFunction = (canvas, difficulty) => {
   ) {
     document.querySelector(".menu-objects").classList.toggle("hide_menu_items");
   }
+  document.getElementById("game_over-title").innerHTML = "Game Over";
   canvas.mode = 0;
   globalObject.menuButton.removeEventListener(
     "click",
@@ -189,6 +191,7 @@ export const pauseMenuButtonFunction = (canvas, difficulty) => {
   ) {
     document.querySelector(".menu-objects").classList.toggle("hide_menu_items");
   }
+  document.getElementById("game_over-title").innerHTML = "Game Over";
   canvas.mode = 0;
   globalObject.menuItemsToDisable.forEach(items => {
     return items.style.setProperty("display", "block");

@@ -91,7 +91,7 @@ export let playingTheGame = (canvas, difficulty) => {
     globalObject.pauseButton.removeEventListener("click", pBF, false);
     globalObject.pauseMenuButton.removeEventListener("click", pMBF, false);
     window.removeEventListener("keydown", addInvulnerability, false);
-    if (e.code === "KeyF" && invincibilityStocks > 0) {
+    if (e.code === "KeyF" && invincibilityStocks > 0 && keyFPressed !== true) {
       keyFPressed = true;
       invincibilityStocks -= 1;
       state = 1;
@@ -121,6 +121,7 @@ export let playingTheGame = (canvas, difficulty) => {
       }, 2900);
       setTimeout(() => {
         state = 0;
+        keyFPressed = false;
       }, 3000);
     }
   };
@@ -285,9 +286,8 @@ export let playingTheGame = (canvas, difficulty) => {
         //Adding invincibility with F
         window.addEventListener("keydown", addInvulnerability, false);
 
-        if (keyFPressed === true) {
+        if (keyFPressed === true && player1.getCurrentInvincibility !== 1) {
           addingInvulnerability(player1, state);
-          keyFPressed = false;
         }
 
         //Stops player from going out of the canvas
@@ -332,6 +332,7 @@ export let playingTheGame = (canvas, difficulty) => {
           switch (level) {
             case 0:
               if (Math.floor((timestamp - start) / 1000) > 15) {
+                keyFPressed = true;
                 state = 1;
                 player1.invincibility = 1;
                 player1.xcord = Math.floor(canvas.getCurrentWidth / 4);
@@ -365,10 +366,12 @@ export let playingTheGame = (canvas, difficulty) => {
                 setTimeout(() => {
                   state = 0;
                   player1.invincibility = 0;
+                  keyFPressed = false;
                 }, 3000);
               }
             case 1:
               if (Math.floor((timestamp - start) / 1000) > 30) {
+                keyFPressed = true;
                 state = 1;
                 player1.invincibility = 1;
                 player1.xcord = Math.floor((2 * canvas.getCurrentWidth) / 5);
@@ -402,10 +405,12 @@ export let playingTheGame = (canvas, difficulty) => {
                 setTimeout(() => {
                   state = 0;
                   player1.invincibility = 0;
+                  keyFPressed = false;
                 }, 3000);
               }
             case 2:
-              if (Math.floor((timestamp - start) / 1000) > 100) {
+              if (Math.floor((timestamp - start) / 1000) > 60) {
+                keyFPressed = true;
                 speedModifier += 1;
                 level = 3;
                 state = 1;
@@ -437,9 +442,47 @@ export let playingTheGame = (canvas, difficulty) => {
                 setTimeout(() => {
                   state = 0;
                   player1.invincibility = 0;
+                  keyFPressed = false;
                 }, 3000);
               }
             case 3:
+              if (Math.floor((timestamp - start) / 1000) > 100) {
+                keyFPressed = true;
+                speedModifier += 1;
+                level = 4;
+                state = 1;
+                player1.invincibility = 1;
+                setTimeout(() => {
+                  state = 0;
+                }, 1000);
+                setTimeout(() => {
+                  state = 1;
+                }, 1250);
+                setTimeout(() => {
+                  state = 0;
+                }, 2000);
+                setTimeout(() => {
+                  state = 1;
+                }, 2300);
+                setTimeout(() => {
+                  state = 0;
+                }, 2500);
+                setTimeout(() => {
+                  state = 1;
+                }, 2700);
+                setTimeout(() => {
+                  state = 0;
+                }, 2800);
+                setTimeout(() => {
+                  state = 1;
+                }, 2900);
+                setTimeout(() => {
+                  state = 0;
+                  player1.invincibility = 0;
+                  keyFPressed = false;
+                }, 3000);
+              }
+            case 4:
               break;
             default:
               break;
@@ -461,7 +504,9 @@ export let playingTheGame = (canvas, difficulty) => {
             if (
               checkForCollisions(
                 player1.getCurrentLocation,
-                rectangle.getCurrentLocation
+                rectangle.getCurrentLocation,
+                player1.getCurrentCenterPoints,
+                rectangle.getCurrentCenterPoints
               ) === true
             ) {
               player1.hit = 1;
@@ -478,7 +523,9 @@ export let playingTheGame = (canvas, difficulty) => {
             if (
               checkForCollisions(
                 player1.getCurrentLocation,
-                wall.getCurrentLocation
+                wall.getCurrentLocation,
+                player1.getCurrentCenterPoints,
+                wall.getCurrentCenterPoints
               ) === true
             ) {
               player1.hit = 1;
@@ -495,7 +542,9 @@ export let playingTheGame = (canvas, difficulty) => {
             if (
               checkForCollisions(
                 player1.getCurrentLocation,
-                circle.getCurrentLocation
+                circle.getCurrentLocation,
+                player1.getCurrentCenterPoints,
+                circle.getCurrentCenterPoints
               ) === true
             ) {
               player1.hit = 1;
@@ -529,7 +578,9 @@ export let playingTheGame = (canvas, difficulty) => {
             if (
               checkForCollisions(
                 player1.getCurrentLocation,
-                belt.getCurrentLocation
+                belt.getCurrentLocation,
+                player1.getCurrentCenterPoints,
+                belt.getCurrentCenterPoints
               ) === true
             ) {
               player1.hit = 1;

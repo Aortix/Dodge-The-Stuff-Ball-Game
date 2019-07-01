@@ -40,12 +40,20 @@ class PlayerShape extends CreateShapes {
     return this.hit;
   }
 
+  get getCurrentInvincibility() {
+    return this.invincibility;
+  }
+
   get getCurrentKeyClicks() {
     return this.keyClicks;
   }
 
   set setCurrentHit(hit) {
     return (this.hit = hit);
+  }
+
+  set setCurrentInvincibility(invincibility) {
+    return (this.invincibility = invincibility);
   }
 
   keyDownCommands(e) {
@@ -129,6 +137,24 @@ class PlayerShape extends CreateShapes {
         y: Math.floor(this.widthOrRadius * Math.sin(i) + this.ycord)
       });
     }
+
+    //Getting the centerpoints
+    this.centerPoints.push({
+      x: Math.floor(this.widthOrRadius * Math.cos(90) + this.xcord),
+      y: Math.floor(this.widthOrRadius * Math.sin(90) + this.ycord)
+    });
+    this.centerPoints.push({
+      x: Math.floor(this.widthOrRadius * Math.cos(270) + this.xcord),
+      y: Math.floor(this.widthOrRadius * Math.sin(270) + this.ycord)
+    });
+    this.centerPoints.push({
+      x: Math.floor(this.widthOrRadius * Math.cos(180) + this.xcord),
+      y: Math.floor(this.widthOrRadius * Math.sin(180) + this.ycord)
+    });
+    this.centerPoints.push({
+      x: Math.floor(this.widthOrRadius * Math.cos(360) + this.xcord),
+      y: Math.floor(this.widthOrRadius * Math.sin(360) + this.ycord)
+    });
 
     if (state === 0) {
       this.canvasContext.stroke(newPath);

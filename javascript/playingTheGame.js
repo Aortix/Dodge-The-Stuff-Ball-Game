@@ -223,11 +223,11 @@ export let playingTheGame = (canvas, difficulty) => {
         //enemyMagnets = createEnemies(canvas, "Magnet", 1);
         enemyBelts = createEnemies(canvas, "Belt", 1);
       } else if (difficulty === "Low") {
-        enemyRectangles = createEnemies(canvas, "Rectangle", 2);
-        enemyWalls = createEnemies(canvas, "Wall", 1);
+        enemyRectangles = createEnemies(canvas, "Rectangle", 3);
+        enemyWalls = createEnemies(canvas, "Wall", 2);
         enemyCircles = createEnemies(canvas, "Circle", 1);
         //enemyMagnets = createEnemies(canvas, "Magnet", 1);
-        enemyBelts = createEnemies(canvas, "Belt", 1);
+        enemyBelts = createEnemies(canvas, "Belt", 0);
       }
 
       //Get initial speeds of enemies - this will be used when you unpause (speed is set to 0 for a pause) the game to
@@ -255,9 +255,11 @@ export let playingTheGame = (canvas, difficulty) => {
       });*/
 
       let beltSpeeds = [];
-      enemyBelts.forEach(belt => {
-        beltSpeeds.push(belt.getCurrentSpeed);
-      });
+      if (enemyBelts !== null) {
+        enemyBelts.forEach(belt => {
+          beltSpeeds.push(belt.getCurrentSpeed);
+        });
+      }
 
       document
         .getElementById("countdown")
@@ -568,24 +570,26 @@ export let playingTheGame = (canvas, difficulty) => {
             }
           });*/
 
-          enemyBelts.forEach((belt, index) => {
-            belt.clearObject();
-            belt.drawBelt();
-            if (belt.getCurrentSpeed === 0) {
-              belt.speed = beltSpeeds[index];
-            }
-            //belt.moveBelt();
-            if (
-              checkForCollisions(
-                player1.getCurrentLocation,
-                belt.getCurrentLocation,
-                player1.getCurrentCenterPoints,
-                belt.getCurrentCenterPoints
-              ) === true
-            ) {
-              player1.hit = 1;
-            }
-          });
+          if (enemyBelts !== null) {
+            enemyBelts.forEach((belt, index) => {
+              belt.clearObject();
+              belt.drawBelt();
+              if (belt.getCurrentSpeed === 0) {
+                belt.speed = beltSpeeds[index];
+              }
+              //belt.moveBelt();
+              if (
+                checkForCollisions(
+                  player1.getCurrentLocation,
+                  belt.getCurrentLocation,
+                  player1.getCurrentCenterPoints,
+                  belt.getCurrentCenterPoints
+                ) === true
+              ) {
+                player1.hit = 1;
+              }
+            });
+          }
 
           //The following if statements check if each enemy object is outside of the canvas, and they are their
           //positions are changed and a new offCanvasTracker is returned
@@ -674,25 +678,27 @@ export let playingTheGame = (canvas, difficulty) => {
               );
             }*/
 
-            if (
-              offTheCanvas(
-                canvas,
-                enemyBelts,
-                player1,
-                offCanvasTracker,
-                speedModifier
-              ) != null
-            ) {
-              return Object.assign(
-                offCanvasTracker,
+            if (enemyBelts !== null) {
+              if (
                 offTheCanvas(
                   canvas,
                   enemyBelts,
                   player1,
                   offCanvasTracker,
                   speedModifier
-                )
-              );
+                ) != null
+              ) {
+                return Object.assign(
+                  offCanvasTracker,
+                  offTheCanvas(
+                    canvas,
+                    enemyBelts,
+                    player1,
+                    offCanvasTracker,
+                    speedModifier
+                  )
+                );
+              }
             }
           }
 
@@ -774,13 +780,15 @@ export let playingTheGame = (canvas, difficulty) => {
               magnet.speed = 0;
             }
           });*/
-          enemyBelts.forEach((belt, index) => {
-            if (belt.speed !== 0) {
-              beltSpeeds[index] = belt.getCurrentSpeed;
-            } else {
-              belt.speed = 0;
-            }
-          });
+          if (enemyBelts !== null) {
+            enemyBelts.forEach((belt, index) => {
+              if (belt.speed !== 0) {
+                beltSpeeds[index] = belt.getCurrentSpeed;
+              } else {
+                belt.speed = 0;
+              }
+            });
+          }
 
           globalObject.pauseButton.addEventListener("click", pBF, false);
           globalObject.pauseMenuButton.addEventListener("click", pMBF, false);

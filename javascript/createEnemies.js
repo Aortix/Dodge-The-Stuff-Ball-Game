@@ -93,6 +93,10 @@ const createEnemies = (canvas, enemy, amount) => {
       }
       return enemyWalls;
     case "Belt":
+      if (amount === 0) {
+        return null;
+      }
+
       let enemyBelts = [];
       let enemyBeltsAmount = amount || Math.floor(Math.random() * 2 + 3);
       for (let i = 0; i < enemyBeltsAmount; i++) {

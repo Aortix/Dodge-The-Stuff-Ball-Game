@@ -145,7 +145,7 @@ export let playingTheGame = (canvas, difficulty) => {
           .querySelector(".low-object")
           .style.setProperty("display", "block");
         difficulty = "Normal";
-      } else if (node.innerHTML === "Low") {
+      } else if (node.innerHTML === "Alt-Normal") {
         document
           .querySelector(".normal-object")
           .style.setProperty("display", "block");
@@ -158,7 +158,7 @@ export let playingTheGame = (canvas, difficulty) => {
         document
           .querySelector(".low-object")
           .style.setProperty("display", "none");
-        difficulty = "Low";
+        difficulty = "Alt-Normal";
       }
     });
   });
@@ -222,10 +222,10 @@ export let playingTheGame = (canvas, difficulty) => {
         enemyCircles = createEnemies(canvas, "Circle", 2);
         //enemyMagnets = createEnemies(canvas, "Magnet", 1);
         enemyBelts = createEnemies(canvas, "Belt", 1);
-      } else if (difficulty === "Low") {
+      } else if (difficulty === "Alt-Normal") {
         enemyRectangles = createEnemies(canvas, "Rectangle", 3);
         enemyWalls = createEnemies(canvas, "Wall", 2);
-        enemyCircles = createEnemies(canvas, "Circle", 1);
+        enemyCircles = createEnemies(canvas, "Circle", 2);
         //enemyMagnets = createEnemies(canvas, "Magnet", 1);
         enemyBelts = createEnemies(canvas, "Belt", 0);
       }

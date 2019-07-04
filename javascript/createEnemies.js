@@ -1,7 +1,6 @@
 import Rectangle from "./Enemies/Rectangle.js";
 import Wall from "./Enemies/Wall.js";
 import Circle from "./Enemies/Circle.js";
-import Magnet from "./Enemies/Magnet.js";
 import Belt from "./Enemies/Belt.js";
 
 const createEnemies = (canvas, enemy, amount) => {
@@ -50,26 +49,6 @@ const createEnemies = (canvas, enemy, amount) => {
         );
       }
       return enemyCircles;
-    case "Magnet":
-      let enemyMagnets = [];
-      let enemyMagnetsAmount = amount || Math.floor(Math.random() * 2 + 1);
-      for (let i = 0; i < enemyMagnetsAmount; i++) {
-        enemyMagnets.push(
-          new Magnet(
-            canvas.getCurrentWidth + 70,
-            Math.floor(Math.random() * (canvas.getCurrentHeight - 70) + 70),
-            Math.floor(Math.random() * (35 - 25) + 25),
-            0,
-            0,
-            180,
-            Math.floor(Math.random() * (6 - 4) + 4),
-            "white",
-            "white",
-            canvas.getCurrentCanvasContext
-          )
-        );
-      }
-      return enemyMagnets;
     case "Wall":
       let enemyWalls = [];
       let enemyWallsAmount = amount || Math.floor(Math.random() * 2 + 1);

@@ -20,7 +20,6 @@ export let playingTheGame = (canvas, difficulty) => {
   let enemyRectangles = null;
   let enemyWalls = null;
   let enemyCircles = null;
-  //let enemyMagnets = null;
   let enemyBelts = null;
   //To "reset" the timestamp used in window.requestAnimationFrame
   let start = null;
@@ -220,13 +219,11 @@ export let playingTheGame = (canvas, difficulty) => {
         enemyRectangles = createEnemies(canvas, "Rectangle", 3);
         enemyWalls = createEnemies(canvas, "Wall", 1);
         enemyCircles = createEnemies(canvas, "Circle", 2);
-        //enemyMagnets = createEnemies(canvas, "Magnet", 1);
         enemyBelts = createEnemies(canvas, "Belt", 1);
       } else if (difficulty === "Alt-Normal") {
         enemyRectangles = createEnemies(canvas, "Rectangle", 3);
         enemyWalls = createEnemies(canvas, "Wall", 2);
         enemyCircles = createEnemies(canvas, "Circle", 2);
-        //enemyMagnets = createEnemies(canvas, "Magnet", 1);
         enemyBelts = createEnemies(canvas, "Belt", 0);
       }
 
@@ -248,11 +245,6 @@ export let playingTheGame = (canvas, difficulty) => {
       enemyCircles.forEach(circle => {
         circleSpeeds.push(circle.getCurrentSpeed);
       });
-
-      //let magnetSpeeds = [];
-      /*enemyMagnets.forEach(magnet => {
-        magnetSpeeds.push(magnet.getCurrentSpeed);
-      });*/
 
       let beltSpeeds = [];
       if (enemyBelts !== null) {
@@ -553,23 +545,6 @@ export let playingTheGame = (canvas, difficulty) => {
             }
           });
 
-          /*enemyMagnets.forEach((magnet, index) => {
-            magnet.clearObject();
-            magnet.drawMagnet();
-            if (magnet.getCurrentSpeed === 0) {
-              magnet.speed = magnetSpeeds[index];
-            }
-            magnet.moveMagnet();
-            if (
-              checkForCollisions(
-                player1.getCurrentLocation,
-                magnet.getCurrentLocation
-              ) === true
-            ) {
-              player1.hit = 1;
-            }
-          });*/
-
           if (enemyBelts !== null) {
             enemyBelts.forEach((belt, index) => {
               belt.clearObject();
@@ -656,27 +631,6 @@ export let playingTheGame = (canvas, difficulty) => {
                 )
               );
             }
-
-            /*if (
-              offTheCanvas(
-                canvas,
-                enemyMagnets,
-                player1,
-                offCanvasTracker,
-                speedModifier
-              ) != null
-            ) {
-              return Object.assign(
-                offCanvasTracker,
-                offTheCanvas(
-                  canvas,
-                  enemyMagnets,
-                  player1,
-                  offCanvasTracker,
-                  speedModifier
-                )
-              );
-            }*/
 
             if (enemyBelts !== null) {
               if (
@@ -773,13 +727,6 @@ export let playingTheGame = (canvas, difficulty) => {
               circle.speed = 0;
             }
           });
-          /*enemyMagnets.forEach((magnet, index) => {
-            if (magnet.speed !== 0) {
-              magnetSpeeds[index] = magnet.getCurrentSpeed;
-            } else {
-              magnet.speed = 0;
-            }
-          });*/
           if (enemyBelts !== null) {
             enemyBelts.forEach((belt, index) => {
               if (belt.speed !== 0) {

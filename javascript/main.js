@@ -3,14 +3,14 @@ import playingTheGame from "./playingTheGame.js";
 import globalObject from "./globalObject.js";
 
 //Parameters: x-cordinate, y-cordinate, width, height, background-color, time amassed, canvas id, mode
-let canvas = new Canvas(0, 0, 1000, 400, "rgb(139, 0, 0)", 0, "canvas", 0);
+let canvas = new Canvas(0, 0, 1000, 400, "rgb(60, 179, 113)", 0, "canvas", 0);
 
 document.querySelector(".main-container").style.width = "1000px";
 
 const arrayFromNodeList = Array.from(
   document.querySelector(".menu-colors").getElementsByTagName("li")
 );
-arrayFromNodeList.forEach(node => {
+arrayFromNodeList.forEach((node) => {
   node.addEventListener("click", () => {
     canvas.clearCanvas();
     document.getElementsByClassName(
@@ -22,9 +22,9 @@ arrayFromNodeList.forEach(node => {
     document.getElementsByClassName(
       "menu-change_object_amount"
     )[0].style.color = `${node.style.backgroundColor}`;
-    document.querySelector(".menu-objects").style.color = `${
-      node.style.backgroundColor
-    }`;
+    document.querySelector(
+      ".menu-objects"
+    ).style.color = `${node.style.backgroundColor}`;
     canvas.bgColor = node.style.backgroundColor;
     canvas.drawCanvas();
   });
@@ -49,7 +49,7 @@ document.querySelector(".menu-objects").addEventListener("click", () => {
 });
 
 //Block the arrow keys from scrolling with the window scrollbar
-window.addEventListener("keydown", e => {
+window.addEventListener("keydown", (e) => {
   switch (e.key) {
     case "ArrowUp":
       e.preventDefault();
